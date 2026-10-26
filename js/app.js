@@ -1,5 +1,5 @@
 // Astroship arayüzü: ekranları (giriş, form, hesaplanıyor, sonuç) çizer ve aralarında geçiş yapar.
-// Sonuç ekranındaki tüm konumlar ve açılar js/motor içindeki gerçek hesaptan gelir.
+// Sonuçtaki tüm yüzdeler, yorumlar ve tablolar js/motor ve js/yorum içindeki gerçek hesaptan gelir.
 (() => {
   'use strict';
 
@@ -7,17 +7,23 @@
   const kok = document.getElementById('uygulama');
 
   const BOS_KISI = () => ({ ad: '', cinsiyet: '', tarih: '', saat: '', yer: '', yaklasik: false });
-  const durum = { kisiler: [BOS_KISI(), BOS_KISI()], sonuc: null, sekme: 0, hata: '' };
+  const durum = {
+    kisiler: [BOS_KISI(), BOS_KISI()],
+    sonuc: null,
+    sekme: 0,
+    altSekme: 0,
+    hata: '',
+    // Test anahtarı: adresin sonuna #test eklenince ücretli bölümler açık görünür
+    kilitAcik: location.hash === '#test',
+  };
 
   document.documentElement.lang = 'tr';
 
   // ---------- Yardımcılar ----------
 
-  const kac = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-
+  const kac = S.kac;
   // Gezegen ve açı sembolleri iPhone'da emoji gibi görünmesin diye metin biçimi seçicisi (U+FE0E) eklenir
   const glif = (s) => `<span class="g">${s}︎</span>`;
-
   const ilgi = (i) => kac(window.Turkce.ek(durum.kisiler[i].ad, 'in'));
 
   const CINSIYETLER = [
@@ -28,8 +34,8 @@
   const cinsiyetAdi = (id) => CINSIYETLER.find((c) => c.id === id)?.ad ?? '';
 
   const tarihYaz = (iso) => iso.split('-').reverse().join('.');
-  const utcSaat = (d) => `${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`;
-  const utcTarih = (d) => `${String(d.getUTCDate()).padStart(2, '0')}.${String(d.getUTCMonth() + 1).padStart(2, '0')}.${d.getUTCFullYear()}`;
+  const iki = (n) => String(n).padStart(2, '0');
+  const utcYaz = (d) => `${iki(d.getUTCDate())}.${iki(d.getUTCMonth() + 1)}.${d.getUTCFullYear()} ${iki(d.getUTCHours())}:${iki(d.getUTCMinutes())} UTC`;
   const koordinat = (enlem, boylam) => `${S.dereceYaz(Math.abs(enlem))} ${enlem >= 0 ? 'K' : 'G'}, ${S.dereceYaz(Math.abs(boylam))} ${boylam >= 0 ? 'D' : 'B'}`;
 
   const LOGO = `
@@ -40,6 +46,19 @@
       </svg>
       <span class="logo-yazi"><span class="logo-slogan">Love is gonna save us</span><span class="logo-ad">Astroship</span></span>
     </div>`;
+
+  const KILIT_SIMGESI = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="1.4"/><path d="M5.3 7V5.2a2.7 2.7 0 0 1 5.4 0V7" stroke="currentColor" stroke-width="1.4"/></svg>';
+
+  // Ücretli içerik: kilit kapalıyken bulanık önizleme ve "Devamını oku", açıkken düz içerik
+  function kilitli(icerik, dugmeMetni = 'Devamını oku') {
+    if (!icerik) return '';
+    if (durum.kilitAcik) return `<div class="acik-icerik">${icerik}</div>`;
+    return `
+      <div class="kilit">
+        <div class="kilit-icerik" aria-hidden="true">${icerik}</div>
+        <button type="button" class="kilit-dugme" data-kilit>${KILIT_SIMGESI}${dugmeMetni}</button>
+      </div>`;
+  }
 
   const altBilgi = () => `
     <footer class="alt-bilgi">
@@ -52,7 +71,7 @@
   function girisEkrani() {
     return `
       <section class="ekran giris">
-        <header class="giris-ust">${LOGO}<span class="etiket">Sinastri<br>Kompozit · Davison</span></header>
+        <header class="giris-ust">${LOGO}</header>
 
         <div class="diskler" aria-hidden="true">
           <span class="disk disk-1">sen</span>
@@ -61,14 +80,14 @@
         </div>
 
         <h1 tabindex="-1">Yıldızlarınız <em>aynı dili</em> konuşuyor mu?</h1>
-        <p class="giris-metin">İki doğum haritasını derece derece karşılaştırıyor, aranızdaki çekimi ölçüyor ve ilişkinizin kendi haritasını çıkarıyoruz.</p>
+        <p class="giris-metin">Doğum haritalarınızı karşılaştırıyor; aranızdaki çekimi, bağı ve ilişkinizin geleceğini yorumluyoruz.</p>
         <button type="button" class="dugme-ana" data-git="form">Uyumunuza bakın <span class="ok">→</span></button>
         <p class="kucuk-not">Yaklaşık 1 dakika · Bilgileriniz kaydedilmez</p>
 
         <ol class="icerik-listesi cam">
-          <li><span class="bolum-no">I</span><div><h3>Sinastri</h3><p>İki haritanın burç, element ve derece olarak karşılaştırılması; tutku, bağlanma, iletişim ve daha fazlası.</p></div></li>
-          <li><span class="bolum-no">II</span><div><h3>İlişki haritası</h3><p>Kompozit ve Davison haritalarıyla ilişkinin nasıl başlayacağı, nereden beslendiği ve nerede sınanacağı.</p></div></li>
-          <li><span class="bolum-no">III</span><div><h3>Zamanlama</h3><p>Önümüzdeki 12 ayın güçlü dönemleri.</p></div></li>
+          <li><span class="bolum-no">I</span><div><h3>Uyum</h3><p>Çekim, bağlanma, iletişim, romantizm, güven ve daha fazlası; her biri yüzde ve yorumla.</p></div></li>
+          <li><span class="bolum-no">II</span><div><h3>İlişki yapısı</h3><p>İlişkiniz nasıl başlar, nereden beslenir, hangi konularda sınanır.</p></div></li>
+          <li><span class="bolum-no">III</span><div><h3>Gelecek öngörüsü</h3><p>Önümüzdeki 12 ayın güçlü dönemleri: ilişki ne zaman başlar, ne zaman derinleşir.</p></div></li>
         </ol>
         ${altBilgi()}
       </section>`;
@@ -118,14 +137,14 @@
         <div class="ust-cubuk"><button type="button" class="geri" data-git="giris">← Geri</button>${LOGO}</div>
         <div class="form-giris">
           <h2 tabindex="-1">Doğum bilgileri</h2>
-          <p class="aciklama">Yükselen burç ve evler için doğum saati gerekli. Saatinizi doğum belgenizde ya da e-Devlet'teki nüfus kaydınızda bulabilirsiniz.</p>
+          <p class="aciklama">Doğum saatini olabildiğince doğru girin. Saatinizi doğum belgenizde ya da e-Devlet'teki nüfus kaydınızda bulabilirsiniz.</p>
         </div>
         <form id="dogum-formu" novalidate>
           ${kisiAlanlari(0)}
           ${kisiAlanlari(1)}
           <datalist id="sehirler">${window.ASTROSHIP_SEHIRLER.map((s) => `<option value="${kac(s.ad)}"></option>`).join('')}</datalist>
           <p class="form-hata" role="alert" ${durum.hata ? '' : 'hidden'}>${kac(durum.hata)}</p>
-          <button type="submit" class="dugme-ana">Haritaları hesapla <span class="ok">→</span></button>
+          <button type="submit" class="dugme-ana">Uyumumuzu göster <span class="ok">→</span></button>
           <p class="yer-notu">Listede olmayan ilçe ve şehirler internetten aranır.</p>
         </form>
         ${altBilgi()}
@@ -173,19 +192,27 @@
     goster('yukleniyor');
     const baslangic = Date.now();
     try {
-      const haritalar = [];
+      const natal = [];
       for (let i = 0; i < 2; i++) {
         const k = durum.kisiler[i];
         const yer = await S.yerBul(k.yer);
         if (!yer) throw new Error(`${i + 1}. kişinin doğum yeri bulunamadı: "${k.yer}". İl adını yazmayı deneyin (örneğin İstanbul).`);
         const zaman = S.yereldenUtc(k.tarih, k.saat, yer.bolge);
-        haritalar.push({ yer, zaman, harita: S.haritaHesapla(zaman.utc, yer.enlem, yer.boylam) });
+        natal.push({ yer, zaman, harita: S.haritaHesapla(zaman.utc, yer.enlem, yer.boylam) });
       }
-      durum.sonuc = { haritalar, sinastri: S.sinastriAcilari(haritalar[0].harita, haritalar[1].harita) };
+      const [h1, h2] = natal.map((n) => n.harita);
+      const uyum = S.uyumHesapla([h1, h2], durum.kisiler.map((k) => k.cinsiyet));
+      durum.sonuc = {
+        natal,
+        sinastri: S.sinastriAcilari(h1, h2),
+        kompozit: S.kompozitHesapla(h1, h2),
+        davison: S.davisonHesapla(h1, h2),
+        yorum: S.uyumYorumu(uyum, durum.kisiler),
+      };
       durum.hata = '';
       durum.sekme = 0;
-      const bekle = Math.max(0, 1400 - (Date.now() - baslangic));
-      setTimeout(() => goster('sonuc'), bekle);
+      durum.altSekme = 0;
+      setTimeout(() => goster('sonuc'), Math.max(0, 1600 - (Date.now() - baslangic)));
     } catch (hata) {
       durum.hata = hata.message;
       goster('form');
@@ -203,36 +230,133 @@
           </svg>
           <span class="disk-ortak">&amp;</span>
         </div>
-        <h2 tabindex="-1">Haritalar hesaplanıyor</h2>
-        <p class="aciklama">Doğum saatleri dünya saatine çevriliyor, gezegen konumları ve evler hesaplanıyor.</p>
+        <h2 tabindex="-1">Yıldızlarınız karşılaştırılıyor</h2>
+        <p class="aciklama">Doğum haritalarınız hesaplanıyor ve uyumunuz yorumlanıyor.</p>
       </section>`;
   }
 
-  // ---------- Sonuç ----------
+  // ---------- Sonuç: Uyum ----------
 
-  const ACI_TURU = { kavusum: 'kavusum', altmislik: 'uyumlu', ucgen: 'uyumlu', kare: 'gergin', karsit: 'gergin', quincunx: 'gergin' };
-
-  function noktaSatiri(n) {
-    const kisaGlif = n.glif.length > 1;
+  function genelHalka(yuzde) {
+    const r = 52;
+    const cevre = 2 * Math.PI * r;
     return `
-      <tr>
-        <td class="t-glif ${kisaGlif ? 'kisa' : ''}" aria-hidden="true">${kisaGlif ? n.glif : glif(n.glif)}</td>
-        <td class="t-ad">${n.ad}${n.geri ? '<span class="geri-isareti" title="Geri hareket">R</span>' : ''}</td>
-        <td class="t-konum">${S.dereceYaz(n.derece)} ${n.burc.ad}<small>${n.burc.element} · ${n.burc.nitelik}</small></td>
-        <td class="t-ev">${n.anahtar === 'yukselen' ? '1' : n.anahtar === 'mc' ? '10' : n.ev}. ev</td>
-      </tr>`;
+      <svg class="halka" viewBox="0 0 120 120" role="img" aria-label="Genel uyum yüzde ${yuzde}">
+        <defs><linearGradient id="halka-renk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c4426f"/><stop offset="1" stop-color="#6b4fc4"/></linearGradient></defs>
+        <circle cx="60" cy="60" r="${r}" fill="none" stroke="rgba(36,22,58,.08)" stroke-width="6" />
+        <circle cx="60" cy="60" r="${r}" fill="none" stroke="url(#halka-renk)" stroke-width="6" stroke-linecap="round"
+          stroke-dasharray="${((cevre * yuzde) / 100).toFixed(2)} ${cevre.toFixed(2)}" transform="rotate(-90 60 60)" />
+        <text x="60" y="72" text-anchor="middle" class="halka-sayi"><tspan class="halka-yuzde" dy="-16">%</tspan><tspan dy="16">${yuzde}</tspan></text>
+      </svg>`;
   }
 
-  const ELEMENTLER = ['ateş', 'toprak', 'hava', 'su'];
-  const NITELIKLER = ['öncü', 'sabit', 'değişken'];
-
-  function elementDagilimi(harita) {
-    const sayilan = ['gunes', 'ay', 'merkur', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptun', 'pluton', 'yukselen'];
-    const say = (ozellik, deger) => sayilan.filter((a) => harita.gezegenler[a].burc[ozellik] === deger).length;
+  function nedenSatiri(n) {
     return `
-      <div>
-        <div class="element-dagilimi">${ELEMENTLER.map((e) => `<div><b>${say('element', e)}</b><span>${e}</span></div>`).join('')}</div>
-        <p class="nitelik-satiri" style="margin-top:.5rem">${NITELIKLER.map((n) => `${n} ${say('nitelik', n)}`).join(' · ')}</p>
+      <li class="neden ton-${n.ton}">
+        <span class="neden-isaret" aria-hidden="true">${n.ev ? `<span class="ev-no">${n.isaret}</span>` : glif(n.isaret)}</span>
+        <span class="neden-metin">${kac(n.metin)}<small>${kac(n.alt)}</small></span>
+        <span class="neden-orb">${n.orb ?? ''}</span>
+      </li>`;
+  }
+
+  const paragraflar = (liste) => liste.map((p) => `<p>${kac(p)}</p>`).join('');
+
+  function uyumKarti(b) {
+    const acikNedenler = b.nedenler.slice(0, 2);
+    const kapaliNedenler = b.nedenler.slice(2);
+    const ucretli = [
+      kapaliNedenler.length ? `<ul class="nedenler">${kapaliNedenler.map(nedenSatiri).join('')}</ul>` : '',
+      b.ucretli.length ? `<div class="yorum">${paragraflar(b.ucretli)}</div>` : '',
+    ].join('');
+    return `
+      <article class="uyum-kart cam" id="u-${b.id}">
+        <header class="kart-bas">
+          <span class="kart-glif" aria-hidden="true">${glif(b.glif)}</span>
+          <h3>${b.ad}</h3>
+          <p class="yuzde" aria-label="yüzde ${b.yuzde}"><small>%</small>${b.yuzde}</p>
+        </header>
+        <div class="cubuk" aria-hidden="true"><span style="width:${b.yuzde}%"></span></div>
+        <div class="yorum">${paragraflar(b.ucretsiz)}</div>
+        ${acikNedenler.length ? `<div class="nedenler-blok"><h4 class="etiket">Nedenleri</h4><ul class="nedenler">${acikNedenler.map(nedenSatiri).join('')}</ul></div>` : ''}
+        ${kilitli(ucretli)}
+      </article>`;
+  }
+
+  function uyumPaneli() {
+    const y = durum.sonuc.yorum;
+    return `
+      <section class="uyum-ozet cam">
+        ${genelHalka(y.genel)}
+        <div>
+          <p class="etiket">Genel uyum</p>
+          <p class="ozet-metin">${kac(y.ozet)}</p>
+        </div>
+      </section>
+      <ul class="mini-skorlar">
+        ${y.basliklar.map((b) => `<li><a href="#u-${b.id}" data-kaydir="u-${b.id}"><span>${b.ad}</span><b>%${b.yuzde}</b></a></li>`).join('')}
+      </ul>
+      <ul class="lejant">
+        <li class="ton-arti"><i></i>Uyumu artırıyor</li>
+        <li class="ton-eksi"><i></i>Zorluyor</li>
+        <li class="ton-yogun"><i></i>Yoğunluk katıyor</li>
+      </ul>
+      ${y.basliklar.map(uyumKarti).join('')}`;
+  }
+
+  // ---------- Sonuç: İlişki yapısı ve Gelecek ----------
+
+  const ILISKI_SORULARI = [
+    'İlişki nasıl başlayabilir?',
+    'İlişkinin kimliği ve amacı',
+    'İlişki nereden beslenir?',
+    'İlişkiye ne iyi gelir?',
+    'İlişki hangi alanlarda sınanır?',
+    'Hangi konular çatışma yaratır?',
+  ];
+
+  function iliskiPaneli() {
+    return `
+      <article class="bolum-kart cam">
+        <p class="etiket">İlişki yapısı</p>
+        <h3>İlişkinizin kendi haritası</h3>
+        <p class="aciklama">İki doğum haritanızdan ilişkinizin kendi haritası hesaplandı. Bu bölümün yorumları bir sonraki güncellemede eklenecek.</p>
+        <ol class="soru-listesi">${ILISKI_SORULARI.map((s) => `<li>${s}</li>`).join('')}</ol>
+      </article>`;
+  }
+
+  function gelecekPaneli() {
+    return `
+      <article class="bolum-kart cam">
+        <p class="etiket">Gelecek öngörüsü</p>
+        <h3>İlişki ne zaman başlar, ne zaman derinleşir?</h3>
+        <p class="aciklama">Önümüzdeki 12 ayda ilişkinizin güçlendiği ve sınandığı dönemler, tarih aralıklarıyla. Bu bölüm tam raporun parçasıdır ve hazırlanıyor.</p>
+        <button type="button" class="dugme-ana" data-kilit>${KILIT_SIMGESI} Gelecek öngörüsünü aç <span class="ok">→</span></button>
+      </article>`;
+  }
+
+  // ---------- Sonuç: Harita bilgileri ----------
+
+  const ACI_TURU = { kavusum: 'kavusum', altmislik: 'uyumlu', ucgen: 'uyumlu', kare: 'gergin', karsit: 'gergin', quincunx: 'gergin' };
+  const SIRA = ['gunes', 'ay', 'merkur', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptun', 'pluton', 'kuzeyDugum', 'yukselen', 'mc'];
+
+  function noktaTablosu(harita) {
+    const satir = (n) => {
+      const kisa = n.glif.length > 1;
+      const ev = n.anahtar === 'yukselen' ? 1 : n.anahtar === 'mc' ? 10 : n.ev;
+      return `
+        <tr>
+          <td class="t-glif ${kisa ? 'kisa' : ''}" aria-hidden="true">${kisa ? n.glif : glif(n.glif)}</td>
+          <td class="t-ad">${n.ad}${n.geri ? '<span class="geri-isareti" title="Geri hareket">R</span>' : ''}</td>
+          <td class="t-konum">${S.dereceYaz(n.derece)} ${n.burc.ad}<small>${n.burc.element} · ${n.burc.nitelik}</small></td>
+          <td class="t-ev">${ev}. ev</td>
+        </tr>`;
+    };
+    return `
+      <div class="tablo-sar">
+        <table class="nokta-tablosu">
+          <thead><tr><th></th><th>Nokta</th><th>Burç ve derece</th><th style="text-align:right">Ev</th></tr></thead>
+          <tbody>${SIRA.map((a) => satir(harita.gezegenler[a])).join('')}</tbody>
+        </table>
       </div>`;
   }
 
@@ -245,122 +369,129 @@
       </li>`;
   }
 
-  function haritaKarti(i) {
-    const { yer, zaman, harita } = durum.sonuc.haritalar[i];
-    const k = durum.kisiler[i];
-    const g = harita.gezegenler;
-    const sira = ['gunes', 'ay', 'merkur', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptun', 'pluton', 'kuzeyDugum', 'yukselen', 'mc'];
+  function evVeAcilar(harita) {
     const icAcilar = S.haritaAcilari(harita);
+    return `
+      <details class="acilir">
+        <summary>Ev girişleri (${harita.evSistemi})</summary>
+        <ol class="ev-listesi">${harita.evler.map((e, n) => `<li><b>${n + 1}.</b> ${S.burcBilgisi(e).metin}</li>`).join('')}</ol>
+      </details>
+      <details class="acilir">
+        <summary>Haritadaki açılar (${icAcilar.length})</summary>
+        <ul class="aci-listesi">${icAcilar.map(({ a, b, aci }) => aciSatiri(a, b, aci, `${a.ad} – ${b.ad}`)).join('')}</ul>
+      </details>`;
+  }
+
+  function natalKarti(i) {
+    const { yer, zaman, harita } = durum.sonuc.natal[i];
+    const k = durum.kisiler[i];
     return `
       <article class="harita-kart cam">
         <header class="harita-bas">
           <p class="etiket">${kac(cinsiyetAdi(k.cinsiyet))}</p>
           <h3>${ilgi(i)} doğum haritası</h3>
           <div class="meta">
-            <span>${tarihYaz(k.tarih)} ${kac(k.saat)} yerel saat (${zaman.saatFarki}) = ${utcTarih(zaman.utc)} ${utcSaat(zaman.utc)} UTC</span>
+            <span>${tarihYaz(k.tarih)} ${kac(k.saat)} yerel saat (${zaman.saatFarki}) = ${utcYaz(zaman.utc)}</span>
             <span>${kac(yer.ad)}${yer.il && yer.il !== yer.ad ? `, ${kac(yer.il)}` : ''}, ${kac(yer.ulke)} · ${koordinat(yer.enlem, yer.boylam)}</span>
             <span>Ev sistemi: ${harita.evSistemi} · Tropikal zodyak · Gerçek düğüm</span>
           </div>
-          ${k.yaklasik ? '<p class="uyari" style="margin-top:.4rem">Doğum saati yaklaşık girildi: Yükselen ve ev konumları kayabilir.</p>' : ''}
+          ${k.yaklasik ? '<p class="uyari">Doğum saati yaklaşık girildi: Yükselen ve ev konumları kayabilir.</p>' : ''}
         </header>
-        <dl class="uclu">
-          <div><dt>Güneş</dt><dd>${g.gunes.burc.ad}</dd></div>
-          <div><dt>Ay</dt><dd>${g.ay.burc.ad}</dd></div>
-          <div><dt>Yükselen</dt><dd>${g.yukselen.burc.ad}</dd></div>
-        </dl>
-        <div class="tablo-sar">
-          <table class="nokta-tablosu">
-            <thead><tr><th></th><th>Nokta</th><th>Burç ve derece</th><th style="text-align:right">Ev</th></tr></thead>
-            <tbody>${sira.map((a) => noktaSatiri(g[a])).join('')}</tbody>
-          </table>
-        </div>
-        ${elementDagilimi(harita)}
-        <details class="acilir">
-          <summary>Ev girişleri (${harita.evSistemi})</summary>
-          <ol class="ev-listesi">${harita.evler.map((e, n) => `<li><b>${n + 1}.</b> ${S.burcBilgisi(e).metin}</li>`).join('')}</ol>
-        </details>
-        <details class="acilir">
-          <summary>Haritadaki açılar (${icAcilar.length})</summary>
-          <ul class="aci-listesi">${icAcilar.map(({ a, b, aci }) => aciSatiri(a, b, aci, `${a.ad} – ${b.ad}`)).join('')}</ul>
-        </details>
+        ${noktaTablosu(harita)}
+        ${evVeAcilar(harita)}
       </article>`;
   }
 
-  // Burçların element ve nitelik ilişkisi
-  function burcIliskisiMetni(a, b) {
-    const r = S.burcIliskisi(a.indeks, b.indeks);
-    const ea = a.burc.element;
-    const eb = b.burc.element;
-    switch (r.mesafe) {
-      case 0: return { aciklama: `Aynı burç: aynı element (${ea}) ve aynı nitelik (${a.burc.nitelik})`, hap: 'Aynı burç', tur: 'notr' };
-      case 4: return { aciklama: `Aynı element (${ea}), farklı nitelik`, hap: 'Üçgen burçlar', tur: 'uyumlu' };
-      case 2: return { aciklama: `Uyumlu elementler (${ea} – ${eb})`, hap: 'Altmışlık burçlar', tur: 'uyumlu' };
-      case 6: return { aciklama: `Uyumlu elementler (${ea} – ${eb}), aynı nitelik (${a.burc.nitelik}): tamamlayıcı ama zıt`, hap: 'Karşıt burçlar', tur: 'gergin' };
-      case 3: return { aciklama: `Aynı nitelik (${a.burc.nitelik}), uyumsuz elementler (${ea} – ${eb})`, hap: 'Kare burçlar', tur: 'gergin' };
-      default: return { aciklama: `Ortak element ya da nitelik yok (${ea} – ${eb})`, hap: r.mesafe === 1 ? 'Komşu burçlar' : 'Quincunx burçlar', tur: 'notr' };
-    }
-  }
-
-  function sinastriPaneli() {
-    const [h1, h2] = durum.sonuc.haritalar.map((h) => h.harita.gezegenler);
-    const ciftler = [
-      [h1.gunes, h2.gunes], [h1.ay, h2.ay], [h1.gunes, h2.ay], [h1.ay, h2.gunes],
-      [h1.venus, h2.mars], [h1.mars, h2.venus], [h1.venus, h2.venus], [h1.yukselen, h2.yukselen],
-    ];
-    const uyum = ciftler.map(([a, b]) => {
-      const r = burcIliskisiMetni(a, b);
-      return `
-        <li>
-          <div>${ilgi(0)} ${a.iyelik} ${a.burc.ad} · ${ilgi(1)} ${b.iyelik} ${b.burc.ad}<small>${r.aciklama}</small></div>
-          <span class="hap ${r.tur}">${r.hap}</span>
-        </li>`;
-    }).join('');
+  function sinastriKarti() {
     const acilar = durum.sonuc.sinastri.map(({ a, b, aci }) => aciSatiri(a, b, aci, `${ilgi(0)} ${a.iyelik} – ${ilgi(1)} ${b.iyelik}`)).join('');
     return `
       <article class="harita-kart cam">
         <header class="harita-bas">
-          <p class="etiket">Element ve nitelik</p>
-          <h3>Burç uyumu</h3>
-        </header>
-        <ul class="burc-uyumu">${uyum}</ul>
-      </article>
-      <article class="harita-kart cam">
-        <header class="harita-bas">
           <p class="etiket">Sinastri</p>
           <h3>Aranızdaki açılar</h3>
-          <p class="aciklama" style="font-size:var(--boy-s)">Açılar hem burç hem derece olarak geçerli olanlardır; orb en fazla 10°. En tam açı en üstte.</p>
+          <p class="meta"><span>Burç ve derece birlikte geçerli olan açılar; orb en fazla 10°. En tam açı en üstte.</span></p>
         </header>
-        <ul class="lejant">
-          <li class="tur-uyumlu"><i></i>Uyumlu</li>
-          <li class="tur-gergin"><i></i>Gergin</li>
-          <li class="tur-kavusum"><i></i>Kavuşum</li>
-        </ul>
         <ul class="aci-listesi">${acilar}</ul>
       </article>`;
   }
 
+  function iliskiHaritasiKarti(tur) {
+    const h = durum.sonuc[tur];
+    const meta = tur === 'davison'
+      ? `<span>Davison anı: ${utcYaz(h.utc)}</span><span>Davison yeri: ${koordinat(h.enlem, h.boylam)}</span>`
+      : `<span>Orta noktalar · Yükselen ve evler kompozit MC'den, orta enlem ${S.dereceYaz(Math.abs(h.enlem))} için</span>`;
+    return `
+      <article class="harita-kart cam">
+        <header class="harita-bas">
+          <p class="etiket">${tur === 'davison' ? 'Davison' : 'Kompozit'}</p>
+          <h3>${tur === 'davison' ? 'Davison haritası' : 'Kompozit harita'}</h3>
+          <div class="meta">${meta}<span>Ev sistemi: ${h.evSistemi}</span></div>
+        </header>
+        ${noktaTablosu(h)}
+        ${evVeAcilar(h)}
+      </article>`;
+  }
+
+  function bilgiPaneli() {
+    const alt = [`${ilgi(0)} haritası`, `${ilgi(1)} haritası`, 'Aranızdaki açılar', 'Kompozit', 'Davison'];
+    const icerik = [natalKarti(0), natalKarti(1), sinastriKarti(), iliskiHaritasiKarti('kompozit'), iliskiHaritasiKarti('davison')];
+    return `
+      <div class="alt-sekmeler" role="group" aria-label="Harita bilgileri">
+        ${alt.map((s, n) => `<button type="button" data-alt-sekme="${n}" aria-pressed="${durum.altSekme === n}">${s}</button>`).join('')}
+      </div>
+      ${icerik.map((c, n) => `<div class="alt-panel" data-alt-panel="${n}" ${durum.altSekme === n ? '' : 'hidden'}>${c}</div>`).join('')}`;
+  }
+
+  // ---------- Sonuç ekranı ----------
+
+  const SEKMELER = [
+    { ad: 'Uyum', panel: uyumPaneli },
+    { ad: 'İlişki yapısı', panel: iliskiPaneli },
+    { ad: 'Gelecek', panel: gelecekPaneli },
+    { ad: 'Harita bilgileri', panel: bilgiPaneli },
+  ];
+
   function sonucEkrani() {
     const [a, b] = durum.kisiler.map((k) => kac(k.ad));
-    const sekmeler = [`${ilgi(0)} haritası`, `${ilgi(1)} haritası`, 'Aranızda'];
-    const paneller = [haritaKarti(0), haritaKarti(1), sinastriPaneli()];
     return `
       <section class="ekran sonuc">
+        ${durum.kilitAcik ? '<p class="test-bandi">Test modu · tüm kilitler açık</p>' : ''}
         <div class="ust-cubuk"><button type="button" class="geri" data-git="form">← Bilgileri değiştir</button>${LOGO}</div>
         <header class="sonuc-baslik">
-          <p class="etiket">Doğum haritaları</p>
           <h1 tabindex="-1">${a} <em>&amp;</em> ${b}</h1>
           <p class="cift-bilgi">${kac(cinsiyetAdi(durum.kisiler[0].cinsiyet))} · ${kac(cinsiyetAdi(durum.kisiler[1].cinsiyet))}</p>
         </header>
-        <div class="bilgi-kutusu cam">
-          <strong>Konumlar gerçek hesaptır</strong>
-          <p>Gezegenler, Yükselen ve evler girdiğiniz bilgilerle hesaplandı. Haritanızı astro.com'daki haritanızla (Placidus, gerçek düğüm) karşılaştırabilirsiniz. Uyum yüzdeleri ve yorumlar bir sonraki adımda eklenecek.</p>
+        <div class="sekme-cubugu cam" role="tablist" aria-label="Rapor bölümleri">
+          ${SEKMELER.map((s, n) => `<button type="button" role="tab" id="sekme-${n}" aria-controls="panel-${n}" aria-selected="${durum.sekme === n}" data-sekme="${n}">${s.ad}</button>`).join('')}
         </div>
-        <div class="sekme-cubugu cam" role="tablist" aria-label="Harita seçimi">
-          ${sekmeler.map((s, n) => `<button type="button" role="tab" id="sekme-${n}" aria-controls="panel-${n}" aria-selected="${durum.sekme === n}" data-sekme="${n}">${s}</button>`).join('')}
-        </div>
-        ${paneller.map((p, n) => `<div class="panel" role="tabpanel" id="panel-${n}" aria-labelledby="sekme-${n}" ${durum.sekme === n ? '' : 'hidden'}>${p}</div>`).join('')}
+        ${SEKMELER.map((s, n) => `<div class="panel" role="tabpanel" id="panel-${n}" aria-labelledby="sekme-${n}" ${durum.sekme === n ? '' : 'hidden'}>${s.panel()}</div>`).join('')}
         ${altBilgi()}
       </section>`;
+  }
+
+  // ---------- Ödeme yakında perdesi ----------
+
+  const perde = document.createElement('div');
+  perde.className = 'perde';
+  perde.hidden = true;
+  perde.innerHTML = `
+    <div class="perde-arka" data-kapat></div>
+    <div class="perde-kutu" role="dialog" aria-modal="true" aria-labelledby="perde-baslik">
+      <h2 id="perde-baslik" tabindex="-1">Tam rapor çok yakında</h2>
+      <p>Ödeme sistemi eklendiğinde tam raporu buradan açabileceksiniz. Tam rapor; tüm uyum yorumlarını, ilişki yapısını ve gelecek öngörüsünü içerir.</p>
+      <button type="button" class="dugme-ana" data-kapat>Tamam <span class="ok">✓</span></button>
+    </div>`;
+  document.body.appendChild(perde);
+  let perdeyiAcan = null;
+
+  function perdeAc(dugme) {
+    perdeyiAcan = dugme;
+    perde.hidden = false;
+    perde.querySelector('h2').focus();
+  }
+  function perdeKapat() {
+    perde.hidden = true;
+    perdeyiAcan?.focus();
   }
 
   // ---------- Ekran geçişleri ----------
@@ -381,14 +512,25 @@
     kok.querySelectorAll('[role="tabpanel"]').forEach((p, i) => { p.hidden = i !== n; });
   }
 
+  function altSekmeSec(n) {
+    durum.altSekme = n;
+    kok.querySelectorAll('[data-alt-sekme]').forEach((t, i) => t.setAttribute('aria-pressed', String(i === n)));
+    kok.querySelectorAll('[data-alt-panel]').forEach((p, i) => { p.hidden = i !== n; });
+  }
+
   document.addEventListener('click', (olay) => {
-    const hedef = olay.target.closest('[data-git], [data-sekme]');
+    const hedef = olay.target.closest('[data-git], [data-sekme], [data-alt-sekme], [data-kilit], [data-kapat], [data-kaydir]');
     if (!hedef) return;
     if (hedef.dataset.git) {
-      if (hedef.dataset.git === 'form' && kok.querySelector('#dogum-formu') === null) durum.hata = '';
+      if (hedef.dataset.git !== 'form' || !kok.querySelector('#dogum-formu')) durum.hata = '';
       goster(hedef.dataset.git);
-    } else {
-      sekmeSec(Number(hedef.dataset.sekme));
+    } else if (hedef.dataset.sekme) sekmeSec(Number(hedef.dataset.sekme));
+    else if (hedef.dataset.altSekme) altSekmeSec(Number(hedef.dataset.altSekme));
+    else if (hedef.hasAttribute('data-kilit')) perdeAc(hedef);
+    else if (hedef.hasAttribute('data-kapat')) perdeKapat();
+    else if (hedef.dataset.kaydir) {
+      olay.preventDefault();
+      document.getElementById(hedef.dataset.kaydir)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 
@@ -401,6 +543,10 @@
 
   document.addEventListener('submit', (olay) => {
     if (olay.target.id === 'dogum-formu') formuGonder(olay);
+  });
+
+  document.addEventListener('keydown', (olay) => {
+    if (olay.key === 'Escape' && !perde.hidden) perdeKapat();
   });
 
   goster(location.hash === '#form' ? 'form' : 'giris');

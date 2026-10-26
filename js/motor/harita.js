@@ -137,5 +137,5 @@
     return { utc, enlem, boylam: boylamDogu, ramc, egiklik: e, evler, evSistemi: sistem, gezegenler };
   }
 
-  Object.assign(window.Astroship, { haritaHesapla, evGirisleri, evBul, gercekEgiklik });
+  Object.assign(window.Astroship, { haritaHesapla, evGirisleri, evBul, gercekEgiklik, noktaOlustur: nokta });
 })();

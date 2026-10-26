@@ -3,19 +3,20 @@
 (() => {
   'use strict';
 
+  // de: bulunma eki ("Koç'ta", "Boğa'da")
   const BURCLAR = [
-    { ad: 'Koç', glif: '♈', element: 'ateş', nitelik: 'öncü', yonetici: 'mars' },
-    { ad: 'Boğa', glif: '♉', element: 'toprak', nitelik: 'sabit', yonetici: 'venus' },
-    { ad: 'İkizler', glif: '♊', element: 'hava', nitelik: 'değişken', yonetici: 'merkur' },
-    { ad: 'Yengeç', glif: '♋', element: 'su', nitelik: 'öncü', yonetici: 'ay' },
-    { ad: 'Aslan', glif: '♌', element: 'ateş', nitelik: 'sabit', yonetici: 'gunes' },
-    { ad: 'Başak', glif: '♍', element: 'toprak', nitelik: 'değişken', yonetici: 'merkur' },
-    { ad: 'Terazi', glif: '♎', element: 'hava', nitelik: 'öncü', yonetici: 'venus' },
-    { ad: 'Akrep', glif: '♏', element: 'su', nitelik: 'sabit', yonetici: 'mars', esYonetici: 'pluton' },
-    { ad: 'Yay', glif: '♐', element: 'ateş', nitelik: 'değişken', yonetici: 'jupiter' },
-    { ad: 'Oğlak', glif: '♑', element: 'toprak', nitelik: 'öncü', yonetici: 'saturn' },
-    { ad: 'Kova', glif: '♒', element: 'hava', nitelik: 'sabit', yonetici: 'saturn', esYonetici: 'uranus' },
-    { ad: 'Balık', glif: '♓', element: 'su', nitelik: 'değişken', yonetici: 'jupiter', esYonetici: 'neptun' },
+    { ad: 'Koç', de: "Koç'ta", glif: '♈', element: 'ateş', nitelik: 'öncü', yonetici: 'mars' },
+    { ad: 'Boğa', de: "Boğa'da", glif: '♉', element: 'toprak', nitelik: 'sabit', yonetici: 'venus' },
+    { ad: 'İkizler', de: "İkizler'de", glif: '♊', element: 'hava', nitelik: 'değişken', yonetici: 'merkur' },
+    { ad: 'Yengeç', de: "Yengeç'te", glif: '♋', element: 'su', nitelik: 'öncü', yonetici: 'ay' },
+    { ad: 'Aslan', de: "Aslan'da", glif: '♌', element: 'ateş', nitelik: 'sabit', yonetici: 'gunes' },
+    { ad: 'Başak', de: "Başak'ta", glif: '♍', element: 'toprak', nitelik: 'değişken', yonetici: 'merkur' },
+    { ad: 'Terazi', de: "Terazi'de", glif: '♎', element: 'hava', nitelik: 'öncü', yonetici: 'venus' },
+    { ad: 'Akrep', de: "Akrep'te", glif: '♏', element: 'su', nitelik: 'sabit', yonetici: 'mars', esYonetici: 'pluton' },
+    { ad: 'Yay', de: "Yay'da", glif: '♐', element: 'ateş', nitelik: 'değişken', yonetici: 'jupiter' },
+    { ad: 'Oğlak', de: "Oğlak'ta", glif: '♑', element: 'toprak', nitelik: 'öncü', yonetici: 'saturn' },
+    { ad: 'Kova', de: "Kova'da", glif: '♒', element: 'hava', nitelik: 'sabit', yonetici: 'saturn', esYonetici: 'uranus' },
+    { ad: 'Balık', de: "Balık'ta", glif: '♓', element: 'su', nitelik: 'değişken', yonetici: 'jupiter', esYonetici: 'neptun' },
   ];
 
   // iyelik: "Ayşe'nin Venüs'ü" gibi cümlelerde kullanılan biçim

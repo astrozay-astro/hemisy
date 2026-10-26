@@ -298,7 +298,7 @@ button { font-family: inherit; }
 .bilgi-kutusu strong { font-weight: 600; }
 .bilgi-kutusu p { font-size: var(--boy-s); color: var(--soluk); }
 
-.sekme-cubugu { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.3rem; padding: 0.3rem; border-radius: 18px; }
+.sekme-cubugu { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.25rem; padding: 0.3rem; border-radius: 18px; }
 .sekme-cubugu button {
   appearance: none;
   border: 0;
@@ -385,6 +385,102 @@ details.acilir > *:not(summary) { margin-top: 0.6rem; }
 .hap.gergin { background: var(--gergin-acik); color: var(--gergin); }
 .hap.notr { background: var(--kavusum-acik); color: var(--kavusum); }
 
+/* ---------- Uyum ---------- */
+
+.uyum-ozet { display: grid; grid-template-columns: 7.5rem 1fr; gap: 1rem; align-items: center; padding: 1rem 1.1rem; }
+.uyum-ozet > div { min-width: 0; display: grid; gap: 0.35rem; }
+.halka { display: block; width: 100%; max-width: 100%; height: auto; }
+.halka-sayi { font-family: var(--f-baslik); font-size: 40px; fill: var(--murekkep); }
+.halka-yuzde { font-size: 18px; fill: var(--gul); }
+.ozet-metin { font: 400 1.3rem/1.25 var(--f-baslik); }
+
+.mini-skorlar { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+.mini-skorlar a {
+  display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;
+  min-height: 44px; padding: 0.55rem 0.8rem; border-radius: 14px;
+  background: var(--cam-koyu); border: 1px solid var(--cam-sinir);
+  color: var(--murekkep); text-decoration: none; font-size: var(--boy-xs); line-height: 1.25;
+}
+.mini-skorlar span { min-width: 0; }
+.mini-skorlar b { font: 400 1.15rem/1 var(--f-baslik); color: var(--gul); white-space: nowrap; }
+
+.lejant .ton-arti i { background: var(--uyumlu); }
+.lejant .ton-eksi i { background: var(--gergin); }
+.lejant .ton-yogun i { background: var(--kavusum); }
+
+.uyum-kart { padding: 1.2rem 1.05rem 1.25rem; display: grid; gap: 0.95rem; min-width: 0; scroll-margin-top: 1rem; }
+.kart-bas { display: grid; grid-template-columns: auto 1fr auto; gap: 0.75rem; align-items: center; }
+.kart-bas h3 { font-size: 1.45rem; min-width: 0; }
+.kart-glif { width: 2.4rem; height: 2.4rem; border-radius: 50%; display: grid; place-items: center; background: var(--gul-acik); color: var(--gul); font-size: 1.15rem; line-height: 1; }
+.yuzde { font: 400 2.4rem/1 var(--f-baslik); white-space: nowrap; font-variant-numeric: lining-nums tabular-nums; }
+.yuzde small { font-size: 0.5em; color: var(--gul); vertical-align: 0.65em; margin-right: 0.05em; }
+.cubuk { height: 5px; border-radius: 5px; background: var(--cizgi); overflow: hidden; }
+.cubuk span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #f29bb6, var(--gul) 60%, var(--kavusum)); }
+
+.yorum { display: grid; gap: 0.8rem; line-height: 1.7; }
+.yorum p { max-width: 65ch; }
+.nedenler-blok { display: grid; gap: 0.55rem; padding-top: 0.2rem; }
+.nedenler { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.neden { display: grid; grid-template-columns: 2rem 1fr auto; gap: 0.65rem; align-items: center; font-size: var(--boy-s); line-height: 1.35; }
+.neden-isaret { width: 2rem; height: 2rem; border-radius: 10px; display: grid; place-items: center; font-size: 1.05rem; line-height: 1; }
+.ton-arti .neden-isaret { background: var(--uyumlu-acik); color: var(--uyumlu); }
+.ton-eksi .neden-isaret { background: var(--gergin-acik); color: var(--gergin); }
+.ton-yogun .neden-isaret { background: var(--kavusum-acik); color: var(--kavusum); }
+.ev-no { font: 600 var(--boy-xs)/1 var(--f-veri); }
+.neden-metin { min-width: 0; }
+.neden-metin small { display: block; color: var(--soluk); font-size: var(--boy-xs); }
+.neden-orb { font: 500 var(--boy-xs)/1 var(--f-veri); color: var(--soluk); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* Kilitli (ücretli) bölüm */
+.kilit { position: relative; display: grid; min-height: 9rem; }
+.kilit-icerik {
+  display: grid; gap: 0.85rem; max-height: 11rem; overflow: hidden;
+  filter: blur(5px); opacity: 0.55; user-select: none; -webkit-user-select: none; pointer-events: none;
+  -webkit-mask-image: linear-gradient(#000 25%, transparent 96%); mask-image: linear-gradient(#000 25%, transparent 96%);
+}
+.kilit-dugme {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  display: inline-flex; align-items: center; gap: 0.5rem; min-height: 46px; padding: 0.75rem 1.25rem;
+  border: 0; border-radius: 999px; background: var(--murekkep); color: var(--beyaz);
+  font: 600 var(--boy-s)/1 var(--f-govde); white-space: nowrap; cursor: pointer;
+  box-shadow: 0 12px 28px -12px var(--golge);
+}
+.kilit-dugme svg, .dugme-ana svg { width: 1rem; height: 1rem; flex: none; }
+.acik-icerik { display: grid; gap: 0.85rem; }
+
+.test-bandi { padding: 0.5rem 0.75rem; border-radius: 10px; background: var(--kavusum); color: var(--beyaz); font: 500 var(--boy-xs)/1.2 var(--f-veri); letter-spacing: 0.08em; text-transform: uppercase; text-align: center; }
+
+/* İlişki yapısı ve gelecek */
+.bolum-kart { padding: 1.25rem 1.1rem; display: grid; gap: 0.75rem; }
+.bolum-kart h3 { font-size: var(--boy-xl); }
+.soru-listesi { margin: 0; padding-left: 1.25rem; display: grid; gap: 0.4rem; font: 400 1.2rem/1.25 var(--f-baslik); }
+.soru-listesi li::marker { color: var(--gul); font-family: var(--f-veri); font-size: var(--boy-xs); }
+
+/* Harita bilgileri alt sekmeleri */
+.alt-sekmeler { display: flex; gap: 0.4rem; overflow-x: auto; scrollbar-width: none; padding: 2px; margin: -2px; }
+.alt-sekmeler::-webkit-scrollbar { display: none; }
+.alt-sekmeler button {
+  flex: 0 0 auto; min-height: 40px; padding: 0.5rem 0.9rem; border-radius: 999px;
+  border: 1px solid var(--cam-sinir); background: var(--cam); color: var(--soluk);
+  font: 500 var(--boy-s)/1 var(--f-govde); cursor: pointer;
+}
+.alt-sekmeler button[aria-pressed="true"] { background: var(--murekkep); border-color: var(--murekkep); color: var(--beyaz); }
+.alt-panel { display: grid; gap: 1rem; }
+
+/* Ödeme yakında perdesi */
+.perde { position: fixed; inset: 0; z-index: 20; display: grid; align-items: end; }
+.perde-arka { position: absolute; inset: 0; background: rgba(36, 22, 58, 0.35); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+.perde-kutu {
+  position: relative; width: 100%; max-width: 36rem; margin: 0 auto; display: grid; gap: 1rem;
+  padding-top: 1.5rem; padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  border-radius: 26px 26px 0 0; background: var(--zemin); box-shadow: 0 -20px 50px -30px var(--golge);
+  animation: yuksel 0.3s ease-out;
+}
+.perde-kutu h2 { font-size: var(--boy-xl); }
+.perde-kutu p { color: var(--soluk); }
+@keyframes yuksel { from { transform: translateY(24px); opacity: 0; } }
+
 @media (prefers-reduced-motion: reduce) {
-  .ekran.giriyor, .halka-yukleme svg { animation: none; }
+  .ekran.giriyor, .halka-yukleme svg, .perde-kutu { animation: none; }
 }
