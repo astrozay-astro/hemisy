@@ -1,15 +1,22 @@
-# Astroship
+# Astroship · Love is gonna save us
 
 Türkçe astroloji uyum testi: iki kişinin doğum haritasını karşılaştırır (sinastri), ilişkinin kompozit ve Davison haritalarını yorumlar.
 
 ## Klasörler
 
 - `index.html`: sitenin giriş dosyası
-- `css/style.css`: renkler, yazı tipleri ve tüm görünüm
+- `css/style.css`: Şafak tasarımı (renkler, yazı tipleri, tüm görünüm)
 - `js/app.js`: ekranlar ve aralarındaki geçişler
 - `js/turkce.js`: isimlere doğru Türkçe eki getiren yardımcı (Ayşe'nin, Mehmet'in)
-- `js/ornek-veri.js`: tasarım taslağı için örnek sonuç (gerçek hesap değil)
+- `js/motor/`: hesaplama motoru
+  - `harita.js`: gezegenler, Yükselen, MC, Placidus evleri, gerçek Ay düğümü
+  - `acilar.js`: açılar (burç + derece kuralı, orb en fazla 10°)
+  - `burclar.js`: burçlar, element, nitelik, yöneticiler
+  - `zaman.js`: yerel saatten dünya saatine (UTC) çevirme
+  - `konum.js`: doğum yerini koordinata ve saat dilimine çevirme
+- `js/veri/sehirler.js`: 81 il ve yurt dışındaki şehirler
+- `js/kutuphane/`: Astronomy Engine (gezegen hesabı) ve Luxon (saat dilimleri)
 
-## Test anahtarı
+## Test
 
-Adresin sonuna `#test` eklenirse tüm kilitli (ücretli) bölümler açık görünür.
+macOS'ta: `osascript -l JavaScript test/motor-testi.js`
