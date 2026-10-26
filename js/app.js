@@ -262,12 +262,7 @@
   const paragraflar = (liste) => liste.map((p) => `<p>${kac(p)}</p>`).join('');
 
   function uyumKarti(b) {
-    const acikNedenler = b.nedenler.slice(0, 2);
-    const kapaliNedenler = b.nedenler.slice(2);
-    const ucretli = [
-      kapaliNedenler.length ? `<ul class="nedenler">${kapaliNedenler.map(nedenSatiri).join('')}</ul>` : '',
-      b.ucretli.length ? `<div class="yorum">${paragraflar(b.ucretli)}</div>` : '',
-    ].join('');
+    const ucretli = b.ucretli.length ? `<div class="yorum">${paragraflar(b.ucretli)}</div>` : '';
     return `
       <article class="uyum-kart cam" id="u-${b.id}">
         <header class="kart-bas">
@@ -277,7 +272,6 @@
         </header>
         <div class="cubuk" aria-hidden="true"><span style="width:${b.yuzde}%"></span></div>
         <div class="yorum">${paragraflar(b.ucretsiz)}</div>
-        ${acikNedenler.length ? `<div class="nedenler-blok"><h4 class="etiket">Nedenleri</h4><ul class="nedenler">${acikNedenler.map(nedenSatiri).join('')}</ul></div>` : ''}
         ${kilitli(ucretli)}
       </article>`;
   }
@@ -294,11 +288,6 @@
       </section>
       <ul class="mini-skorlar">
         ${y.basliklar.map((b) => `<li><a href="#u-${b.id}" data-kaydir="u-${b.id}"><span>${b.ad}</span><b>%${b.yuzde}</b></a></li>`).join('')}
-      </ul>
-      <ul class="lejant">
-        <li class="ton-arti"><i></i>Uyumu artırıyor</li>
-        <li class="ton-eksi"><i></i>Zorluyor</li>
-        <li class="ton-yogun"><i></i>Yoğunluk katıyor</li>
       </ul>
       ${y.basliklar.map(uyumKarti).join('')}`;
   }
@@ -432,9 +421,32 @@
       </article>`;
   }
 
+  // Her uyum yüzdesini hangi göstergelerin oluşturduğu (en etkili olan en üstte)
+  function nedenlerKarti() {
+    const basliklar = durum.sonuc.yorum.basliklar.map((b) => `
+      <section class="neden-grubu">
+        <h4>${b.ad} <span>%${b.yuzde}</span></h4>
+        ${b.cekirdekVar ? '' : '<p class="meta"><span>Bu başlığın temel teması aranızda yok ya da çok geniş (8°\'den fazla); yüzde bu yüzden sınırlı tutuldu.</span></p>'}
+        ${b.nedenler.length ? `<ul class="nedenler">${b.nedenler.map(nedenSatiri).join('')}</ul>` : '<p class="meta"><span>Belirgin bir gösterge yok.</span></p>'}
+      </section>`).join('');
+    return `
+      <article class="harita-kart cam">
+        <header class="harita-bas">
+          <p class="etiket">Uyum hesabı</p>
+          <h3>Yüzdelerin nedenleri</h3>
+        </header>
+        <ul class="lejant">
+          <li class="ton-arti"><i></i>Artırıyor</li>
+          <li class="ton-eksi"><i></i>Düşürüyor</li>
+          <li class="ton-yogun"><i></i>Yoğunluk katıyor</li>
+        </ul>
+        ${basliklar}
+      </article>`;
+  }
+
   function bilgiPaneli() {
-    const alt = [`${ilgi(0)} haritası`, `${ilgi(1)} haritası`, 'Aranızdaki açılar', 'Kompozit', 'Davison'];
-    const icerik = [natalKarti(0), natalKarti(1), sinastriKarti(), iliskiHaritasiKarti('kompozit'), iliskiHaritasiKarti('davison')];
+    const alt = [`${ilgi(0)} haritası`, `${ilgi(1)} haritası`, 'Aranızdaki açılar', 'Yüzdelerin nedenleri', 'Kompozit', 'Davison'];
+    const icerik = [natalKarti(0), natalKarti(1), sinastriKarti(), nedenlerKarti(), iliskiHaritasiKarti('kompozit'), iliskiHaritasiKarti('davison')];
     return `
       <div class="alt-sekmeler" role="group" aria-label="Harita bilgileri">
         ${alt.map((s, n) => `<button type="button" data-alt-sekme="${n}" aria-pressed="${durum.altSekme === n}">${s}</button>`).join('')}

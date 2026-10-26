@@ -17,30 +17,35 @@
   const BASLIKLAR = [
     {
       id: 'tutku', ad: 'Çekim ve Tutku', glif: '♂', tur: 'yogunluk', agirlik: 1.3,
+      cekirdek: ['venus-mars'], cekirdekYoksa: 40,
       ciftler: { 'venus-mars': 1, 'mars-pluton': 0.8, 'venus-pluton': 0.7, 'mars-mars': 0.5, 'gunes-mars': 0.5, 'mars-yukselen': 0.6, 'venus-yukselen': 0.4, 'ay-mars': 0.4, 'venus-uranus': 0.4 },
       evler: { mars: [1, 5, 8], venus: [1, 5, 8], pluton: [1, 5, 8] },
       burclar: [['venus', 'mars'], ['mars', 'mars']],
     },
     {
       id: 'baglanma', ad: 'Bağlanma ve Duygusal Bağ', glif: '☽', tur: 'uyum', agirlik: 1.3,
+      cekirdek: ['gunes-ay', 'ay-ay', 'ay-venus'], cekirdekYoksa: 52,
       ciftler: { 'gunes-ay': 1, 'ay-ay': 0.9, 'ay-venus': 0.8, 'ay-saturn': 0.6, 'ay-yukselen': 0.5, 'ay-jupiter': 0.5, 'ay-pluton': 0.4, 'venus-venus': 0.4 },
       evler: { ay: [4, 7, 8, 12], venus: [4, 7, 8, 12] },
       burclar: [['ay', 'ay'], ['gunes', 'ay']],
     },
     {
       id: 'iletisim', ad: 'İletişim ve Zihinsel Uyum', glif: '☿', tur: 'uyum', agirlik: 1,
+      cekirdek: ['merkur-merkur', 'ay-merkur', 'gunes-merkur'], cekirdekYoksa: 52,
       ciftler: { 'merkur-merkur': 1, 'ay-merkur': 0.7, 'gunes-merkur': 0.6, 'merkur-mars': 0.5, 'merkur-jupiter': 0.5, 'merkur-saturn': 0.5, 'merkur-venus': 0.4, 'merkur-uranus': 0.4 },
       evler: { merkur: [3, 9], gunes: [3, 9], mars: [3, 9] },
       burclar: [['merkur', 'merkur']],
     },
     {
       id: 'romantizm', ad: 'Romantizm ve Şefkat', glif: '♀', tur: 'uyum', agirlik: 1.1,
+      cekirdek: ['gunes-venus', 'venus-venus', 'ay-venus', 'venus-neptun'], cekirdekYoksa: 52,
       ciftler: { 'gunes-venus': 1, 'venus-venus': 0.8, 'venus-neptun': 0.8, 'venus-jupiter': 0.7, 'ay-venus': 0.6, 'venus-yukselen': 0.5 },
       evler: { venus: [5, 7], neptun: [5, 7], gunes: [5, 7] },
       burclar: [['venus', 'venus']],
     },
     {
       id: 'guven', ad: 'Güven ve Kalıcılık', glif: '♄', tur: 'uyum', agirlik: 1.2, saturnKavusumu: 0.6,
+      cekirdek: ['gunes-saturn', 'ay-saturn', 'venus-saturn', 'gunes-ay'], cekirdekYoksa: 55,
       ciftler: { 'gunes-saturn': 0.9, 'ay-saturn': 0.9, 'venus-saturn': 0.9, 'gunes-ay': 0.7, 'gunes-jupiter': 0.5, 'saturn-yukselen': 0.5, 'gunes-gunes': 0.4 },
       evler: { saturn: [4, 7, 10], gunes: [4, 7, 10] },
       burclar: [['gunes', 'gunes']],
@@ -53,6 +58,7 @@
     },
     {
       id: 'karmik', ad: 'Karmik Bağ', glif: '☊', tur: 'yogunluk', agirlik: 0.6,
+      cekirdek: ['gunes-kuzeyDugum', 'ay-kuzeyDugum', 'venus-kuzeyDugum'], cekirdekYoksa: 40,
       ciftler: { 'gunes-kuzeyDugum': 0.9, 'ay-kuzeyDugum': 0.9, 'venus-kuzeyDugum': 0.9, 'mars-kuzeyDugum': 0.6, 'kuzeyDugum-yukselen': 0.7, 'gunes-saturn': 0.6, 'ay-saturn': 0.6, 'venus-saturn': 0.5, 'gunes-pluton': 0.6, 'ay-pluton': 0.6 },
       evler: { gunes: [8, 12], ay: [8, 12], venus: [8, 12] },
       burclar: [],
@@ -60,6 +66,8 @@
   ];
 
   const UYUMLU = ['altmislik', 'ucgen'];
+  // Temel temanın sayılması için açının en fazla bu kadar geniş olması gerekir
+  const CEKIRDEK_ORB = 8;
 
   function aciDegeri(baslik, aci, p, q) {
     const alcalan = aci.id === 'karsit' && (p === 'yukselen' || q === 'yukselen');
@@ -165,9 +173,14 @@
     const ham = baslik.tur === 'yogunluk'
       ? 15 + 82 * (1 - Math.exp(-Math.max(0, toplam) / 2.2))
       : 50 + 46 * Math.tanh(toplam / 1.8);
-    const yuzde = Math.round(Math.min(98, Math.max(5, ham)));
+    // Temel tema yoksa (ya da çok genişse) yüzde belli bir düzeyi geçemez:
+    // ör. iki kişi arasında Venüs–Mars bağlantısı yoksa tutku yüksek çıkamaz
+    const cekirdekVar = !baslik.cekirdek || etkenler.some((e) => e.tur === 'aci'
+      && baslik.cekirdek.includes(`${e.p}-${e.q}`) && e.aci.orb <= CEKIRDEK_ORB);
+    const tavan = cekirdekVar ? 98 : baslik.cekirdekYoksa;
+    const yuzde = Math.round(Math.min(tavan, Math.max(5, ham)));
     etkenler.sort((x, y) => Math.abs(y.katki) - Math.abs(x.katki));
-    return { ...baslik, yuzde, etkenler };
+    return { ...baslik, yuzde, etkenler, cekirdekVar };
   }
 
   function uyumHesapla(haritalar, cinsiyetler) {

@@ -431,6 +431,10 @@ details.acilir > *:not(summary) { margin-top: 0.6rem; }
 .neden-metin small { display: block; color: var(--soluk); font-size: var(--boy-xs); }
 .neden-orb { font: 500 var(--boy-xs)/1 var(--f-veri); color: var(--soluk); white-space: nowrap; font-variant-numeric: tabular-nums; }
 
+.neden-grubu { display: grid; gap: 0.55rem; padding-top: 0.85rem; border-top: 1px solid var(--cizgi); }
+.neden-grubu h4 { display: flex; justify-content: space-between; font: 400 1.2rem/1.2 var(--f-baslik); }
+.neden-grubu h4 span { color: var(--gul); }
+
 /* Kilitli (ücretli) bölüm */
 .kilit { position: relative; display: grid; min-height: 9rem; }
 .kilit-icerik {
