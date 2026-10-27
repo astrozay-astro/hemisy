@@ -362,12 +362,16 @@ a { color: inherit; }
 
 /* ---------- Hesaplanıyor ---------- */
 
-.yukleniyor { min-height: 82vh; padding-top: 1rem; }
-.yukleniyor .gece { flex: 1; display: grid; place-items: center; text-align: center; padding: 2rem 1.5rem; }
-.yukleniyor .gece-cark { position: relative; inset: auto; right: auto; top: auto; width: min(17rem, 72vw); opacity: 0.95; animation-duration: 16s; z-index: 0; }
-.yukleniyor-ic { display: grid; gap: 1.1rem; justify-items: center; }
+/* Açılış videosu: marka animasyonu bir kez baştan sona oynar */
+.yukleniyor { min-height: 82vh; justify-content: center; padding-top: 1rem; text-align: center; }
+.acilis {
+  overflow: hidden; border-radius: 32px; aspect-ratio: 16 / 9; background: #ece6da;
+  border: 1px solid rgba(255, 255, 255, 0.9); box-shadow: 0 0 0 1px var(--cizgi), 0 30px 60px -30px var(--golge);
+}
+.acilis-video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.yukleniyor-ic { display: grid; gap: 0.7rem; justify-items: center; padding-inline: 1rem; }
 .yukleniyor h2 { font-size: 2.2rem; font-weight: 300; }
-.yukleniyor p { color: var(--gece-soluk); font-weight: 300; }
+.yukleniyor p { color: var(--soluk); font-weight: 300; }
 
 /* ---------- Sonuç ---------- */
 

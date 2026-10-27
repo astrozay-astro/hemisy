@@ -358,9 +358,30 @@
 
   // ---------- Hesaplama ----------
 
+  // Açılış videosu (marka/hemisy-acilis.mp4, 4,9 sn, sesli) hesaplama sırasında bir kez baştan sona oynar, sonuç video
+  // bitince açılır. Video oynatılamazsa (otomatik oynatma kapalı, dosya yüklenemedi) en az 1,8 sn beklenir.
+  const ACILIS_SURESI = 4900;
+  function acilisBekle() {
+    const video = kok.querySelector('.acilis-video');
+    return new Promise((coz) => {
+      let bitti = false;
+      const bitir = () => { if (!bitti) { bitti = true; coz(); } };
+      if (!video) { setTimeout(bitir, 1800); return; }
+      video.addEventListener('ended', bitir, { once: true });
+      video.addEventListener('error', () => setTimeout(bitir, 1800), { once: true });
+      // Sesli oynatma "Analizimi göster" tıklamasıyla izinli. Tarayıcı yine de engellerse video sessiz oynar.
+      video.muted = false;
+      video.play()?.catch(() => {
+        video.muted = true;
+        video.play()?.catch(() => setTimeout(bitir, 1800));
+      });
+      setTimeout(bitir, ACILIS_SURESI + 3000);
+    });
+  }
+
   async function hesapla() {
     goster('yukleniyor');
-    const baslangic = Date.now();
+    const acilis = acilisBekle();
     try {
       const birey = durum.mod === 'birey';
       const natal = [];
@@ -376,7 +397,8 @@
         durum.sonuc = { birey: true, natal, analiz, yorum: S.bireyselYorum(analiz) };
         analiziKaydet(durum.kisiler[0]);
         durum.hata = '';
-        setTimeout(() => goster('birey'), Math.max(0, 1800 - (Date.now() - baslangic)));
+        await acilis;
+        goster('birey');
         return;
       }
       const [h1, h2] = natal.map((n) => n.harita);
@@ -395,7 +417,8 @@
       durum.hata = '';
       durum.sekme = 0;
       durum.altSekme = 0;
-      setTimeout(() => goster('sonuc'), Math.max(0, 1800 - (Date.now() - baslangic)));
+      await acilis;
+      goster('sonuc');
     } catch (hata) {
       durum.hata = hata.message;
       goster('form');
@@ -405,13 +428,12 @@
   function yukleniyorEkrani() {
     return `
       <section class="ekran yukleniyor" aria-live="polite">
-        <div class="gece">
-          <canvas class="gece-yildizlar" aria-hidden="true"></canvas>
-          <div class="yukleniyor-ic">
-            ${cark()}
-            <h2 tabindex="-1">${durum.mod === 'birey' ? 'Haritanız okunuyor' : 'Yıldızlarınız karşılaştırılıyor'}</h2>
-            <p>${durum.mod === 'birey' ? 'Doğum haritanız hesaplanıyor, eş potansiyeliniz ve evlilik dönemleriniz yorumlanıyor.' : 'Doğum haritalarınız hesaplanıyor ve uyumunuz yorumlanıyor.'}</p>
-          </div>
+        <div class="acilis">
+          <video class="acilis-video" src="marka/hemisy-acilis.mp4" poster="marka/hemisy-acilis.jpg" playsinline preload="auto" aria-hidden="true"></video>
+        </div>
+        <div class="yukleniyor-ic">
+          <h2 tabindex="-1">${durum.mod === 'birey' ? 'Haritanız okunuyor' : 'Yıldızlarınız karşılaştırılıyor'}</h2>
+          <p>${durum.mod === 'birey' ? 'Doğum haritanız hesaplanıyor, eş potansiyeliniz ve evlilik dönemleriniz yorumlanıyor.' : 'Doğum haritalarınız hesaplanıyor ve uyumunuz yorumlanıyor.'}</p>
         </div>
       </section>`;
   }
