@@ -330,6 +330,7 @@
         davison: S.davisonHesapla(h1, h2),
         yorum: S.uyumYorumu(uyum, durum.kisiler),
       };
+      durum.sonuc.iliski = S.iliskiYorumu(durum.sonuc.kompozit, durum.sonuc.davison);
       durum.hata = '';
       durum.sekme = 0;
       durum.altSekme = 0;
@@ -397,23 +398,21 @@
 
   // ---------- Sonuç: İlişki yapısı ve Gelecek ----------
 
-  const ILISKI_SORULARI = [
-    'İlişki nasıl başlayabilir?',
-    'İlişkinin kimliği ve amacı',
-    'İlişki nereden beslenir?',
-    'İlişkiye ne iyi gelir?',
-    'İlişki hangi alanlarda sınanır?',
-    'Hangi konular çatışma yaratır?',
-  ];
+  function iliskiKarti(b) {
+    const ucretli = b.ucretli.length ? `<div class="yorum">${paragraflar(b.ucretli)}</div>` : '';
+    return `
+      <article class="uyum-kart yuzey" id="i-${b.id}">
+        <header class="kart-bas kart-bas-yuzdesiz">
+          <span class="amblem" aria-hidden="true">${glif(b.glif)}</span>
+          <h3>${b.soru}</h3>
+        </header>
+        <div class="yorum">${paragraflar(b.ucretsiz)}</div>
+        ${kilitli(ucretli)}
+      </article>`;
+  }
 
   function iliskiPaneli() {
-    return `
-      <article class="bolum-kart yuzey">
-        <p class="etiket">İlişki yapısı</p>
-        <h3>İlişkinizin kendi haritası</h3>
-        <p class="aciklama">İki doğum haritanızdan ilişkinizin kendi haritası hesaplandı. Bu bölümün yorumları bir sonraki güncellemede eklenecek.</p>
-        <ol class="soru-listesi">${ILISKI_SORULARI.map((s) => `<li>${s}</li>`).join('')}</ol>
-      </article>`;
+    return durum.sonuc.iliski.map(iliskiKarti).join('');
   }
 
   function gelecekPaneli() {
