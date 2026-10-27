@@ -64,8 +64,8 @@
   const utcYaz = (d) => `${iki(d.getUTCDate())}.${iki(d.getUTCMonth() + 1)}.${d.getUTCFullYear()} ${iki(d.getUTCHours())}:${iki(d.getUTCMinutes())} UTC`;
   const koordinat = (enlem, boylam) => `${S.dereceYaz(Math.abs(enlem))} ${enlem >= 0 ? 'K' : 'G'}, ${S.dereceYaz(Math.abs(boylam))} ${boylam >= 0 ? 'D' : 'B'}`;
 
-  // Logo: marka/hemisy-isim-acik.png (tasarımcının logosunun koyu zemin için açık sürümü, şeffaf arka planlı)
-  const LOGO = (sinif = '') => `<a href="#" class="logo-baglanti" data-git="giris" aria-label="hēmisy ana sayfa"><img class="logo ${sinif}" src="marka/hemisy-isim-acik.png" alt="hēmisy" width="608" height="224"></a>`;
+  // Logo: marka/hemisy-isim.png (tasarımcının logosu, açık zemin için koyu sürüm, şeffaf arka planlı)
+  const LOGO = (sinif = '') => `<a href="#" class="logo-baglanti" data-git="giris" aria-label="hēmisy ana sayfa"><img class="logo ${sinif}" src="marka/hemisy-isim.png" alt="hēmisy" width="608" height="224"></a>`;
 
   const PROFIL_SIMGESI = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="7" r="3.4" stroke="currentColor" stroke-width="1.3"/><path d="M3.6 17c.9-3.1 3.4-4.8 6.4-4.8s5.5 1.7 6.4 4.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
 
@@ -160,7 +160,7 @@
 
   const altBilgi = () => `
     <footer class="alt-bilgi">
-      <img class="alt-logo" src="marka/hemisy-isim-acik.png" alt="hēmisy" width="608" height="224">
+      <img class="alt-logo" src="marka/hemisy-isim.png" alt="hēmisy" width="608" height="224">
       <div class="iletisim">
         <a href="https://www.hemisy.com" target="_blank" rel="noopener">www.hemisy.com</a>
         <a href="mailto:info@hemisy.com">info@hemisy.com</a>
