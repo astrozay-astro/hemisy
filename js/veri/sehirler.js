@@ -1,6 +1,5 @@
-// Doğum yeri listesi: [ad, enlem (K+), boylam (D+), saat dilimi]
-// Türkiye'nin 81 ili (il merkezi koordinatları) ve yurt dışında Türklerin yoğun yaşadığı şehirler.
-// Listede olmayan yerler (ilçeler, köyler, diğer ülkeler) internetten aranır (js/motor/konum.js).
+// Türkiye'nin 81 ili: [ad, enlem (K+), boylam (D+)] — il merkezi koordinatları, saat dilimi Europe/Istanbul.
+// Diğer ülkelerin şehirleri js/veri/dunya-sehirleri.js içindedir.
 window.ASTROSHIP_SEHIRLER = [
   ['Adana', 37.0000, 35.3213], ['Adıyaman', 37.7648, 38.2786], ['Afyonkarahisar', 38.7569, 30.5387],
   ['Ağrı', 39.7191, 43.0503], ['Aksaray', 38.3687, 34.0370], ['Amasya', 40.6499, 35.8353],
@@ -29,19 +28,4 @@ window.ASTROSHIP_SEHIRLER = [
   ['Tekirdağ', 40.9833, 27.5167], ['Tokat', 40.3167, 36.5500], ['Trabzon', 41.0015, 39.7178],
   ['Tunceli', 39.1079, 39.5401], ['Uşak', 38.6823, 29.4082], ['Van', 38.4891, 43.4089],
   ['Yalova', 40.6500, 29.2667], ['Yozgat', 39.8181, 34.8147], ['Zonguldak', 41.4564, 31.7987],
-].map(([ad, enlem, boylam]) => ({ ad, ulke: 'Türkiye', enlem, boylam, bolge: 'Europe/Istanbul' })).concat([
-  ['Berlin', 'Almanya', 52.5200, 13.4050, 'Europe/Berlin'], ['Hamburg', 'Almanya', 53.5511, 9.9937, 'Europe/Berlin'],
-  ['Münih', 'Almanya', 48.1351, 11.5820, 'Europe/Berlin'], ['Köln', 'Almanya', 50.9375, 6.9603, 'Europe/Berlin'],
-  ['Frankfurt', 'Almanya', 50.1109, 8.6821, 'Europe/Berlin'], ['Stuttgart', 'Almanya', 48.7758, 9.1829, 'Europe/Berlin'],
-  ['Düsseldorf', 'Almanya', 51.2277, 6.7735, 'Europe/Berlin'], ['Duisburg', 'Almanya', 51.4344, 6.7623, 'Europe/Berlin'],
-  ['Dortmund', 'Almanya', 51.5136, 7.4653, 'Europe/Berlin'], ['Essen', 'Almanya', 51.4556, 7.0116, 'Europe/Berlin'],
-  ['Amsterdam', 'Hollanda', 52.3676, 4.9041, 'Europe/Amsterdam'], ['Rotterdam', 'Hollanda', 51.9244, 4.4777, 'Europe/Amsterdam'],
-  ['Lahey', 'Hollanda', 52.0705, 4.3007, 'Europe/Amsterdam'], ['Brüksel', 'Belçika', 50.8503, 4.3517, 'Europe/Brussels'],
-  ['Viyana', 'Avusturya', 48.2082, 16.3738, 'Europe/Vienna'], ['Zürih', 'İsviçre', 47.3769, 8.5417, 'Europe/Zurich'],
-  ['Paris', 'Fransa', 48.8566, 2.3522, 'Europe/Paris'], ['Lyon', 'Fransa', 45.7640, 4.8357, 'Europe/Paris'],
-  ['Strazburg', 'Fransa', 48.5734, 7.7521, 'Europe/Paris'], ['Londra', 'Birleşik Krallık', 51.5072, -0.1276, 'Europe/London'],
-  ['Stockholm', 'İsveç', 59.3293, 18.0686, 'Europe/Stockholm'], ['Kopenhag', 'Danimarka', 55.6761, 12.5683, 'Europe/Copenhagen'],
-  ['Lefkoşa', 'KKTC', 35.1856, 33.3823, 'Asia/Famagusta'], ['Bakü', 'Azerbaycan', 40.4093, 49.8671, 'Asia/Baku'],
-  ['New York', 'ABD', 40.7128, -74.0060, 'America/New_York'], ['Toronto', 'Kanada', 43.6532, -79.3832, 'America/Toronto'],
-  ['Sidney', 'Avustralya', -33.8688, 151.2093, 'Australia/Sydney'], ['Dubai', 'BAE', 25.2048, 55.2708, 'Asia/Dubai'],
-].map(([ad, ulke, enlem, boylam, bolge]) => ({ ad, ulke, enlem, boylam, bolge })));
+].map(([ad, enlem, boylam]) => ({ ad, ulke: 'Türkiye', ulkeKodu: 'TR', enlem, boylam, bolge: 'Europe/Istanbul' }));

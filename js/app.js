@@ -228,9 +228,10 @@
         </div>
         <label class="onay"><input id="yaklasik-${i}" type="checkbox" ${k.yaklasik ? 'checked' : ''}> Saatim yaklaşık, tam bilmiyorum</label>
         <p class="uyari" id="uyari-${i}" ${k.yaklasik ? '' : 'hidden'}>Saat yaklaşık olduğunda bazı yorumlar daha az kesin olur.</p>
-        <div class="alan">
+        <div class="alan sehir-alani">
           <label for="yer-${i}">Doğum yeri</label>
-          <input id="yer-${i}" type="text" list="sehirler" autocomplete="off" value="${kac(k.yer)}" placeholder="İl, ilçe ya da şehir">
+          <input id="yer-${i}" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="oneriler-${i}" autocomplete="off" value="${kac(k.yer)}" placeholder="İl ya da şehir yazın">
+          <ul class="oneriler" id="oneriler-${i}" role="listbox" hidden></ul>
         </div>
       </fieldset>`;
   }
@@ -247,10 +248,9 @@
         <form id="dogum-formu" novalidate>
           ${kisiAlanlari(0)}
           ${kisiAlanlari(1)}
-          <datalist id="sehirler">${window.ASTROSHIP_SEHIRLER.map((s) => `<option value="${kac(s.ad)}"></option>`).join('')}</datalist>
           <p class="form-hata" role="alert" ${durum.hata ? '' : 'hidden'}>${kac(durum.hata)}</p>
           <button type="submit" class="dugme-ana">Uyumumuzu göster <span class="ok">→</span></button>
-          <p class="yer-notu">Listede olmayan ilçe ve şehirler internetten aranır.</p>
+          <p class="yer-notu">Doğum yeri için il ya da şehir adını yazıp listeden seçin.</p>
         </form>
         ${altBilgi()}
       </section>`;
@@ -317,7 +317,7 @@
       for (let i = 0; i < 2; i++) {
         const k = durum.kisiler[i];
         const yer = await S.yerBul(k.yer);
-        if (!yer) throw new Error(`${i + 1}. kişinin doğum yeri bulunamadı: "${k.yer}". İl adını yazmayı deneyin (örneğin İstanbul).`);
+        if (!yer) throw new Error(`${i + 1}. kişinin doğum yeri bulunamadı: "${k.yer}". Lütfen il ya da şehir adını yazıp listeden seçin.`);
         const zaman = S.yereldenUtc(k.tarih, k.saat, yer.bolge);
         natal.push({ yer, zaman, harita: S.haritaHesapla(zaman.utc, yer.enlem, yer.boylam) });
       }
@@ -706,10 +706,71 @@
     }
   });
 
+  // ---------- Doğum yeri öneri listesi ----------
+
+  function onerileriGoster(girdi) {
+    const liste = document.getElementById(girdi.getAttribute('aria-controls'));
+    const sonuclar = S.sehirAra(girdi.value);
+    liste.innerHTML = sonuclar.map((s, n) => `
+      <li role="option" id="${liste.id}-${n}" data-oneri="${kac(s.etiket)}" aria-selected="false">
+        <span>${kac(s.ad)}</span><small>${kac(s.ulke)}</small>
+      </li>`).join('');
+    liste.hidden = !sonuclar.length;
+    girdi.setAttribute('aria-expanded', String(!liste.hidden));
+    girdi.removeAttribute('aria-activedescendant');
+  }
+
+  function onerileriKapat(girdi) {
+    const liste = document.getElementById(girdi.getAttribute('aria-controls'));
+    if (liste) liste.hidden = true;
+    girdi.setAttribute('aria-expanded', 'false');
+    girdi.removeAttribute('aria-activedescendant');
+  }
+
+  function oneriSec(li) {
+    const liste = li.closest('.oneriler');
+    const girdi = document.querySelector(`[aria-controls="${liste.id}"]`);
+    girdi.value = li.dataset.oneri;
+    girdi.setAttribute('aria-invalid', 'false');
+    onerileriKapat(girdi);
+  }
+
+  // Dokunma ve tıklama: listeden seçim, kutunun odağını kaybetmeden önce yakalanır
+  document.addEventListener('pointerdown', (olay) => {
+    const li = olay.target.closest('[data-oneri]');
+    if (li) { olay.preventDefault(); oneriSec(li); }
+  });
+
+  document.addEventListener('keydown', (olay) => {
+    const girdi = olay.target;
+    if (girdi.getAttribute?.('role') !== 'combobox') return;
+    const liste = document.getElementById(girdi.getAttribute('aria-controls'));
+    if (liste.hidden) return;
+    const ogeler = [...liste.querySelectorAll('[role="option"]')];
+    const simdiki = ogeler.findIndex((o) => o.getAttribute('aria-selected') === 'true');
+    if (olay.key === 'ArrowDown' || olay.key === 'ArrowUp') {
+      olay.preventDefault();
+      const yeni = olay.key === 'ArrowDown' ? Math.min(ogeler.length - 1, simdiki + 1) : Math.max(0, simdiki - 1);
+      ogeler.forEach((o, n) => o.setAttribute('aria-selected', String(n === yeni)));
+      girdi.setAttribute('aria-activedescendant', ogeler[yeni].id);
+      ogeler[yeni].scrollIntoView({ block: 'nearest' });
+    } else if (olay.key === 'Enter' && simdiki >= 0) {
+      olay.preventDefault();
+      oneriSec(ogeler[simdiki]);
+    } else if (olay.key === 'Escape') {
+      onerileriKapat(girdi);
+    }
+  });
+
+  document.addEventListener('focusout', (olay) => {
+    if (olay.target.getAttribute?.('role') === 'combobox') onerileriKapat(olay.target);
+  });
+
   document.addEventListener('input', (olay) => {
     const id = olay.target.id ?? '';
     if (id.startsWith('tarih-')) olay.target.value = tarihMaskesi(olay.target.value);
     else if (id.startsWith('saat-')) olay.target.value = saatMaskesi(olay.target.value);
+    else if (id.startsWith('yer-')) onerileriGoster(olay.target);
   });
 
   document.addEventListener('change', (olay) => {
