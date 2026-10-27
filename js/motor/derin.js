@@ -12,7 +12,8 @@
   const S = window.Astroship;
   const { norm, burcIndeksi, BURCLAR, aciFarki } = S;
 
-  const YUCELIM = { gunes: 0, ay: 1, merkur: 5, venus: 11, mars: 9, jupiter: 3, saturn: 6 };
+  // Yücelim burçları (Tuğçenur Özay asaletler tablosu: Merkür Kova'da yücelir, Aslan'da düşer). Düşüş = yücelimin karşısı.
+  const YUCELIM = { gunes: 0, ay: 1, merkur: 10, venus: 11, mars: 9, jupiter: 3, saturn: 6 };
   const GELENEKSEL = ['gunes', 'ay', 'merkur', 'venus', 'mars', 'jupiter', 'saturn'];
 
   // Tüm burç evleri: Yükselen'in burcundan itibaren sayılır

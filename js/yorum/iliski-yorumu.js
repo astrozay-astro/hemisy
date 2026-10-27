@@ -1,8 +1,8 @@
-// İlişki yapısı yorumlarını kurar (her başlık 4–6 paragraf).
+// İlişki yapısı yorumlarını kurar (her başlık 4–7 paragraf).
 //  Başlangıç: kompozit Yükselen burcu; yöneticisinin arketipi, burcu, evi, gücü ve temasları; eş yönetici; Evlilik Kısmeti
 //  Kimlik / beslenme / iyi gelen / sınav / çatışma: Davison Güneş, Ay, Venüs, Satürn, Mars
 //    1) arketip + burç + sekt   2) ev + köşe/ardıl/düşen + görmeme   3) güç + yönetici zinciri
-//    4) yönettiği evler + 7. evden türetilmiş anlamı   5) temaslar (iyicil destek, kötücül zorluk)
+//    4) yönettiği evler + 7. evden türetilmiş anlamı   5) temaslar: açı türü, ortak tema, kesişen evler (iyicil destek, kötücül zorluk)
 //    6) karmik katman (düğümler, geri hareket, 12. ev) + bölümün kısmeti
 //  Karmik ders: Davison Kuzey Ay Düğümü'nün burcu ve evi, düğümlere kavuşan gezegenler, geri hareketler
 // Tanıtım: her başlığın ilk iki cümlesi ücretsiz görünür; gerisi tam rapordadır.
@@ -11,6 +11,7 @@
 
   const S = window.Astroship;
   const M = window.ASTROSHIP_ILISKI_METINLERI;
+  const T = window.ASTROSHIP_TEMEL;
   const TEMAS_SAYISI = 2;
   const TANITIM_CUMLE = 2;
   const IYICIL = ['venus', 'jupiter'];
@@ -30,24 +31,29 @@
   const gucCumlesi = (guc, id) => alanli((id === 'sinav' || id === 'catisma' ? M.gucKaliplariKotucul : M.gucKaliplari)[guc], id);
   const konu = (ev) => M.evKonulari[ev - 1];
 
-  function aciTuru(aci) {
-    if (aci.id === 'kavusum') return 'k';
-    return ['altmislik', 'ucgen'].includes(aci.id) ? 'u' : 'g';
-  }
+  const UYUMLU = ['kavusum', 'altmislik', 'ucgen'];
 
-  // Bir noktanın aynı haritadaki en tam temasları; iyicil ve kötücül gezegenlerle temaslar ayrıca vurgulanır
+  // Bir noktanın aynı haritadaki en tam temasları. Yöntem: açı türünün doğası → iki noktanın ortak teması → kesiştikleri evler.
+  // İyicil ve kötücül gezegenlerle temaslar ayrıca vurgulanır
   function temasCumleleri(harita, anahtar, islev) {
     return S.haritaAcilari(harita)
       .filter(({ a, b }) => a.anahtar === anahtar || b.anahtar === anahtar)
       .slice(0, TEMAS_SAYISI)
       .map(({ a, b, aci }, sira) => {
         const diger = a.anahtar === anahtar ? b : a;
-        const tur = aciTuru(aci);
-        const kaliplar = M.temasKaliplari[tur];
-        let cumle = kaliplar[sira % kaliplar.length].replace('{A}', buyukBasla(islev)).replace('{B}', M.islevler[diger.anahtar]);
-        if (IYICIL.includes(diger.anahtar) && tur !== 'g') cumle += ` ${M.iyicilDestek}`;
-        if (KOTUCUL.includes(diger.anahtar) && tur === 'g') cumle += ` ${M.kotuculZorluk}`;
-        return cumle;
+        const nokta = a.anahtar === anahtar ? a : b;
+        const kaliplar = M.temasKaliplari[aci.id];
+        const uyumlu = UYUMLU.includes(aci.id);
+        const evler = nokta.ev === diger.ev
+          ? M.temasAyniEvKalip.replace('{konu}', konu(nokta.ev))
+          : M.temasEvlerKalip.replace('{konu1}', konu(nokta.ev)).replace('{konu2}', konu(diger.ev));
+        return birlestir(
+          kaliplar[sira % kaliplar.length].replace('{A}', buyukBasla(islev)).replace('{B}', M.islevler[diger.anahtar]),
+          M.temasTemaKalip.replace('{tema}', T.tema(anahtar, diger.anahtar)),
+          nokta.ev && diger.ev && evler,
+          IYICIL.includes(diger.anahtar) && uyumlu && M.iyicilDestek,
+          KOTUCUL.includes(diger.anahtar) && !uyumlu && M.kotuculZorluk,
+        );
       });
   }
 
@@ -117,9 +123,9 @@
       if (esEv !== yn.ev) es = M.esYoneticiKalip.replace('{metin}', kucukBasla(M.baslangicEv[esEv - 1]));
     }
     const p3 = birlestir(gucCumlesi(yn.guc, id), es);
-    const p4 = temasCumleleri(kompozit, yoneticiAd, M.baslangicIslevi).join(' ');
+    const p4 = temasCumleleri(kompozit, yoneticiAd, M.baslangicIslevi);
     const p5 = kismetCumlesi(davisonAnaliz, id);
-    return bolustur(id, [p1, p2, p3, p4, p5]);
+    return bolustur(id, [p1, p2, p3, ...p4, p5]);
   }
 
   const DAVISON_BASLIKLARI = [['kimlik', 'gunes'], ['beslenme', 'ay'], ['iyiGelen', 'venus'], ['sinav', 'saturn'], ['catisma', 'mars']];
@@ -139,9 +145,9 @@
     }
     const p3 = birlestir(gucCumlesi(n.guc, id), zincir);
     const p4 = yonetimCumlesi(n, n.ev, id);
-    const p5 = temasCumleleri(davison, gezegen, islev).join(' ');
+    const p5 = temasCumleleri(davison, gezegen, islev);
     const p6 = birlestir(karmikKatman(n, islev), kismetCumlesi(analiz, id));
-    return bolustur(id, [p1, p2, p3, p4, p5, p6]);
+    return bolustur(id, [p1, p2, p3, p4, ...p5, p6]);
   }
 
   function karmikDers(davison, analiz) {

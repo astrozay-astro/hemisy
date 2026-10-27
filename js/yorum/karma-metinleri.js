@@ -23,8 +23,8 @@ window.ASTROSHIP_KARMA_METINLERI = {
   // Her başlığın açılış cümlesi
   girisler: {
     gecmis: 'Karmik astrolojide iki haritanın buluştuğu bazı noktalar, ruhların daha önce hangi rollerle karşılaştığını gösterir. Bu izler en çok Ay\'ın geçmişi taşıyan düğümünde ve ruhun haritası sayılan drakonik haritada okunur.',
-    tasinan: 'Hint mitolojisinde başı kesilen iblisin gövdesi Ketu olur. Başsız gövde, aklın unuttuğu ama bedenin hatırladığı her şeyi taşır: geçmişten getirilen ustalıkları, alışkanlıkları ve yarım kalmış bağları.',
-    neden: 'Her karmik bağın bu hayata dair bir amacı da vardır. Bu amaç Ay\'ın geleceği gösteren düğümünde ve ilişkinin kendi ruhsal haritasında okunur.',
+    tasinan: 'Hint mitolojisinde başı kesilen iblisin gövdesi Ketu olur. Başsız gövde, aklın unuttuğu ama bedenin hatırladığı her şeyi taşır: geçmişten getirilen ustalıkları, alışkanlıkları ve yarım kalmış bağları. Güney Ay Düğümü Satürnyen bir noktadır: konfor alanını, yerleşik kalıpları, zaafları ve ruhun zaten bilge olduğu alanı gösterir. Orada kalmak kolaydır ama ruhu büyütmez.',
+    neden: 'Her karmik bağın bu hayata dair bir amacı da vardır. Bu amaç Ay\'ın geleceği gösteren düğümünde ve ilişkinin kendi ruhsal haritasında okunur. Kuzey Ay Düğümü Jüpiteryen bir noktadır: yeni deneyimleri ve ruhsal gelişimi gösterir. Kendiliğinden gelmez, emek ister ama yürüdükçe hayatı büyütür.',
     sozlesme: 'Kronos, Yunanların zaman tanrısıdır. Astrolojide karmanın efendisi olarak bilinir: verilen sözleri hatırlar, ödenmemiş hesapları sorar ve olgunlaşanı ödüllendirir.',
     golge: 'Persephone yeraltına indiğinde bir daha eskisi gibi dönmez, bir kraliçe olarak döner. Yeraltının efendisi Hades ve ilk kadın Lilith, insanın bastırdığı arzuların ve dönüşümün arketipleridir.',
     kader: 'Antik çağda Tykhe talihin, Daimon ise kişiye eşlik eden koruyucu ruhun adıydı. Doğum anının içinde gizli olan bu noktalar, kaderin kapısının nerede aralandığını gösterir.',

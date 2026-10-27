@@ -399,6 +399,15 @@ window.ASTROSHIP_UYUM_METINLERI = {
   },
 
   // Çok güçlü temaslarda (neredeyse tam açılar) ilk paragrafa eklenir
+  // Açı türünün nüansı (Tuğçenur Özay yöntemi): başlığın ilk açısında, açının doğası olasılık diliyle eklenir
+  aciNuansi: {
+    kavusum: 'Kavuşumda iki enerji birbirine karıştığı için bu konu aranızda ayrı ayrı değil, hep birlikte yaşanıyor gibi görünüyor.',
+    ucgen: 'Bu üçgen açı kendiliğinden akan bir uyum gibi okunuyor: siz fark etmeseniz bile ilişkinizi destekliyor gibi görünüyor.',
+    altmislik: 'Bu altmışlık açı bir fırsat kapısı gibi okunuyor: kendiliğinden değil, ikiniz de adım attığınızda çalışıyor gibi görünüyor.',
+    kare: 'Bu kare açı aktif bir gerilim gibi okunuyor: bilinçle ele alındığında aranızdaki en güçlü itici güce dönüşebileceği görülüyor.',
+    karsit: 'Bu karşıtlık bir ayna gibi okunuyor: birbirinizde kendi eksik yanınızı görüp dengeyi birlikte bulabileceğiniz görülüyor.',
+    quincunx: 'Bu quincunx açı süregelen bir ayar ihtiyacı gibi okunuyor: küçük düzenlemelerle aradaki farkı kapatabileceğiniz görülüyor.',
+  },
   gucluTemas: 'Bu bağ, ilişkinizin her döneminde kendini güçlü biçimde hissettirebilir.',
 
   // Yüzde düzeyine göre giriş cümlesi: [yüksek (≥75), orta (55–74), düşük (<55)]

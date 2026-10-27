@@ -3,8 +3,8 @@
 // Burç dizileri Koç'tan Balık'a, ev dizileri 1. evden 12. eve sıralıdır. Metinlerde noktalı virgül kullanılmaz.
 window.ASTROSHIP_BIREY_METINLERI = {
   basliklar: {
-    kadin: { es: { soru: 'Eşinizde aradığınız erkek', glif: '☉' }, cekim: { soru: 'Sizi nasıl bir erkek çeker?', glif: '♂' } },
-    erkek: { es: { soru: 'Eşinizde aradığınız kadın', glif: '☽' }, cekim: { soru: 'Sizi nasıl bir kadın çeker?', glif: '♀' } },
+    kadin: { es: { soru: 'Eşinizde aradığınız erkek', glif: '☉' }, cekim: { soru: 'Sevgiliniz: sizi nasıl bir erkek çeker?', glif: '♂' } },
+    erkek: { es: { soru: 'Eşinizde aradığınız kadın', glif: '☽' }, cekim: { soru: 'Sevgiliniz: sizi nasıl bir kadın çeker?', glif: '♀' } },
     belirtilmedi: { es: { soru: 'Nasıl seversiniz?', glif: '♀' }, cekim: { soru: 'Sizi kim çeker?', glif: '♂' } },
     yedinci: { soru: 'Evlilik ve ortaklık alanınız', glif: '☍' },
     yonetici: { soru: 'Partnerinizle nerede karşılaşırsınız?', glif: '☌' },
@@ -12,12 +12,12 @@ window.ASTROSHIP_BIREY_METINLERI = {
 
   girisler: {
     kadin: {
-      es: 'Klasik astrolojide bir kadının haritasında Güneş, hayatına girecek erkeğin ve eşinde aradığı niteliklerin göstergesidir.',
-      cekim: 'Mars, bir kadının haritasında çekim duyduğu erkek tipini ve arzunun nasıl uyandığını gösterir.',
+      es: 'Klasik astrolojide bir kadının haritasında Güneş eşi gösterir: hayatına girecek erkeği ve eşinde aradığı nitelikleri.',
+      cekim: 'Mars, bir kadının haritasında sevgiliyi gösterir: çekim duyduğu erkek tipini ve arzunun nasıl uyandığını.',
     },
     erkek: {
-      es: 'Klasik astrolojide bir erkeğin haritasında Ay, eşinde aradığı kadını, yuvayı ve duygusal güveni gösterir.',
-      cekim: 'Venüs, bir erkeğin haritasında çekim duyduğu kadını ve aşkta neyi güzel bulduğunu gösterir.',
+      es: 'Klasik astrolojide bir erkeğin haritasında Ay eşi gösterir: eşinde aradığı kadını, yuvayı ve duygusal güveni.',
+      cekim: 'Venüs, bir erkeğin haritasında sevgiliyi gösterir: çekim duyduğu kadını ve aşkta neyi güzel bulduğunu.',
     },
     belirtilmedi: {
       es: 'Venüs, bir haritada sevme biçimini, aşkta neyi güzel bulduğunuzu ve nasıl sevilmek istediğinizi gösterir.',
@@ -197,11 +197,6 @@ window.ASTROSHIP_BIREY_METINLERI = {
     saturn: 'Satürn doğduğunuzda geri hareket ediyordu. Bağlılık konusunda eski korkular ya da geçmişten kalan sorumluluklar taşıyor gibi görünüyorsunuz. Güveni zamanla ve kendi kurallarınızla inşa edebilirsiniz.',
   },
   // ----- Evler -----
-  evAlani: [
-    'kişilik ve görünüş', 'para ve değerler', 'iletişim ve yakın çevre', 'ev ve aile',
-    'aşk, flört ve yaratıcılık', 'iş ve gündelik düzen', 'evlilik ve ortaklık', 'mahremiyet ve ortak kaynaklar',
-    'yolculuk, eğitim ve inanç', 'kariyer ve toplumdaki yer', 'arkadaşlar ve sosyal çevre', 'iç dünya ve gizli konular',
-  ],
   evKalip: 'Bu yerleşim, {alan} alanının ilişkilerinizde belirleyici olduğunu gösteriyor.',
   evYorum: [
     'Partnerinizi seçerken kendi kimliğinizle uyumunu ön planda tutuyor gibi görünüyorsunuz.',
@@ -227,9 +222,9 @@ window.ASTROSHIP_BIREY_METINLERI = {
     belirtilmedi: { es: 'Sevme biçiminiz', cekim: 'Arzunuz' },
     yonetici: 'Evlilik ve ortaklık alanınız',
   },
-  aciKalip: '{Gezegen} ile {Diger} arasında {aci} açısı bulunuyor.',
+  aciKalip: '{Gezegen} ile {Diger} arasında {aci} bulunuyor.',
   kavusumKalip: '{Gezegen} ile {Diger} kavuşum hâlinde.',
-  aciAdlari: { altmislik: 'altmışlık', kare: 'kare', ucgen: 'üçgen', quincunx: 'quincunx', karsit: 'karşıtlık' },
+  aciAdlari: { altmislik: 'altmışlık açı', kare: 'kare açı', ucgen: 'üçgen açı', quincunx: 'quincunx açı', karsit: 'karşıtlık' },
   // Açının anlamı diğer noktaya göre: u = uyumlu, g = gergin, k = kavuşum
   aciAnlam: {
     gunes: {

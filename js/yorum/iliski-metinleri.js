@@ -340,11 +340,19 @@ window.ASTROSHIP_ILISKI_METINLERI = {
   },
   baslangicIslevi: 'ilişkinizin başlangıç enerjisi',
   // Her türde iki anlatım: aynı paragrafta tekrar olmasın diye sırayla kullanılır
+  // Açı türüne göre temas: her türün doğası ayrı okunur
   temasKaliplari: {
-    u: ['{A} ile {B} birbirini destekleyebilir. Bu, ilişkinizin kolay akan yanlarından biri olabilir.', '{A} ile {B} arasında doğal bir uyum olabilir. Biri diğerini güçlendirebilir.'],
-    g: ['{A} ile {B} zaman zaman birbirini zorlayabilir. Bu iki alan arasında bilinçli bir denge kurmanız gerekebilir.', '{A} ile {B} arasında bir gerilim olabilir. İkisine de alan açtığınızda bu gerilim sizi büyütebilir.'],
-    k: ['{A} ile {B} iç içe geçmiş olabilir. Biri harekete geçtiğinde diğeri de hemen etkilenebilir.', '{A} ile {B} birbirinden ayrılmıyor olabilir. Bu ilişkide ikisi hep birlikte hareket edebilir.'],
+    kavusum: ['{A} ile {B} bu ilişkide iç içe geçmiş gibi görünüyor: biri harekete geçtiğinde diğeri de aynı anda devreye giriyor gibi okunuyor.', '{A} ile {B} birbirinden ayrı düşünülemeyecek kadar kaynaşmış görünüyor. Birindeki her değişimin diğerine de yansıdığı okunuyor.'],
+    ucgen: ['{A} ile {B} arasında kendiliğinden akan bir uyum okunuyor. Siz fark etmeseniz bile bu iki alan birbirini besliyor gibi görünüyor.', '{A} ile {B} doğuştan bir yetenek gibi birbirini destekliyor görünüyor. Bu desteği fark ettiğinizde ilişkinizi büyüten bir kaynağa dönüşebileceği okunuyor.'],
+    altmislik: ['{A} ile {B} arasında açık bir fırsat kapısı görünüyor. Bu kapının kendiliğinden açılmadığı, ikiniz de adım attığınızda verim verdiği okunuyor.', '{A} ile {B} birbirini destekleme potansiyeli taşıyor gibi görünüyor. Bu potansiyelin ortak çaba ve küçük adımlarla canlandığı okunuyor.'],
+    kare: ['{A} ile {B} arasında aktif bir gerilim okunuyor. Bilinçle ele alınmadığında bu gerilimin ilişkiyi yönettiği, iradeyle kullanıldığında ise sizi ileri taşıyan bir güce dönüştüğü görülüyor.', '{A} ile {B} zaman zaman birbirine sürtünüyor gibi görünüyor. Bu sürtünmenin ikinizi de harekete geçiren bir itici güç olduğu okunuyor.'],
+    karsit: ['{A} ile {B} arasında bir "ya o ya bu" gerilimi okunuyor. Birinizin bir uçta, diğerinizin öbür uçta durup birbirinize ayna tuttuğu anlar yaşanıyor gibi görünüyor.', '{A} ile {B} karşılıklı iki kefe gibi görünüyor. Dengeyi birinden vazgeçerek değil, ikisine de yer açarak bulabileceğiniz okunuyor.'],
+    quincunx: ['{A} ile {B} arasında süregelen bir ayar ihtiyacı okunuyor. Birinden ödün vermeden diğerine yer açmanın emek istediği görülüyor.', '{A} ile {B} farklı dillerden konuşuyor gibi görünüyor. Aradaki farkı küçük düzenlemelerle kapatabileceğiniz okunuyor.'],
   },
+  // Ortak tema ve kesişen evler (Tuğçenur Özay yöntemi)
+  temasTemaKalip: 'Bu temasın ortak teması {tema}.',
+  temasEvlerKalip: 'Bu tema ilişkinizde {konu1} ile {konu2} alanları arasında yaşanıyor gibi görünüyor.',
+  temasAyniEvKalip: 'Bu tema ilişkinizde en çok {konu} alanında yoğunlaşıyor gibi görünüyor.',
   iyicilDestek: 'Bu destek ilişkinize koruyucu bir şans katabilir.',
   kotuculZorluk: 'Bu temas ilişkinin en çok emek isteyen noktalarından biri olabilir.',
 

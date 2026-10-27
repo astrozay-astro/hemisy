@@ -28,6 +28,15 @@
   const ACI_ORB = 8;
   const ACI_SAYISI = 3;
 
+  // Yanık: Güneş'e 0°–8°30' tam yanık, 8°30'–17° Güneş ışınları altında (USB). Ay ve kolektif gezegenler yanmaz,
+  // Merkür ve Venüs ancak 1° içinde ciddi yanık sayılır, 1°–8°30' arası hafif (USB gibi) okunur.
+  function yanikDurumu(harita, anahtar) {
+    if (!['merkur', 'venus', 'mars', 'jupiter', 'saturn'].includes(anahtar)) return null;
+    const uzaklik = S.aciFarki(harita.gezegenler[anahtar].boylam, harita.gezegenler.gunes.boylam);
+    if (anahtar === 'merkur' || anahtar === 'venus') return uzaklik <= 1 ? 'yanik' : uzaklik <= 8.5 ? 'usb' : null;
+    return uzaklik <= 8.5 ? 'yanik' : uzaklik <= 17 ? 'usb' : null;
+  }
+
   function detay(harita, anahtar) {
     const acilar = S.haritaAcilari(harita)
       .filter(({ a, b, aci }) => (a.anahtar === anahtar || b.anahtar === anahtar) && aci.orb <= ACI_ORB)
@@ -37,6 +46,7 @@
       nokta: harita.gezegenler[anahtar],
       yonettigi: [...new Set(S.yonettigiEvler(harita, anahtar).map((x) => x.ev))],
       acilar,
+      yanik: yanikDurumu(harita, anahtar),
     };
   }
 

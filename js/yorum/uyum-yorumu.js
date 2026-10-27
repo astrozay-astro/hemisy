@@ -61,7 +61,7 @@
 
   // Bir göstergenin paragrafı. isimleBasliyor: metin bir isimle başlıyorsa bağlaçtan sonra küçük harfe çevrilmez.
   // olculu: yoğunluk başlığında yüzde düşük; metin temasın varlığını anlatır ama güçlü çekim iddia etmez
-  function etkenParagrafi(etken, adlar, anlatilanlar, ilkMi, baslikId, olculu) {
+  function etkenParagrafi(etken, adlar, anlatilanlar, ilkMi, ilkAciMi, baslikId, olculu) {
     const O = olculu ? M.olculu : null;
     let sablon;
     let govde;
@@ -76,7 +76,9 @@
         anlatilanlar.add(anahtar);
         kisilik.push({ nokta, ad: adlar[kim] });
       }
-      const ekler = [kisilikCumlesi(kisilik)];
+      // Açı türünün nüansı temas metninin hemen ardından gelir. Yükselen–Alçalan karşıtlığı kendi metninde anlatılır,
+      // ölçülü metinler ise açının doğasıyla çelişmesin diye nüans almaz
+      const ekler = [ilkAciMi && !olculu && aciTuru(etken) !== 'alcalan' && M.aciNuansi[etken.aci.id], kisilikCumlesi(kisilik)];
       if (ilkMi && etken.aci.orb < 2 && !olculu) ekler.push(M.gucluTemas);
       govde = [govde, ...ekler].filter(Boolean).join(' ');
     } else if (etken.tur === 'ev') {
@@ -125,8 +127,10 @@
     if (!secilen.length) return { ...baslik, nedenler, ucretsiz: [`${giris} ${M.bosBaslik}`], ucretli: [] };
 
     const anlatilanlar = new Set();
+    // Açı türünün nüansı başlıktaki ilk açının paragrafına eklenir
+    const ilkAci = secilen.findIndex((e) => e.tur === 'aci');
     const paragraflar = secilen.map((e, i) => {
-      const p = etkenParagrafi(e, adlar, anlatilanlar, i === 0, baslik.id, olculu(e));
+      const p = etkenParagrafi(e, adlar, anlatilanlar, i === 0, i === ilkAci, baslik.id, olculu(e));
       return i === 0 ? p.metin : baglacEkle(p, secilen[i - 1], e, i);
     });
     return { ...baslik, nedenler, ucretsiz: [`${giris} ${paragraflar[0]}`], ucretli: paragraflar.slice(1) };
