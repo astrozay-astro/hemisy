@@ -362,34 +362,53 @@ a { color: inherit; }
 
 /* ---------- Hesaplanıyor ---------- */
 
-/* Açılış videosu: tam ekran perde. Video ekranı keserek değil sığarak doldurur, kenarları videonun bej zeminiyle
-   (#d8cfbc) kaynaşır. Bitişte perde ışığa doğru açılıp çözülür, altındaki rapor belirerek gelir. */
+/* Açılış perdesi: harita okunurken tam ekran. Ortada marka videosu, arkasında yavaşça dönen zodyak çarkı, altta
+   kişinin hesap adımları ve ilerleme çizgisi. Zemin videonun bejinden kenarlara doğru sitenin leylak sisine geçer.
+   Giriş 0,9 sn, çıkış 1,6 sn. */
 .yukleniyor { min-height: 82vh; justify-content: center; text-align: center; gap: 0.7rem; }
 .yukleniyor h2 { font-size: 2.2rem; font-weight: 300; }
 .yukleniyor p { color: var(--soluk); font-weight: 300; }
 .acilis-acik, .acilis-acik body { overflow: hidden; }
 .acilis-perde {
-  position: fixed; inset: 0; z-index: 60; display: grid; place-items: center;
-  background: radial-gradient(120% 80% at 50% 50%, #ddd5c3 0%, #d8cfbc 55%, #d2c8b4 100%);
-  animation: perdeGir 0.6s ease both;
-  transition: opacity 1.1s cubic-bezier(.4, 0, .2, 1), filter 1.1s cubic-bezier(.4, 0, .2, 1), transform 1.1s cubic-bezier(.4, 0, .2, 1);
+  position: fixed; inset: 0; z-index: 60; overflow: hidden;
+  background: radial-gradient(90% 60% at 50% 46%, #ddd5c3 0%, #d8cfbc 38%, #ddd6d4 62%, #e9e5f3 86%, #f2f0fa 100%);
+  animation: perdeGir 0.9s cubic-bezier(.4, 0, .2, 1) backwards;
+  transition: opacity 1.6s cubic-bezier(.4, 0, .2, 1);
 }
-.acilis-perde { overflow: hidden; }
+.acilis-perde > * { transition: transform 1.6s cubic-bezier(.4, 0, .2, 1), filter 1.6s cubic-bezier(.4, 0, .2, 1); }
 /* Telefonda video ekrandan geniş tutulur, logo büyür. Kenarlar oval bir maskeyle zemine erir */
 .acilis-video {
-  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-  width: min(130vw, 160vh); aspect-ratio: 16 / 9; height: auto; max-width: none; object-fit: cover;
-  -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
-  mask-image: radial-gradient(closest-side, #000 72%, transparent 100%);
+  position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%);
+  width: min(125vw, 150vh); aspect-ratio: 16 / 9; height: auto; max-width: none; object-fit: cover;
+  -webkit-mask-image: radial-gradient(closest-side, #000 70%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 70%, transparent 100%);
+  animation: videoGir 1.4s cubic-bezier(.2, .7, .2, 1) backwards;
 }
-.acilis-yazi {
-  position: absolute; left: 0; right: 0; bottom: calc(2.2rem + env(safe-area-inset-bottom, 0px));
-  text-align: center; font: 300 0.75rem/1 var(--f); letter-spacing: 0.32em; text-transform: uppercase;
-  color: rgba(60, 40, 60, 0.55); animation: nabiz 2.4s ease-in-out infinite;
+.acilis-cark { position: absolute; left: 50%; top: 46%; width: min(150vw, 110vh); aspect-ratio: 1; transform: translate(-50%, -50%); }
+.acilis-cark .gece-cark {
+  position: static; width: 100%; height: 100%; opacity: 0.16; color: #5b4566; filter: none;
+  animation: don 90s linear infinite;
 }
-.acilis-perde.kapaniyor { opacity: 0; filter: blur(14px) brightness(1.15); transform: scale(1.06); pointer-events: none; }
+.acilis-cark .gece-cark text { fill: #5b4566; }
+.acilis-alt {
+  position: absolute; left: 0; right: 0; bottom: calc(2.4rem + env(safe-area-inset-bottom, 0px));
+  display: grid; justify-items: center; gap: 0.7rem; padding-inline: 1.5rem; text-align: center;
+}
+.acilis-baslik { font: 300 0.72rem/1 var(--f); letter-spacing: 0.32em; text-transform: uppercase; color: rgba(60, 40, 70, 0.55); }
+.acilis-adim {
+  min-height: 1.5em; font: 400 1.15rem/1.3 var(--f-baslik); color: #3a2a45; font-variant-numeric: lining-nums;
+  opacity: 0; transform: translateY(6px); transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.acilis-adim.gorunur { opacity: 1; transform: none; }
+.acilis-ilerleme { width: min(14rem, 60vw); height: 1px; background: rgba(60, 40, 70, 0.14); overflow: hidden; border-radius: 1px; }
+.acilis-ilerleme span { display: block; height: 100%; background: linear-gradient(90deg, #8a6fb8, #5b4566); transform: scaleX(0); transform-origin: left; }
+.acilis-perde.kapaniyor { opacity: 0; pointer-events: none; }
+.acilis-perde.kapaniyor .acilis-video { transform: translate(-50%, -50%) scale(1.06); filter: blur(8px); }
+.acilis-perde.kapaniyor .acilis-cark { transform: translate(-50%, -50%) scale(1.12); }
+.acilis-alt { transition: opacity 0.5s ease; }
+.acilis-perde.kapaniyor .acilis-alt { opacity: 0; }
 @keyframes perdeGir { from { opacity: 0; } }
-@keyframes nabiz { 50% { opacity: 0.45; } }
+@keyframes videoGir { from { opacity: 0; transform: translate(-50%, -50%) scale(0.97); } }
 
 /* ---------- Sonuç ---------- */
 
@@ -594,7 +613,7 @@ details.acilir > *:not(summary) { margin-top: 0.6rem; }
 @keyframes yuksel { from { transform: translateY(30px); opacity: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .ekran.giriyor, .perde-kutu, .gece-cark, body::before, .acilis-perde, .acilis-yazi { animation: none; }
+  .ekran.giriyor, .perde-kutu, .gece-cark, body::before, .acilis-perde, .acilis-video { animation: none; }
 }
 
 /* Eş potansiyeli: muhtemel evlilik dönemleri */

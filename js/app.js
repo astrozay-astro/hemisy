@@ -358,22 +358,60 @@
 
   // ---------- Hesaplama ----------
 
-  // Açılış videosu (marka/hemisy-acilis.mp4, 4,9 sn, sesli): hesaplama sırasında tam ekran, bir kez baştan sona
-  // oynar. Sonuç video bitince altta hazırlanır, perde yavaşça aydınlanıp çözülerek yoruma geçilir.
-  // Sesli oynatma "Analizimi göster" tıklamasıyla izinlidir. Tarayıcı yine de engellerse video sessiz oynar.
-  // Video oynatılamazsa en az 1,8 sn beklenir.
+  // Açılış: "Analizimi göster"e basınca tam ekran perde yumuşakça belirir. Ortada marka videosu (marka/hemisy-acilis.mp4,
+  // 1280×720, 4,9 sn, sesli) oynar, arkasında zodyak çarkı döner. Altta kişinin haritasından gerçek hesap adımları sırayla
+  // akar ve videonun süresine bağlı ince bir ilerleme çizgisi dolar. Video bitince "Raporunuz hazır" yazar, perde yavaşça
+  // çözülür ve rapor altından belirir. Sesli oynatma tıklamayla izinlidir. Tarayıcı engellerse video sessiz oynar,
+  // oynatılamazsa adımlar aynı sürede zamanlayıcıyla akar.
   const ACILIS_SURESI = 4900;
+  const PERDE_GIRIS = 900;
   function acilisAc() {
     document.querySelector('.acilis-perde')?.remove();
     const perdeEl = document.createElement('div');
     perdeEl.className = 'acilis-perde';
     perdeEl.setAttribute('aria-hidden', 'true');
     perdeEl.innerHTML = `
+      <div class="acilis-cark">${cark()}</div>
       <video class="acilis-video" src="marka/hemisy-acilis.mp4" poster="marka/hemisy-acilis.jpg" playsinline preload="auto"></video>
-      <p class="acilis-yazi">${durum.mod === 'birey' ? 'Haritanız okunuyor' : 'Yıldızlarınız karşılaştırılıyor'}</p>`;
+      <div class="acilis-alt">
+        <p class="acilis-baslik">${durum.mod === 'birey' ? 'Haritanız okunuyor' : 'Haritalarınız karşılaştırılıyor'}</p>
+        <p class="acilis-adim"></p>
+        <div class="acilis-ilerleme"><span></span></div>
+      </div>`;
     document.body.append(perdeEl);
     document.documentElement.classList.add('acilis-acik');
     const video = perdeEl.querySelector('video');
+    const adimEl = perdeEl.querySelector('.acilis-adim');
+    const cubuk = perdeEl.querySelector('.acilis-ilerleme span');
+    const baslangic = performance.now();
+
+    // İlerleme: video oynuyorsa videonun zamanı, oynamıyorsa geçen süre
+    const sure = () => (Number.isFinite(video.duration) && video.duration > 0 ? video.duration * 1000 : ACILIS_SURESI);
+    const gecen = () => (!video.paused && video.currentTime > 0 ? video.currentTime * 1000 : performance.now() - baslangic);
+    let kare = 0;
+    const ciz = () => {
+      cubuk.style.transform = `scaleX(${Math.min(1, gecen() / sure())})`;
+      kare = requestAnimationFrame(ciz);
+    };
+    kare = requestAnimationFrame(ciz);
+
+    // Adımlar: biri belirir, öncekinin yerini yumuşakça alır
+    let zamanlayici = 0;
+    const yaz = (metin) => {
+      adimEl.classList.remove('gorunur');
+      setTimeout(() => { adimEl.textContent = metin; adimEl.classList.add('gorunur'); }, 220);
+    };
+    const adimlar = (liste) => {
+      const aralik = Math.max(550, (sure() - gecen() - 500) / liste.length);
+      let i = 0;
+      const sonraki = () => {
+        if (i >= liste.length) return;
+        yaz(liste[i++]);
+        zamanlayici = setTimeout(sonraki, aralik);
+      };
+      sonraki();
+    };
+
     const bitti = new Promise((coz) => {
       let tamam = false;
       const bitir = () => { if (!tamam) { tamam = true; coz(); } };
@@ -385,22 +423,54 @@
         video.play()?.catch(() => setTimeout(bitir, 1800));
       });
       setTimeout(bitir, ACILIS_SURESI + 3000);
+    }).then(() => {
+      clearTimeout(zamanlayici);
+      cubuk.style.transform = 'scaleX(1)';
+      yaz('Raporunuz hazır');
+      return new Promise((coz) => setTimeout(coz, 650));
     });
-    return { perdeEl, bitti };
+    const durdur = () => { cancelAnimationFrame(kare); clearTimeout(zamanlayici); };
+    return { perdeEl, bitti, adimlar, durdur };
   }
 
-  // Zarif geçiş: perde ışığa doğru açılır ve çözülür, altındaki rapor belirerek gelir
-  function acilisKapat(perdeEl) {
+  // Perde çözülür: video ve çark hafifçe büyüyüp bulanıklaşarak kaybolur, rapor altından belirir
+  function acilisKapat(acilis) {
+    acilis.durdur();
     document.documentElement.classList.remove('acilis-acik');
-    perdeEl.classList.add('kapaniyor');
-    const kaldir = () => perdeEl.remove();
-    perdeEl.addEventListener('transitionend', kaldir, { once: true });
-    setTimeout(kaldir, 1600);
+    acilis.perdeEl.classList.add('kapaniyor');
+    const kaldir = () => acilis.perdeEl.remove();
+    setTimeout(kaldir, 1800);
+  }
+
+  // Perdede akan hesap adımları: kişinin gerçek harita bilgileri
+  function hesapAdimlari(natal) {
+    const k = durum.kisiler;
+    if (durum.mod === 'birey') {
+      const g = natal[0].harita.gezegenler;
+      const a = durum.sonuc.analiz;
+      return [
+        `${tarihYaz(k[0].tarih)} · ${k[0].saat} · ${k[0].yer.split(',')[0]}`,
+        `Güneş ${g.gunes.metin} · Ay ${g.ay.metin}`,
+        `Yükselen ${g.yukselen.metin}`,
+        `7. ev yöneticisi ${a.yonetici.ad}, ${a.yonetici.burc.ad} · ${a.yonetici.ev}. ev`,
+        `Evlilik noktası ${a.evlilikNoktasi.metin}`,
+        'Transitler ve tutulmalar taranıyor',
+      ];
+    }
+    const [g1, g2] = natal.map((n) => n.harita.gezegenler);
+    return [
+      `${k[0].ad} · Güneş ${g1.gunes.burc.ad} · Ay ${g1.ay.burc.ad} · Yükselen ${g1.yukselen.burc.ad}`,
+      `${k[1].ad} · Güneş ${g2.gunes.burc.ad} · Ay ${g2.ay.burc.ad} · Yükselen ${g2.yukselen.burc.ad}`,
+      `Sinastri: ${durum.sonuc.sinastri.length} açı hesaplandı`,
+      `Kompozit Yükselen ${durum.sonuc.kompozit.gezegenler.yukselen.burc.ad}`,
+      'Davison haritası ve karmik bağ okunuyor',
+    ];
   }
 
   async function hesapla() {
     const acilis = acilisAc();
-    goster('yukleniyor');
+    // Form, perde tamamen belirdikten sonra değişir: geçişte sayfanın atladığı görünmez
+    const altEkran = setTimeout(() => goster('yukleniyor'), PERDE_GIRIS);
     try {
       const birey = durum.mod === 'birey';
       const natal = [];
@@ -416,9 +486,11 @@
         durum.sonuc = { birey: true, natal, analiz, yorum: S.bireyselYorum(analiz) };
         analiziKaydet(durum.kisiler[0]);
         durum.hata = '';
+        acilis.adimlar(hesapAdimlari(natal));
         await acilis.bitti;
+        clearTimeout(altEkran);
         goster('birey');
-        acilisKapat(acilis.perdeEl);
+        acilisKapat(acilis);
         return;
       }
       const [h1, h2] = natal.map((n) => n.harita);
@@ -437,12 +509,15 @@
       durum.hata = '';
       durum.sekme = 0;
       durum.altSekme = 0;
+      acilis.adimlar(hesapAdimlari(natal));
       await acilis.bitti;
+      clearTimeout(altEkran);
       goster('sonuc');
-      acilisKapat(acilis.perdeEl);
+      acilisKapat(acilis);
     } catch (hata) {
+      clearTimeout(altEkran);
       durum.hata = hata.message;
-      acilisKapat(acilis.perdeEl);
+      acilisKapat(acilis);
       goster('form');
     }
   }
