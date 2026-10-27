@@ -1,50 +1,66 @@
-// Bireysel ilişki analizinin yorum metinleri. Rapor kişiye "siz" diye hitap eder.
-// Arka plan bilgisi (girişler, "… bulunuyor" cümleleri) kesin dille, yorum olasılık diliyle yazılır.
+// Eş potansiyeli raporunun yorum metinleri. Rapor kişiye "siz" diye hitap eder.
+// Teknik okuyucuya anlatılmaz: metinlerde gezegen, ev ya da açı adı geçmez, yalnızca yorum verilir.
+// Yorumlar olasılık diliyle, oturaklı sonlarla yazılır ("… gibi görünüyor", "… okunuyor").
 // Burç dizileri Koç'tan Balık'a, ev dizileri 1. evden 12. eve sıralıdır. Metinlerde noktalı virgül kullanılmaz.
+// Eş potansiyeli, ilişkiden uzaklaşma ve tanışma yeri metinleri Tuğçenur Özay'ın yazılarından uyarlanmıştır.
 window.ASTROSHIP_BIREY_METINLERI = {
+  rapor: 'Eş potansiyeli',
   basliklar: {
-    kadin: { es: { soru: 'Eşinizde aradığınız erkek', glif: '☉' }, cekim: { soru: 'Sevgiliniz: sizi nasıl bir erkek çeker?', glif: '♂' } },
-    erkek: { es: { soru: 'Eşinizde aradığınız kadın', glif: '☽' }, cekim: { soru: 'Sevgiliniz: sizi nasıl bir kadın çeker?', glif: '♀' } },
-    belirtilmedi: { es: { soru: 'Nasıl seversiniz?', glif: '♀' }, cekim: { soru: 'Sizi kim çeker?', glif: '♂' } },
-    yedinci: { soru: 'Evlilik ve ortaklık alanınız', glif: '☍' },
-    yonetici: { soru: 'Partnerinizle nerede karşılaşırsınız?', glif: '☌' },
+    es: 'Eş potansiyeliniz',
+    cekim: 'İlişki potansiyeliniz',
+    tanisma: 'Eşinizle nerede tanışabilirsiniz?',
+    evlilik: 'Evlilik potansiyeliniz',
+    tarihler: 'Muhtemel evlilik dönemleriniz',
   },
+  glifler: { kadin: ['☉', '♂'], erkek: ['☽', '♀'], belirtilmedi: ['♀', '♂'], tanisma: '☌', evlilik: '⚭', tarihler: '♃' },
 
-  girisler: {
-    kadin: {
-      es: 'Klasik astrolojide bir kadının haritasında Güneş eşi gösterir: hayatına girecek erkeği ve eşinde aradığı nitelikleri.',
-      cekim: 'Mars, bir kadının haritasında sevgiliyi gösterir: çekim duyduğu erkek tipini ve arzunun nasıl uyandığını.',
-    },
-    erkek: {
-      es: 'Klasik astrolojide bir erkeğin haritasında Ay eşi gösterir: eşinde aradığı kadını, yuvayı ve duygusal güveni.',
-      cekim: 'Venüs, bir erkeğin haritasında sevgiliyi gösterir: çekim duyduğu kadını ve aşkta neyi güzel bulduğunu.',
-    },
-    belirtilmedi: {
-      es: 'Venüs, bir haritada sevme biçimini, aşkta neyi güzel bulduğunuzu ve nasıl sevilmek istediğinizi gösterir.',
-      cekim: 'Mars, bir haritada arzuyu, sizi kimin harekete geçirdiğini ve tutkunuzun nasıl uyandığını gösterir.',
-    },
-    yedinci: 'Yedinci ev, haritada evliliğin, ortaklığın ve karşınıza çıkan kişinin evidir. Girişindeki burç eşte karşılaştığınız nitelikleri, içindeki gezegenler ise bu alana yerleşmiş temaları anlatır.',
-    yonetici: 'Yedinci evin yöneticisi, evlilik konusunun hayatınızın hangi alanında harekete geçtiğini gösterir. Bulunduğu ev, partnerinizle nerede karşılaşabileceğinizi ve ilişkinin nereye aktığını anlatır.',
-  },
-
-  // Gezegenin konumu (kesin bilgi), yorumdan önce gelir
-  konumKalip: '{Gezegen} haritanızda {burcDe} ve {ev}. evinizde bulunuyor.',
-
-  // ----- Kadın haritası -----
-  kadinGunes: [
-    'Eşinizde cesur, girişken ve kararlı bir erkek arıyor gibi görünüyorsunuz. Hayatınıza giren erkek ilk adımı atan, hızlı karar veren ve sizi koruyan biri olabilir. Sabırsızlığı ise zaman zaman yorucu gelebilir.',
-    'Eşinizde sakin, güvenilir ve sözünün eri bir erkek arıyor gibi görünüyorsunuz. Hayatınıza giren erkek size maddi ve duygusal bir güven sunan, acele etmeyen biri olabilir. İnatçılığı ise zaman zaman sizi zorlayabilir.',
-    'Eşinizde zeki, konuşkan ve meraklı bir erkek arıyor gibi görünüyorsunuz. Hayatınıza giren erkek sizi sohbetiyle etkileyen, esprili ve hareketli biri olabilir. Kararsızlığı ise zaman zaman güvensizlik yaratabilir.',
-    'Eşinizde şefkatli, ailesine bağlı ve koruyucu bir erkek arıyor gibi görünüyorsunuz. Hayatınıza giren erkek yuva kurmayı önemseyen, duygusal biri olabilir. Alınganlığı ise zaman zaman aranıza mesafe koyabilir.',
-    'Eşinizde cömert, kendinden emin ve gururlu bir erkek arıyor gibi görünüyorsunuz. Hayatınıza giren erkek sizi jestleriyle şımartan, ilgi odağı olmayı seven biri olabilir. Gururu ise zaman zaman tartışmalara yol açabilir.',
-    'Eşinizde çalışkan, düzenli ve ayrıntıya özen gösteren bir erkek arıyor gibi görünüyorsunuz. Hayatınıza giren erkek sevgisini yaptığı işlerle ve küçük yardımlarla gösteren biri olabilir. Eleştirel tavrı ise zaman zaman kırıcı gelebilir.',
-    'Eşinizde nazik, zarif ve adil bir erkek arıyor gibi görünüyorsunuz. Hayatınıza giren erkek ilişkiyi önemseyen, uyum arayan ve estetiğe değer veren biri olabilir. Kararsızlığı ise zaman zaman sizi bekletebilir.',
-    'Eşinizde derin, tutkulu ve sadık bir erkek arıyor gibi görünüyorsunuz. Hayatınıza giren erkek güçlü bir varlığı olan, duygularını kolay göstermeyen ama bağlandığında tam bağlanan biri olabilir. Kıskançlığı ise zaman zaman ilişkiyi zorlayabilir.',
-    'Eşinizde özgür ruhlu, iyimser ve ufku geniş bir erkek arıyor gibi görünüyorsunuz. Hayatınıza giren erkek yolculuğu, öğrenmeyi ve macerayı seven biri olabilir. Bağlanmaktan kaçınması ise zaman zaman sizi belirsizlikte bırakabilir.',
-    'Eşinizde ciddi, sorumluluk sahibi ve hedefleri olan bir erkek arıyor gibi görünüyorsunuz. Hayatınıza giren erkek güven veren, yaşından olgun ya da kariyerinde güçlü biri olabilir. Mesafeli tavrı ise zaman zaman soğuk gelebilir.',
-    'Eşinizde bağımsız, özgün ve dostça bir erkek arıyor gibi görünüyorsunuz. Hayatınıza giren erkek önce arkadaşınız olan, sıra dışı fikirleri olan biri olabilir. Duygusal mesafesi ise zaman zaman sizi yalnız hissettirebilir.',
-    'Eşinizde duyarlı, romantik ve şefkatli bir erkek arıyor gibi görünüyorsunuz. Hayatınıza giren erkek sanata, müziğe ya da maneviyata yakın, sezgileri güçlü biri olabilir. Belirsizliği ise zaman zaman sizi yorabilir.',
+  // ----- Eş potansiyeli: kadında Güneş, belirtilmemişse Venüs burcu -----
+  esBurc: [
+    'Hayatınıza cesur, rekabetçi, bağımsız ve iddialı bir eş girecek gibi görünüyor. Eşiniz yönetici, girişimci, mühendis, sporcu, asker ya da kurumsal alanda üst düzey bir pozisyonda olabilir. Çalışkan ve disiplinli biri olduğu okunuyor, ancak zaman zaman otoriter olabilir.',
+    'Hayatınıza güvenilir, sadık, istikrarlı ve konforuna düşkün bir eş girecek gibi görünüyor. Eşiniz teknoloji, inovasyon, finans, mühendislik, mimarlık ya da sivil toplum kuruluşlarında çalışıyor olabilir. Geleneksel düşünmeyen ama maddi güvenceye önem veren biri olduğu okunuyor.',
+    'Hayatınıza zeki, konuşkan, esprili ve sosyal bir eş girecek gibi görünüyor. Eşiniz sanat, müzik, medya, psikoloji, yazarlık ya da yaratıcı sektörlerde olabilir. Çok yönlü ve hayal gücü kuvvetli biri olduğu okunuyor, ancak zaman zaman kararsız olabilir.',
+    'Hayatınıza duygusal, koruyucu, aile odaklı ve sezgisel bir eş girecek gibi görünüyor. Eşiniz girişimci, asker, polis, sporcu ya da acil müdahale ekiplerinde çalışan biri olabilir. Hızlı karar alan ve koruyucu bir yapıya sahip olduğu okunuyor, ancak zaman zaman sabırsız olabilir.',
+    'Hayatınıza karizmatik, özgüvenli, lider ruhlu ve cömert bir eş girecek gibi görünüyor. Eşiniz sanat, sahne, medya, yöneticilik ya da lüks sektörlerinde çalışıyor olabilir. İlgi odağı olmayı seven biri olduğu okunuyor, ancak zaman zaman fazla gururlu olabilir.',
+    'Hayatınıza çalışkan, detaycı, analiz yeteneği yüksek ve mükemmeliyetçi bir eş girecek gibi görünüyor. Eşiniz sağlık, mühendislik, akademi, finans ya da organizasyon alanlarında çalışıyor olabilir. Sorumluluk sahibi biri olduğu okunuyor, ancak zaman zaman fazla eleştirel olabilir.',
+    'Hayatınıza zarif, uyumlu, sosyal ve adalet duygusu güçlü bir eş girecek gibi görünüyor. Eşiniz hukuk, sanat, moda, diplomasi ya da danışmanlık alanlarında olabilir. İlişkide uyumu önemseyen biri olduğu okunuyor, ancak zaman zaman kararsız olabilir.',
+    'Hayatınıza gizemli, tutkulu, derin duygulara sahip ve sahiplenici bir eş girecek gibi görünüyor. Eşiniz finans, araştırma, dedektiflik, psikoloji ya da güvenlik sektöründe olabilir. Sadık biri olduğu okunuyor, ancak zaman zaman kontrolcü ve kıskanç olabilir.',
+    'Hayatınıza özgür ruhlu, maceracı, iyimser ve neşeli bir eş girecek gibi görünüyor. Eşiniz akademi, seyahat, spor, medya ya da felsefe alanlarında çalışıyor olabilir. Dürüst ve açık sözlü biri olduğu okunuyor, ancak bağlılık konusunda zorlanabilir.',
+    'Hayatınıza sorumluluk sahibi, disiplinli, güvenilir ve çalışkan bir eş girecek gibi görünüyor. Eşiniz iş dünyası, devlet kurumları, mühendislik ya da finans sektöründe olabilir. Sadık biri olduğu okunuyor, ancak zaman zaman soğuk ve mesafeli görünebilir.',
+    'Hayatınıza özgür düşünceli, yenilikçi, arkadaş canlısı ve sıra dışı bir eş girecek gibi görünüyor. Eşiniz araştırma, psikoloji, finans, kriz yönetimi ya da teknoloji alanlarında çalışıyor olabilir. Vizyon sahibi biri olduğu okunuyor, ancak duygularını göstermekte zaman zaman mesafeli kalabilir.',
+    'Hayatınıza hassas, sezgisel, şefkatli ve romantik bir eş girecek gibi görünüyor. Eşiniz akademi, eğitim, yayıncılık, hukuk, sağlık ya da sanat alanlarında olabilir. Anlayışlı ve fedakâr biri olduğu okunuyor, ancak zaman zaman dağınık ve kararsız olabilir.',
   ],
+  // Erkekte Ay burcu
+  erkekAy: [
+    'Hayatınıza enerjik, bağımsız, cesur ve kararlı bir eş girecek gibi görünüyor. Eşiniz spor, sağlık, girişimcilik, mühendislik ya da hızlı karar gerektiren alanlarda çalışıyor olabilir. Dürüst ve dolaysız biri olduğu okunuyor, ancak zaman zaman sabırsız ve aceleci olabilir.',
+    'Hayatınıza sakin, şefkatli, güven veren ve zevk sahibi bir eş girecek gibi görünüyor. Eşiniz finans, bankacılık, gıda, güzellik, tasarım ya da sanat alanlarında olabilir. Sadık ve huzurlu bir yuva kuran biri olduğu okunuyor, ancak zaman zaman inatçı olabilir.',
+    'Hayatınıza neşeli, konuşkan, meraklı ve hareketli bir eş girecek gibi görünüyor. Eşiniz medya, iletişim, eğitim, yazarlık, satış ya da ticaret alanlarında olabilir. Her şeyi konuşabileceğiniz biri olduğu okunuyor, ancak zaman zaman dağınık ve kararsız olabilir.',
+    'Hayatınıza şefkatli, koruyucu, ailesine bağlı ve duygusal bir eş girecek gibi görünüyor. Eşiniz eğitim, sağlık, psikoloji, gıda, emlak ya da aile işletmelerinde olabilir. Sıcak bir yuva kuran biri olduğu okunuyor, ancak zaman zaman alıngan olabilir.',
+    'Hayatınıza sıcak, gururlu, kendinden emin ve cömert bir eş girecek gibi görünüyor. Eşiniz sanat, sahne, medya, moda ya da yöneticilik alanlarında olabilir. Parlak ve sevgi dolu biri olduğu okunuyor, ancak ilgi görmediğinde zaman zaman kırılabilir.',
+    'Hayatınıza özenli, düzenli, yardımsever ve pratik bir eş girecek gibi görünüyor. Eşiniz sağlık, eczacılık, beslenme, muhasebe, akademi ya da organizasyon alanlarında olabilir. Sevgisini gündelik ilgilerle gösteren biri olduğu okunuyor, ancak zaman zaman fazla eleştirel olabilir.',
+    'Hayatınıza zarif, uyumlu, nazik ve sosyal bir eş girecek gibi görünüyor. Eşiniz hukuk, tasarım, moda, sanat, halkla ilişkiler ya da danışmanlık alanlarında olabilir. İlişkiye emek veren biri olduğu okunuyor, ancak zaman zaman kararsız olabilir.',
+    'Hayatınıza derin, tutkulu, sadık ve sezgileri güçlü bir eş girecek gibi görünüyor. Eşiniz psikoloji, tıp, araştırma, finans ya da güvenlik alanlarında olabilir. Bağlandığında tam bağlanan biri olduğu okunuyor, ancak zaman zaman kıskanç ve kontrolcü olabilir.',
+    'Hayatınıza özgür ruhlu, neşeli, iyimser ve maceracı bir eş girecek gibi görünüyor. Eşiniz akademi, eğitim, turizm, yayıncılık, hukuk ya da yabancı dillerle ilgili alanlarda olabilir. Ufkunuzu genişleten biri olduğu okunuyor, ancak zaman zaman özgürlüğüne fazla düşkün olabilir.',
+    'Hayatınıza ağırbaşlı, sorumluluk sahibi, güvenilir ve hedefleri olan bir eş girecek gibi görünüyor. Eşiniz yönetim, kamu, hukuk, mühendislik ya da finans alanlarında olabilir. Hayatı ciddiye alan biri olduğu okunuyor, ancak duygularını göstermekte zaman zaman mesafeli kalabilir.',
+    'Hayatınıza bağımsız, özgün, dostça ve yenilikçi bir eş girecek gibi görünüyor. Eşiniz teknoloji, bilim, sosyal girişimler, sivil toplum ya da dijital alanlarda olabilir. Önce arkadaşınız olan biri olduğu okunuyor, ancak zaman zaman kendine fazla alan isteyebilir.',
+    'Hayatınıza duyarlı, şefkatli, sezgisel ve romantik bir eş girecek gibi görünüyor. Eşiniz sanat, müzik, sağlık, psikoloji ya da yardım kuruluşlarında olabilir. Anlayışlı ve fedakâr biri olduğu okunuyor, ancak zaman zaman sınırlarını korumakta zorlanabilir.',
+  ],
+  // Eş göstergesinin evi: eşin hayatınızdaki yeri
+  evEs: [
+    'Eşiniz kişiliğinizi doğrudan etkileyen, sizinle bir bütün gibi görünen biri olabilir. Evliliğin sizin için kendinizi yeniden tanımladığınız bir süreç olduğu okunuyor.',
+    'Eşiniz maddi güveni önemseyen, size somut bir istikrar sunan biri olabilir. Evlilikte ortak birikim ve güvenli bir gelecek sizin için belirleyici görünüyor.',
+    'Eşiniz konuşabildiğiniz, zihninize dokunan biri olabilir. Yakın çevrenizden, okul ya da komşuluk bağlarından gelen bir ilişki hayatınızda öne çıkıyor gibi görünüyor.',
+    'Eşiniz ailenize kolayca uyum sağlayan, yuva kurmayı önemseyen biri olabilir. Evliliğin sizin için en güçlü anlamının huzurlu bir ev olduğu okunuyor.',
+    'Eşiniz hayatınıza neşe, flört ve romantizm katan biri olabilir. İlişkinizin aşkla başlayıp keyifle büyüdüğü, çocuk konusunun da evliliğinizde önemli bir yer tuttuğu okunuyor.',
+    'Eşiniz gündelik hayatınızı paylaşan, sorumluluk alan ve size destek olan biri olabilir. Sevginin sizin için en çok küçük ilgilerde ve karşılıklı emekte görüldüğü okunuyor.',
+    'Evlilik ve ortaklık hayatınızın merkezinde duruyor gibi görünüyor. Eşiniz hayatınızda belirleyici bir rol oynayan, kendinizi onunla tamamlanmış hissettiğiniz biri olabilir.',
+    'Eşiniz derin, yoğun ve dönüştürücü bir bağ kurduğunuz biri olabilir. Evliliğinizde güven, mahremiyet ve ortak kaynakların önemli bir yer tuttuğu okunuyor.',
+    'Eşiniz ufkunuzu genişleten, size yeni dünyalar açan biri olabilir. Farklı bir kültürden, şehirden ya da eğitim çevrenizden biriyle evlenme ihtimali öne çıkıyor gibi görünüyor.',
+    'Eşiniz saygın, hedefleri olan ve toplumda yeri olan biri olabilir. Evliliğin kariyerinizi ve toplumdaki konumunuzu etkileyen bir adım olduğu okunuyor.',
+    'Eşiniz önce arkadaşınız olan, sosyal çevrenizi paylaştığınız biri olabilir. İlişkinizin dostlukla başlayıp ortak hayallerle büyüdüğü okunuyor.',
+    'Eşiniz duygusal derinliği olan, ruhsal bir bağ kurduğunuz biri olabilir. İlişkinizin bir süre gizli kalması ya da sessizce gelişmesi ihtimali okunuyor.',
+  ],
+
+  // ----- İlişki potansiyeli: kadında Mars, erkekte Venüs, belirtilmemişse Mars burcu -----
   kadinMars: [
     'Sizi atılgan, sportif ve dolaysız erkekler çekiyor gibi görünüyor. Arzunuz hızlı uyanabilir ve açıkça gösterilen bir ilgi sizi kolayca etkileyebilir.',
     'Sizi sakin, güçlü ve tensel erkekler çekiyor gibi görünüyor. Arzunuz yavaş ama derinden uyanabilir. Dokunuş ve güven sizin için çekimin anahtarı olabilir.',
@@ -58,22 +74,6 @@ window.ASTROSHIP_BIREY_METINLERI = {
     'Sizi olgun, başarılı ve kendine hâkim erkekler çekiyor gibi görünüyor. Arzunuz güvende hissettiğinizde ve karşınızdakinin ciddiyetini gördüğünüzde uyanabilir.',
     'Sizi sıra dışı, özgür düşünceli ve beklenmedik erkekler çekiyor gibi görünüyor. Arzunuz sürpriz ve özgünlükle uyanabilir.',
     'Sizi romantik, hayalperest ve hassas erkekler çekiyor gibi görünüyor. Arzunuz duygusal bir yakınlık ve sezgisel bir bağla uyanabilir.',
-  ],
-
-  // ----- Erkek haritası -----
-  erkekAy: [
-    'Eşinizde enerjik, bağımsız ve cesur bir kadın arıyor gibi görünüyorsunuz. Hayatınızdaki kadın kendi kararlarını veren, duygularını dolaysız yaşayan biri olabilir.',
-    'Eşinizde sakin, şefkatli ve güven veren bir kadın arıyor gibi görünüyorsunuz. Hayatınızdaki kadın size huzurlu ve konforlu bir yuva sunan biri olabilir.',
-    'Eşinizde neşeli, konuşkan ve meraklı bir kadın arıyor gibi görünüyorsunuz. Hayatınızdaki kadın sizinle her şeyi konuşabilen, hareketli biri olabilir.',
-    'Eşinizde şefkatli, koruyucu ve ailesine bağlı bir kadın arıyor gibi görünüyorsunuz. Hayatınızdaki kadın sıcak bir yuva kuran, duygusal derinliği olan biri olabilir.',
-    'Eşinizde sıcak, gururlu ve kendinden emin bir kadın arıyor gibi görünüyorsunuz. Hayatınızdaki kadın ilgi görmeyi seven, cömert ve parlak biri olabilir.',
-    'Eşinizde özenli, düzenli ve yardımsever bir kadın arıyor gibi görünüyorsunuz. Hayatınızdaki kadın sevgisini gündelik ilgilerle gösteren, pratik biri olabilir.',
-    'Eşinizde zarif, uyumlu ve nazik bir kadın arıyor gibi görünüyorsunuz. Hayatınızdaki kadın ilişkiye emek veren, huzur ve denge arayan biri olabilir.',
-    'Eşinizde derin, tutkulu ve sadık bir kadın arıyor gibi görünüyorsunuz. Hayatınızdaki kadın duygularını yoğun yaşayan, güvenini kolay vermeyen ama verdiğinde tam bağlanan biri olabilir.',
-    'Eşinizde özgür ruhlu, neşeli ve iyimser bir kadın arıyor gibi görünüyorsunuz. Hayatınızdaki kadın yolculuğu, öğrenmeyi ve macerayı seven biri olabilir.',
-    'Eşinizde ağırbaşlı, sorumluluk sahibi ve güvenilir bir kadın arıyor gibi görünüyorsunuz. Hayatınızdaki kadın duygularını kontrollü yaşayan, hayatı ciddiye alan biri olabilir.',
-    'Eşinizde bağımsız, özgün ve dostça bir kadın arıyor gibi görünüyorsunuz. Hayatınızdaki kadın önce arkadaşınız olan, kendine alan isteyen biri olabilir.',
-    'Eşinizde duyarlı, şefkatli ve sezgisel bir kadın arıyor gibi görünüyorsunuz. Hayatınızdaki kadın romantik, sanata ya da maneviyata yakın biri olabilir.',
   ],
   erkekVenus: [
     'Sizi canlı, girişken ve kendinden emin kadınlar çekiyor gibi görünüyor. Aşkta heyecanı ve ilk kıvılcımı seviyor olabilirsiniz.',
@@ -89,22 +89,6 @@ window.ASTROSHIP_BIREY_METINLERI = {
     'Sizi özgün, bağımsız ve sıra dışı kadınlar çekiyor gibi görünüyor. Aşkta dostluğu ve kendinize ait bir alanı önemsiyor olabilirsiniz.',
     'Sizi romantik, duyarlı ve hayalperest kadınlar çekiyor gibi görünüyor. Aşkta koşulsuz ve masalsı bir sevgi arıyor olabilirsiniz.',
   ],
-
-  // ----- Cinsiyet belirtilmemiş -----
-  notrVenus: [
-    'Aşkta hızlı, coşkulu ve dolaysız seviyor gibi görünüyorsunuz. İlk adımı atmak ve heyecanı canlı tutmak size iyi gelebilir.',
-    'Aşkta yavaş, sadık ve tensel seviyor gibi görünüyorsunuz. Güven, dokunuş ve huzur sizin için sevginin temeli olabilir.',
-    'Aşkta meraklı, oyunbaz ve konuşkan seviyor gibi görünüyorsunuz. Sohbet ve flört sevginizi canlı tutabilir.',
-    'Aşkta şefkatli, koruyucu ve bağlı seviyor gibi görünüyorsunuz. Kendinizi güvende hissettiğinizde sevginiz derinleşebilir.',
-    'Aşkta cömert, gururlu ve gösterişli seviyor gibi görünüyorsunuz. Hayranlık ve takdir sizin için sevginin dili olabilir.',
-    'Aşkta özenli, sade ve yardımsever seviyor gibi görünüyorsunuz. Sevginizi küçük ve somut ilgilerle gösterebilirsiniz.',
-    'Aşkta zarif, uyumlu ve romantik seviyor gibi görünüyorsunuz. Denge, nezaket ve güzellik sizin için sevginin temeli olabilir.',
-    'Aşkta derin, yoğun ve sadık seviyor gibi görünüyorsunuz. Yarım bir bağ yerine tam bir yakınlık arayabilirsiniz.',
-    'Aşkta özgür, iyimser ve maceracı seviyor gibi görünüyorsunuz. Birlikte keşfetmek sevginizi büyütebilir.',
-    'Aşkta ciddi, sorumlu ve kalıcı seviyor gibi görünüyorsunuz. Zamanla kazanılan güven sizin için sevginin temeli olabilir.',
-    'Aşkta bağımsız, dostça ve özgün seviyor gibi görünüyorsunuz. Kendinize ait bir alan ve dostluk sevginizi besleyebilir.',
-    'Aşkta koşulsuz, romantik ve fedakâr seviyor gibi görünüyorsunuz. Sezgisel ve ruhsal bir bağ sizi derinden etkileyebilir.',
-  ],
   notrMars: [
     'Sizi atılgan, cesur ve dolaysız insanlar çekiyor gibi görünüyor. Arzunuz hızlı uyanabilir.',
     'Sizi sakin, güçlü ve tensel insanlar çekiyor gibi görünüyor. Arzunuz yavaş ama derinden uyanabilir.',
@@ -119,113 +103,45 @@ window.ASTROSHIP_BIREY_METINLERI = {
     'Sizi sıra dışı ve özgür düşünceli insanlar çekiyor gibi görünüyor. Arzunuz sürpriz ve özgünlükle uyanabilir.',
     'Sizi romantik, hayalperest ve hassas insanlar çekiyor gibi görünüyor. Arzunuz sezgisel bir bağla uyanabilir.',
   ],
-
-  // ----- 7. ev -----
-  // Girişindeki burç: önce kesin bilgi, sonra yorum
-  yedinciBurc: [
-    'Yedinci evinizin girişinde Koç burcu bulunuyor. Karşınıza çıkan partnerler cesur, girişken ve bağımsız kişiler olabilir. İlişkileriniz hızlı başlıyor gibi görünüyor, ama iki güçlü iradenin dengesi emek isteyebilir.',
-    'Yedinci evinizin girişinde Boğa burcu bulunuyor. Karşınıza çıkan partnerler sakin, sadık ve güven veren kişiler olabilir. İlişkileriniz yavaş ama sağlam ilerliyor gibi görünüyor, ama değişime direnç zaman zaman sizi zorlayabilir.',
-    'Yedinci evinizin girişinde İkizler burcu bulunuyor. Karşınıza çıkan partnerler konuşkan, meraklı ve genç ruhlu kişiler olabilir. İlişkileriniz zihinsel bir uyum üzerine kuruluyor gibi görünüyor, ama tutarlılık konusu gündeme gelebilir.',
-    'Yedinci evinizin girişinde Yengeç burcu bulunuyor. Karşınıza çıkan partnerler duygusal, koruyucu ve ailesine bağlı kişiler olabilir. İlişkileriniz bir yuva duygusu etrafında şekilleniyor gibi görünüyor, ama alınganlıklar dikkat isteyebilir.',
-    'Yedinci evinizin girişinde Aslan burcu bulunuyor. Karşınıza çıkan partnerler cömert, karizmatik ve gururlu kişiler olabilir. İlişkileriniz tutkulu ve görünür yaşanıyor gibi görünüyor, ama gurur çatışmaları çıkabilir.',
-    'Yedinci evinizin girişinde Başak burcu bulunuyor. Karşınıza çıkan partnerler çalışkan, düzenli ve titiz kişiler olabilir. İlişkileriniz karşılıklı destek ve gündelik özen üzerine kuruluyor gibi görünüyor, ama eleştirinin dozu dikkat isteyebilir.',
-    'Yedinci evinizin girişinde Terazi burcu bulunuyor. Karşınıza çıkan partnerler nazik, zarif ve uyumlu kişiler olabilir. İlişkiler hayatınızda merkezi bir yer tutuyor gibi görünüyor ve ortaklık size doğal gelebilir.',
-    'Yedinci evinizin girişinde Akrep burcu bulunuyor. Karşınıza çıkan partnerler yoğun, tutkulu ve güçlü kişiler olabilir. İlişkileriniz derin ve dönüştürücü yaşanıyor gibi görünüyor, ama güven ve kontrol konuları sınanabilir.',
-    'Yedinci evinizin girişinde Yay burcu bulunuyor. Karşınıza çıkan partnerler özgür, iyimser ve farklı bir kültürden ya da şehirden gelen kişiler olabilir. İlişkileriniz birlikte büyümek üzerine kuruluyor gibi görünüyor, ama bağlılık konusu esneklik isteyebilir.',
-    'Yedinci evinizin girişinde Oğlak burcu bulunuyor. Karşınıza çıkan partnerler ciddi, olgun ve sorumluluk sahibi, bazen sizden yaşça büyük kişiler olabilir. İlişkileriniz zamanla sağlamlaşıyor gibi görünüyor, ama duygusal sıcaklık emek isteyebilir.',
-    'Yedinci evinizin girişinde Kova burcu bulunuyor. Karşınıza çıkan partnerler bağımsız, özgün ve sıra dışı kişiler olabilir. İlişkileriniz arkadaşlık temelinde kuruluyor gibi görünüyor, ama yakınlık ile özgürlük dengesi gündeme gelebilir.',
-    'Yedinci evinizin girişinde Balık burcu bulunuyor. Karşınıza çıkan partnerler duyarlı, romantik ve sezgisel kişiler olabilir. İlişkileriniz ruhsal bir bağ üzerine kuruluyor gibi görünüyor, ama idealleştirme ve sınırlar konusu dikkat isteyebilir.',
+  // Çekim göstergesinin evi. {kisiler}: erkekler, kadınlar ya da insanlar
+  kisiler: { kadin: 'erkekler', erkek: 'kadınlar', belirtilmedi: 'insanlar' },
+  evCekim: [
+    'Kendine güvenen, varlığıyla dikkat çeken {kisiler} sizi kolayca etkiliyor gibi görünüyor. Çekimin sizin için çoğu zaman ilk bakışta başladığı okunuyor.',
+    'Güven veren, ayakları yere basan ve zevk sahibi {kisiler} sizi etkiliyor gibi görünüyor. Somut bir istikrar sizin için çekimin parçası olabilir.',
+    'Sohbeti güçlü, esprili ve meraklı {kisiler} sizi etkiliyor gibi görünüyor. Çekimin sizin için çoğu zaman bir konuşmayla başladığı okunuyor.',
+    'Sıcak, koruyucu ve aileye değer veren {kisiler} sizi etkiliyor gibi görünüyor. Kendinizi evinizde hissettiğiniz biri size çekici gelebilir.',
+    'Eğlenceli, yaratıcı ve flörtöz {kisiler} sizi etkiliyor gibi görünüyor. Aşkı oyun ve keyifle yaşamak sizin için önemli olabilir.',
+    'Çalışkan, becerikli ve özenli {kisiler} sizi etkiliyor gibi görünüyor. İş ortamında ya da gündelik rutininizde karşılaştığınız biri size çekici gelebilir.',
+    'Kendinden emin, ilişkiye açık ve dengeli {kisiler} sizi etkiliyor gibi görünüyor. Ciddi bir bağ kurabileceğiniz birinin size en çekici gelen kişi olduğu okunuyor.',
+    'Gizemli, yoğun ve derin {kisiler} sizi etkiliyor gibi görünüyor. Yüzeysel bir ilgi yerine tutkulu ve dönüştürücü bir bağ arıyor olabilirsiniz.',
+    'Farklı kültürlerden, ufku geniş ve maceracı {kisiler} sizi etkiliyor gibi görünüyor. Yolculukların ve yeni deneyimlerin çekimi uyandırdığı okunuyor.',
+    'Başarılı, statü sahibi ve hedefleri olan {kisiler} sizi etkiliyor gibi görünüyor. Hayranlık duyduğunuz biri size kolayca çekici gelebilir.',
+    'Özgür ruhlu, sosyal ve sıra dışı {kisiler} sizi etkiliyor gibi görünüyor. Arkadaşlıkla başlayan bir yakınlığın zamanla çekime dönüştüğü okunuyor.',
+    'Ulaşılması zor, gizemli ya da hayatınıza sessizce giren {kisiler} sizi etkiliyor gibi görünüyor. Gizli ya da platonik çekimler hayatınızda yer bulabilir.',
   ],
-  yedincideGezegen: {
-    gunes: 'Güneş yedinci evinizde bulunuyor. Kendinizi ilişkiler aracılığıyla buluyor gibi görünüyorsunuz. Hayatınızda güçlü ve parlak bir partner önemli bir yer tutabilir.',
-    ay: 'Ay yedinci evinizde bulunuyor. Duygusal güveni bir ilişkide arıyor gibi görünüyorsunuz. Partneriniz size yuva duygusu veren, şefkatli biri olabilir.',
-    merkur: 'Merkür yedinci evinizde bulunuyor. İlişkilerinizde iletişim belirleyici görünüyor. Partneriniz konuşabildiğiniz, sizi zihinsel olarak besleyen biri olabilir.',
-    venus: 'Venüs yedinci evinizde bulunuyor. Bu, geleneksel olarak ilişki ve evlilik için talihli bir yerleşimdir. Partneriniz çekici, uyumlu ve size iyi gelen biri olabilir.',
-    mars: 'Mars yedinci evinizde bulunuyor. İlişkileriniz tutkulu ama tartışmalı yaşanıyor gibi görünüyor. Partneriniz güçlü iradeli ve girişken biri olabilir.',
-    jupiter: 'Jüpiter yedinci evinizde bulunuyor. Bu, geleneksel olarak evlilik için koruyucu ve bereketli bir yerleşimdir. Partneriniz cömert, iyimser ya da bilge biri olabilir.',
-    saturn: 'Satürn yedinci evinizde bulunuyor. İlişkilere ciddiyetle yaklaşıyor gibi görünüyorsunuz. Evlilik geç ya da olgun bir yaşta gelebilir. Kurduğunuz bağ ise zamanla sağlamlaşabilir.',
-    uranus: 'Uranüs yedinci evinizde bulunuyor. İlişkileriniz ani başlayıp beklenmedik dönüşler yapıyor gibi görünüyor. Özgürlüğe alan tanıyan bir partnerle daha mutlu olabilirsiniz.',
-    neptun: 'Neptün yedinci evinizde bulunuyor. İlişkilerde romantik ve idealist görünüyorsunuz. Partnerinizi olduğundan farklı görme eğilimine dikkat etmek size iyi gelebilir.',
-    pluton: 'Plüton yedinci evinizde bulunuyor. İlişkileriniz yoğun ve dönüştürücü yaşanıyor gibi görünüyor. Güç ve kontrol konuları ilişkilerinizde öne çıkabilir.',
-    kuzeyDugum: 'Kuzey Ay Düğümü yedinci evinizde bulunuyor. Ruhsal gelişiminiz ilişkiler üzerinden ilerliyor gibi görünüyor. "Biz" olmayı öğrenmek bu hayattaki yolunuzun bir parçası olabilir.',
-  },
-  yedinciBos: 'Yedinci evinizde gezegen bulunmuyor. Bu, ilişkilerin hayatınızda önemsiz olduğu anlamına gelmez: bu alanın hikâyesini evin yöneticisi anlatır.',
-
-  // ----- 7. evin yöneticisi (dispozitör) -----
-  yoneticiKalip: 'Yedinci evinizin yöneticisi {Gezegen}, {burcDe} ve {ev}. evinizde bulunuyor.',
-  yoneticiEv: [
-    'Bu, ilişkilerin kişiliğinizi doğrudan şekillendirdiğini gösteriyor. Partnerinizle kendi girişiminizle, siz harekete geçtiğinizde karşılaşıyor gibi görünüyorsunuz.',
-    'Bu, ilişkilerin maddi güven ve değerlerle bağlantılı olduğunu gösteriyor. Partnerinizle iş, para ya da ortak bir değer etrafında karşılaşabilirsiniz.',
-    'Partnerinizle yakın çevrenizde, komşuluk ya da kardeş aracılığıyla, kısa yolculuklarda ya da yazışmalarla karşılaşıyor gibi görünüyorsunuz.',
-    'Partnerinizle aile aracılığıyla, evde ya da çocukluktan tanıdık bir çevrede karşılaşıyor gibi görünüyorsunuz. Evlilik ve yuva kurmak ilişkilerinizin doğal yönü olabilir.',
-    'Partnerinizle eğlence, sanat, hobi ya da sosyal etkinliklerde karşılaşıyor gibi görünüyorsunuz. İlişkileriniz flörtle ve keyifle başlayabilir.',
-    'Partnerinizle iş yerinde, gündelik bir rutin içinde ya da hizmet ve sağlıkla ilgili bir ortamda karşılaşıyor gibi görünüyorsunuz.',
-    'Yönetici kendi evinde bulunuyor. Bu, evlilik ve ortaklık konusunun hayatınızda güçlü ve doğrudan işlediğini gösteriyor.',
-    'Partnerinizle bir kriz ya da dönüşüm döneminde, derin bir paylaşımın içinde karşılaşıyor gibi görünüyorsunuz. İlişkileriniz yoğun ve dönüştürücü olabilir.',
-    'Partnerinizle yolculukta, eğitim ortamında ya da farklı bir kültürle temas içinde karşılaşıyor gibi görünüyorsunuz. Partneriniz başka bir şehirden ya da ülkeden olabilir.',
-    'Partnerinizle iş hayatında, kariyer ortamında ya da toplum içinde görünür olduğunuz bir yerde karşılaşıyor gibi görünüyorsunuz.',
-    'Partnerinizle arkadaşlar aracılığıyla ya da bir topluluk, bir dernek veya ortak bir hayal etrafında karşılaşıyor gibi görünüyorsunuz.',
-    'Partnerinizle gözlerden uzak bir ortamda, sessizce ya da gizli başlayan bir ilişki içinde karşılaşıyor gibi görünüyorsunuz. İlişkilerinizde fedakârlık ve ruhsal bir bağ öne çıkabilir.',
-  ],
-  yoneticiGuc: {
-    yonetim: 'Yönetici kendi burcunda güçlüdür. Bu, ilişki konusunun hayatınızda sağlam ve doğal biçimde işlediğine işaret ediyor.',
-    yucelim: 'Yönetici yüceldiği burçta bulunuyor. Bu, ilişkilerde onurlu ve parlak bir potansiyele işaret ediyor.',
-    zarar: 'Yönetici zararda olduğu burçta bulunuyor. Bu, ilişkilerde kendinizi rahat ifade etmenin emek istediğine işaret ediyor. Bilinçli bir çaba bu alanı güçlendirebilir.',
-    dusus: 'Yönetici düşüşte olduğu burçta bulunuyor. Bu, ilişkilerde beklentilerin karşılanması için zaman ve olgunluk gerektiğine işaret ediyor.',
-  },
-
-  // ===== Derin analiz (Pro plan) =====
-  derinBasliklar: {
-    gorunum: { soru: 'Partnerinizin görünümü', glif: '♀' },
-    meslek: { soru: 'Partnerinizin mesleği', glif: '♄' },
-    aile: { soru: 'Partnerinizin ailesi', glif: '☽' },
-    maddi: { soru: 'Partnerinizin maddi durumu', glif: '♃' },
-  },
-  derinGirisler: {
-    gorunum: 'Ev türetme tekniğinde partner yedinci evle temsil edilir. Yedinci evin girişindeki burç (Alçalan) ve bu evdeki gezegenler, partnerin dış görünüşünü ve ilk izlenimini anlatır.',
-    meslek: 'Ev türetme tekniğinde partnerin evleri yedinci evden itibaren sayılır. Partnerinizin onuncu evi, yani mesleği ve toplumdaki yeri, sizin haritanızda dördüncü eve denk gelir.',
-    aile: 'Ev türetme tekniğinde partnerin evleri yedinci evden itibaren sayılır. Partnerinizin dördüncü evi, yani ailesi ve kökleri, sizin haritanızda onuncu eve denk gelir.',
-    maddi: 'Ev türetme tekniğinde partnerin evleri yedinci evden itibaren sayılır. Partnerinizin ikinci evi, yani parası ve kaynakları, sizin haritanızda sekizinci eve denk gelir.',
-  },
-
-  // ----- Geri hareket (göstergenin yorumuna eklenir) -----
+  // Çekim göstergesi geri hareketliyse
   geri: {
-    merkur: 'Merkür doğduğunuzda geri hareket ediyordu. İlişkilerde duygularınızı söze dökmeden önce uzun uzun düşünüyor gibi görünüyorsunuz. Yanlış anlaşılmalar, yarım kalmış konuşmalar ya da eski bir partnerin geri dönmesi hayatınızda tekrar edebilir.',
-    venus: 'Venüs doğduğunuzda geri hareket ediyordu. Sevginizi içe dönük ve seçici yaşıyor gibi görünüyorsunuz. Geçmiş aşklar sizin için kolay kapanmayabilir ve gerçek bağlılığı çoğu zaman olgun bir yaşta bulabilirsiniz.',
-    mars: 'Mars doğduğunuzda geri hareket ediyordu. Arzunuzu ve öfkenizi doğrudan değil içeride, dolaylı yollardan yaşıyor gibi görünüyorsunuz. İlk adımı atmakta zorlanabilir, karşı tarafın hamlesini bekleyebilirsiniz.',
-    jupiter: 'Jüpiter doğduğunuzda geri hareket ediyordu. İlişkilerden beklediğiniz anlamı ve büyümeyi önce kendi içinizde arıyor gibi görünüyorsunuz. İlişkilerdeki şans geç ama derin gelebilir.',
-    saturn: 'Satürn doğduğunuzda geri hareket ediyordu. Bağlılık konusunda eski korkular ya da geçmişten kalan sorumluluklar taşıyor gibi görünüyorsunuz. Güveni zamanla ve kendi kurallarınızla inşa edebilirsiniz.',
+    venus: 'Sevginizi içe dönük ve seçici yaşıyor gibi görünüyorsunuz. Geçmiş aşklar sizin için kolay kapanmayabilir ve gerçek bağlılığı çoğu zaman olgun bir yaşta bulabilirsiniz.',
+    mars: 'Arzunuzu doğrudan değil, içeride ve dolaylı yollardan yaşıyor gibi görünüyorsunuz. İlk adımı atmakta zorlanabilir, karşı tarafın hamlesini bekleyebilirsiniz.',
   },
-  // ----- Evler -----
-  evKalip: 'Bu yerleşim, {alan} alanının ilişkilerinizde belirleyici olduğunu gösteriyor.',
-  evYorum: [
-    'Partnerinizi seçerken kendi kimliğinizle uyumunu ön planda tutuyor gibi görünüyorsunuz.',
-    'İlişkide maddi güven ve ortak değerler sizin için belirleyici görünüyor.',
-    'Konuşabildiğiniz, zihninize dokunan biri sizin için vazgeçilmez görünüyor.',
-    'Yuva kurmak ve aile duygusu ilişkilerinizin temel motivasyonu gibi görünüyor.',
-    'Aşkı oyun, flört ve keyifle yaşamak sizin için önemli görünüyor.',
-    'Sevgiyi gündelik ilgilerde ve karşılıklı destekte arıyor gibi görünüyorsunuz.',
-    'İlişki ve evlilik hayatınızın merkezinde duruyor gibi görünüyor.',
-    'İlişkide derinlik, tutku ve tam bir güven arıyor gibi görünüyorsunuz.',
-    'Ufkunuzu genişleten, size yeni dünyalar açan biri sizi etkiliyor gibi görünüyor.',
-    'Saygın, hedefleri olan ve toplumda yeri olan biri size çekici geliyor gibi görünüyor.',
-    'Bağlarınız önce arkadaşlık, sonra aşk olarak kuruluyor gibi görünüyor.',
-    'Aşkı içe dönük, sessiz ve fedakâr yaşıyor gibi görünüyorsunuz. Gizli ya da ulaşılmaz aşklar hayatınızda yer bulabilir.',
+  // İlişkiden ne zaman uzaklaşırsınız: Güneş burcu
+  uzaklasma: [
+    'Bir ilişki bir hedefe gitmiyorsa ya da ciddiyet taşımıyorsa sizin için devam etmesi zor görünüyor. Söz değil, somut adım görmek istediğiniz okunuyor.',
+    'İlişki yeterince özgürlük ve bireysellik tanımadığında yoruluyor gibi görünüyorsunuz. Sürekli kural koyan bir ilişkiden uzaklaşabileceğiniz okunuyor.',
+    'Duygusal yükler arttığında ve aranızda duvarlar çoğaldığında gitmeye karar verebileceğiniz görülüyor. Hassasiyetle sarılmadığınız bağlarda kalmak sizin için zor görünüyor.',
+    'Karşı taraf baskınlaştığında ya da kişisel alanınızı kısıtladığında uzaklaşabileceğiniz okunuyor. İlişkinin özgürlüğünüze karışmaması sizin için önemli görünüyor.',
+    'İlişki durağanlaştığında ya da maddi ve manevi karşılık bulamadığınızda bağın bitebileceği okunuyor. Kendinizi değersiz hissettiğiniz yerde durmak sizin için zor görünüyor.',
+    'İletişim zayıfladığında ve entelektüel bağ koptuğunda ilişkiyi sürdürmekte zorlanabileceğiniz görülüyor. Zihin buluşmadığında kalbin de bağlı kalmadığı okunuyor.',
+    'İlişkide duygusal bağ kurulmadığında ya da içtenlik eksik kaldığında geri çekilebileceğiniz okunuyor. Yalnızca görünürdeki uyum size yeterli gelmiyor gibi görünüyor.',
+    'Karşı taraf benmerkezci davrandığında ya da takdir göstermediğinde kalmakta zorlanabileceğiniz okunuyor. Saygı görmediğiniz bir ilişkiye bağlanmak size zor geliyor gibi görünüyor.',
+    'İlişki fazla eleştirel bir hâl aldığında ya da küçümsendiğinizi hissettiğinizde uzaklaşabileceğiniz okunuyor. Sürekli sorgulanan bir sevgide durmak sizin için zor görünüyor.',
+    'Karşılıklı emek eşit dağılmadığında ve alma verme dengesi bozulduğunda gidebileceğiniz okunuyor. Sevildiğinizi hissetmediğiniz anda ilişkinin sizin için bittiği görülüyor.',
+    'İlişki fazla duygusal baskı içerdiğinde yoruluyor gibi görünüyorsunuz. Yoğun tepkilerin ve kontrol döngüsünün içinde kalmak sizin için zor görünüyor.',
+    'İlişki gelişmediğinde ya da hayata dair bir anlam taşımadığında bırakabileceğiniz okunuyor. Yol arkadaşlığı sunmayan bir bağda kalmak sizin için zor görünüyor.',
   ],
-  yonetimKalip: '{Gezegen} haritanızda {evler} yönetiyor. Bu yüzden {konular} konuları ilişkilerinize karışıyor gibi görünüyor.',
 
-  // ----- Açılar (göstergenin yorumuna eklenir) -----
-  // {Rol}: göstergenin ilişkideki anlamı, cümle başında
-  roller: {
-    kadin: { es: 'Eşinizde aradığınız erkek imgesi', cekim: 'Çekim duyduğunuz erkek tipi' },
-    erkek: { es: 'Eşinizde aradığınız kadın imgesi', cekim: 'Çekim duyduğunuz kadın tipi' },
-    belirtilmedi: { es: 'Sevme biçiminiz', cekim: 'Arzunuz' },
-    yonetici: 'Evlilik ve ortaklık alanınız',
-  },
-  aciKalip: '{Gezegen} ile {Diger} arasında {aci} bulunuyor.',
-  kavusumKalip: '{Gezegen} ile {Diger} kavuşum hâlinde.',
-  aciAdlari: { altmislik: 'altmışlık açı', kare: 'kare açı', ucgen: 'üçgen açı', quincunx: 'quincunx açı', karsit: 'karşıtlık' },
-  // Açının anlamı diğer noktaya göre: u = uyumlu, g = gergin, k = kavuşum
+  // ----- Açılar: diğer noktaya göre, u = uyumlu, g = gergin, k = kavuşum -----
+  roller: { es: 'Eş potansiyeliniz', cekim: 'İlişki potansiyeliniz' },
   aciAnlam: {
     gunes: {
       u: '{Rol} özgüvenle ve canlılıkla destekleniyor gibi görünüyor. Kendinizi ifade edebildiğiniz ilişkilerde daha mutlu olabilirsiniz.',
@@ -293,114 +209,87 @@ window.ASTROSHIP_BIREY_METINLERI = {
       k: '{Rol} hayat hedeflerinizle iç içe görünüyor. Partneriniz toplum içindeki yerinizi etkileyebilir.',
     },
   },
-  // 7. ev yöneticisi aynı zamanda eş ya da çekim göstergesiyse
-  yoneticiAyni: 'Bu gezegen aynı zamanda {rol} gösterdiği için evlilik konusu doğrudan bu gezegenin hikâyesiyle örülüyor.',
-  yoneticiAyniRol: { es: 'eşte aradığınızı', cekim: 'çekim duyduğunuz kişiyi' },
 
-  // ----- Türetilmiş evlerin yöneticileri -----
-  turetilmisYoneticiKalip: '{ev}. evinizin yöneticisi {Gezegen}, {yev}. evinizde bulunuyor.',
-  turetilmisBaglanti: {
-    meslek: 'Bu, partnerinizin işinin hayatınızdaki {alan} alanıyla bağlantılı olabileceğini gösteriyor.',
-    aile: 'Bu, partnerinizin ailesinin hayatınızdaki {alan} alanıyla bağlantılı olabileceğini gösteriyor.',
-    maddi: 'Bu, partnerinizin kaynaklarının hayatınızdaki {alan} alanıyla bağlantılı olabileceğini gösteriyor.',
-  },
-  turetilmisGeri: 'Bu yöneticinin doğumda geri hareket etmesi, bu konunun geç ya da dolaylı yollardan açılabileceğine işaret ediyor.',
-
-  // ----- Partnerin görünümü (Alçalan burcu) -----
-  gorunum: [
-    'Partneriniz atletik, enerjik ve canlı bir görünüme sahip olabilir. Keskin yüz hatları, hızlı hareketler ve dikkat çeken bir duruş öne çıkabilir.',
-    'Partneriniz sağlam yapılı, hoş sesli ve sakin bir zarafete sahip olabilir. Güzel bir boyun, dolgun hatlar ve doğal bir çekicilik öne çıkabilir.',
-    'Partneriniz ince yapılı, hareketli ve genç görünümlü olabilir. Canlı gözler, ifadeli eller ve esprili bir yüz ifadesi öne çıkabilir.',
-    'Partneriniz yumuşak hatlı, yuvarlak yüzlü ve şefkatli bakışlı olabilir. Sıcak ve tanıdık bir hava öne çıkabilir.',
-    'Partneriniz dik duruşlu, gür saçlı ve gösterişli olabilir. Güçlü bir varlık ve kendinden emin bir gülüş öne çıkabilir.',
-    'Partneriniz bakımlı, sade ve şık olabilir. İnce bir yapı, temiz ve düzenli bir görünüm öne çıkabilir.',
-    'Partneriniz simetrik yüz hatlarına sahip, zarif ve güler yüzlü olabilir. Estetik bir giyim tarzı öne çıkabilir.',
-    'Partneriniz derin ve etkileyici bakışlara sahip olabilir. Güçlü bir karizma ve gizemli bir hava öne çıkabilir.',
-    'Partneriniz uzun boylu ya da sportif, açık yüzlü ve neşeli olabilir. Rahat ve doğal bir tarz öne çıkabilir.',
-    'Partneriniz belirgin kemik yapılı, ağırbaşlı ve yaşından olgun görünümlü olabilir. Klasik ve özenli bir tarz öne çıkabilir.',
-    'Partneriniz özgün ve farklı bir tarza sahip olabilir. Sıra dışı bir detay ya da alışılmışın dışında bir görünüm öne çıkabilir.',
-    'Partneriniz yumuşak ve dalgın bakışlı, duygulu gözlere sahip olabilir. Akışkan ve romantik bir tarz öne çıkabilir.',
+  // ----- Pro: eşle nerede tanışabilirsiniz (7. evin yöneticisinin evi) -----
+  tanismaGiris: 'Eşinizle karşılaşacağınız ortam haritanızda belirgin biçimde okunuyor.',
+  tanisma: [
+    'Eşiniz resmen ayağınıza gelebilir. Sizin bulunduğunuz ortamlarda, günlük hayatınızda ya da kişisel uğraşlarınız sırasında karşınıza çıkabilir. İlk adımı karşı taraf atabilir ya da yollarınız kendiliğinden kesişebilir. Siz kendi hayatınızı yaşarken bir bakmışsınız, müstakbel eşiniz hayatınıza girmiş.',
+    'Eşinizle alışverişte, restoranda, kafede, iş ya da para bağlantılı bir ortamda tanışabilirsiniz. Ortak tanıdıklar ve maddi konular da tanışmanıza vesile olabilir. İlk karşılaşmanızda güven, huzur ve ortak değerler ön plana çıkabilir.',
+    'Eşinizle sosyal medyada, okulda, kursta, seminerde, kısa bir yolculukta ya da yakın çevreniz aracılığıyla tanışabilirsiniz. Kardeşleriniz, komşularınız ya da ortak tanıdıklarınız da bu tanışmaya vesile olabilir. Her şey basit bir sohbetle başlayabilir, tesadüfi bir karşılaşma zamanla ciddi bir ilişkiye dönüşebilir.',
+    'Eşinizle aile ziyaretlerinde, ev ortamında, akrabalar ya da komşular aracılığıyla tanışabilirsiniz. Memleketiniz, çocukluk çevreniz ya da aile dostları da bu tanışmaya vesile olabilir. İlk karşılaşmanız samimi ve tanıdık bir ortamda gerçekleşebilir, hatta bir aile ziyaretine gidip müstakbel eşinizle karşılaşabilirsiniz.',
+    'Eşinizle bar, kulüp, meyhane, konser, tiyatro, parti ya da başka bir eğlence ortamında tanışabilirsiniz. Hobiler, yaratıcı etkinlikler ve çocuklarla ilgili ortamlar da tanışmanıza vesile olabilir. Sıradan bir eğlence planı hayatınızın aşkıyla tanışmanıza dönüşebilir.',
+    'Eşinizle iş yerinde, günlük çalışma ortamınızda, spor salonunda, hastane ya da sağlık kuruluşlarında tanışabilirsiniz. İş arkadaşlarınız ya da birlikte yürüttüğünüz bir iş de sizi bir araya getirebilir. Hatta her gün gördüğünüz ama başlangıçta dikkat etmediğiniz biri zamanla hayatınızın aşkına dönüşebilir.',
+    'Eşinizle bir davette, düğünde, organizasyonda ya da ortak tanıdıklarınız aracılığıyla tanışabilirsiniz. Danışmanlık aldığınız ya da verdiğiniz bir ortamda da yollarınız kesişebilir. Karşınızdaki kişiyle tanışmanızın ardından ilişkiniz kısa sürede ciddileşebilir.',
+    'Eşinizle psikoloji, terapi, finans, banka, sigorta ya da miras gibi konuların gündeme geldiği ortamlarda tanışabilirsiniz. Ortak bir kriz, dönüşüm süreci ya da hayatınızın hassas bir döneminde yollarınız kesişebilir. İlk karşılaşmanız yoğun ve unutulmaz olabilir, belki de bir miras meselesiyle gittiğiniz yerde müstakbel eşinizle karşılaşabilirsiniz.',
+    'Eşinizle yurt dışında, seyahatte, üniversitede, akademik ortamlarda ya da yabancı kültürlerle bağlantılı yerlerde tanışabilirsiniz. Bir eğitim, seminer, tatil ya da uzun bir yolculuk hayatınızın aşkına vesile olabilir. Eşiniz sizden farklı bir şehirde ya da ülkede yaşıyor olabilir ve uzak mesafeler bile sizi bir araya getiren bir vesileye dönüşebilir.',
+    'Eşinizle iş hayatında, kurumsal ortamlarda, resmî toplantılarda ya da kariyerinizle ilgili etkinliklerde tanışabilirsiniz. Bir yönetici, işveren, meslektaş ya da mesleki bağlantınız bu tanışmada rol oynayabilir. Toplum önünde görünür olduğunuz bir ortamda da yollarınız kesişebilir ve kariyerinizde yükseldiğiniz bir dönemde aşk hayatınız da hareketlenebilir.',
+    'Eşinizle arkadaş ortamında, sosyal gruplarda, derneklerde, topluluklarda ya da internet üzerinden tanışabilirsiniz. Ortak arkadaşlarınız sizi bir araya getirebilir, sosyal medya, arkadaşlık uygulamaları ve ortak ilgi alanları da öne çıkabilir. Hatta önce arkadaş olduğunuz biriyle zamanla romantik bir ilişkiye başlayabilirsiniz.',
+    'Eşinizle hastane, rehabilitasyon merkezi, inziva alanları, yardım kuruluşları ya da daha sakin ortamlarda tanışabilirsiniz. Gizli yürütülen işler, kapalı kapılar ardında gerçekleşen görüşmeler ya da kimsenin bilmediği bir bağlantı da tanışmanıza vesile olabilir. Uzak mesafeler, yabancı ülkeler ya da perde arkasında gelişen olaylar da etkili olabilir ve ilişkiniz başlangıçta gizli kalabilir.',
   ],
-  gorunumKalip: 'Yedinci evinizin girişinde {Burc} burcu bulunuyor.',
-  gorunumGezegen: {
-    gunes: 'parlak ve kendinden emin bir duruş', ay: 'yumuşak ve değişken bir ifade', merkur: 'genç ve hareketli bir görünüm',
-    venus: 'çekici ve bakımlı bir görünüm', mars: 'sportif ya da güçlü bir beden', jupiter: 'iri yapı ya da cömert bir gülüş',
-    saturn: 'zayıf ya da ağırbaşlı, yaşından olgun bir görünüm', uranus: 'sıra dışı bir tarz', neptun: 'büyüleyici, rüya gibi bir hava',
-    pluton: 'yoğun ve manyetik bir varlık', kuzeyDugum: 'size ilk anda tanıdık gelen bir yüz',
-  },
-  gorunumGezegenKalip: 'Yedinci evinizdeki {Gezegen}, partnerinizin görünümüne {ifade} katıyor olabilir.',
-
-  // ----- Partnerin mesleği (4. ev) -----
-  meslek: [
-    'Partnerinizin mesleği hareket, rekabet ya da liderlik isteyen bir alanda görünüyor: spor, askerlik, mühendislik, cerrahi ya da girişimcilik gibi.',
-    'Partnerinizin mesleği değer yaratan ve somut bir alanda görünüyor: finans, bankacılık, gıda, tarım, güzellik, mimarlık ya da müzik gibi.',
-    'Partnerinizin mesleği iletişim ve hareket isteyen bir alanda görünüyor: medya, yazarlık, eğitim, satış, ticaret ya da ulaşım gibi.',
-    'Partnerinizin mesleği bakım ve güvenle ilgili bir alanda görünüyor: gıda, otelcilik, emlak, sağlık bakımı ya da bir aile işi gibi.',
-    'Partnerinizin mesleği görünür ve yaratıcı bir alanda görünüyor: yöneticilik, sahne, sanat, eğlence, organizasyon ya da kendi işi gibi.',
-    'Partnerinizin mesleği dikkat ve uzmanlık isteyen bir alanda görünüyor: sağlık, analiz, muhasebe, editörlük ya da teknik işler gibi.',
-    'Partnerinizin mesleği ilişki ve estetikle ilgili bir alanda görünüyor: hukuk, diplomasi, tasarım, moda, danışmanlık ya da insan kaynakları gibi.',
-    'Partnerinizin mesleği derinlik isteyen bir alanda görünüyor: psikoloji, araştırma, finans yönetimi, tıp, güvenlik ya da kriz yönetimi gibi.',
-    'Partnerinizin mesleği bilgi ve ufukla ilgili bir alanda görünüyor: akademi, hukuk, yayıncılık, turizm, dış ticaret ya da felsefe gibi.',
-    'Partnerinizin mesleği yapı ve otorite isteyen bir alanda görünüyor: yönetim, kamu, mühendislik, inşaat ya da köklü bir kurumda kariyer gibi.',
-    'Partnerinizin mesleği yenilikçi bir alanda görünüyor: teknoloji, yazılım, bilim, havacılık ya da sosyal girişimler gibi.',
-    'Partnerinizin mesleği hayal gücü ya da şifayla ilgili bir alanda görünüyor: sanat, müzik, sinema, sağlık, psikoloji ya da denizcilik gibi.',
+  // Yöneticinin burcunun niteliği: öncü, sabit, değişken
+  tanismaNitelik: [
+    'Tanışmanızın hızlı ve kendiliğinden gelişmesi, ilişkinin de kısa sürede bir yöne evrilmesi ihtimali okunuyor.',
+    'Tanışmanızın zamana yayılması, uzun süredir tanıdığınız biriyle bağın yavaş yavaş derinleşmesi ihtimali okunuyor.',
+    'Tanışmanızın bir tesadüfle gerçekleşmesi, yollarınızın birkaç kez kesişmesinin ardından ilişkinin başlaması ihtimali okunuyor.',
   ],
-  meslekKalip: 'Dördüncü evinizin girişinde {Burc} burcu bulunuyor.',
-  meslekGezegen: {
-    gunes: 'görünür ve yönetici bir konum', ay: 'halkla ya da bakımla ilgili bir iş', merkur: 'iletişim ya da ticaret',
-    venus: 'sanat, güzellik ya da diplomasi', mars: 'teknik, fiziksel ya da rekabetçi bir iş', jupiter: 'eğitim, hukuk ya da yurt dışı bağlantısı',
-    saturn: 'sorumluluk isteyen ve yavaş yükselen bir kariyer', uranus: 'teknoloji ya da bağımsız çalışma', neptun: 'sanat, şifa ya da hayal gücü',
-    pluton: 'güç, finans ya da derin araştırma', kuzeyDugum: 'gelişmekte olan yeni bir alan',
-  },
-  meslekGezegenKalip: 'Dördüncü evinizdeki {Gezegen}, partnerinizin işine {ifade} rengini katıyor olabilir.',
+  tanismaGeri: 'Geçmişten tanıdığınız biriyle yeniden karşılaşmanız ya da eski bir bağın yeniden canlanması ihtimali de görülüyor.',
 
-  // ----- Partnerin ailesi (10. ev) -----
-  aile: [
-    'Partnerinizin ailesi hareketli, bağımsız ve güçlü karakterli bireylerden oluşuyor gibi görünüyor. Evde dolaysız konuşulan, zaman zaman tartışmalı ama canlı bir ortam olabilir.',
-    'Partnerinizin ailesi köklü, istikrarlı ve geleneklerine bağlı görünüyor. Maddi güvenceye önem veren, sofrası bereketli bir aile olabilir.',
-    'Partnerinizin ailesi konuşkan ve hareketli görünüyor. Kardeş ilişkilerinin öne çıktığı, okumuş ya da ticaretle uğraşan bir aile olabilir.',
-    'Partnerinizin ailesi birbirine sıkı sıkıya bağlı görünüyor. Anne figürünün güçlü olduğu, duygusal ve koruyucu bir aile olabilir.',
-    'Partnerinizin ailesi gururlu ve sözü geçen görünüyor. Baba figürünün güçlü olduğu, saygınlığa önem veren bir aile olabilir.',
-    'Partnerinizin ailesi çalışkan, düzenli ve mütevazı görünüyor. Sağlığa ve iş ahlakına önem veren bir aile olabilir.',
-    'Partnerinizin ailesi nazik ve uyumlu görünüyor. Görgü kurallarına önem veren, sanata yakın bir aile olabilir.',
-    'Partnerinizin ailesi kapalı ve güçlü bağları olan bir yapıda görünüyor. Sırlarını dışarı vermeyen, geçmişte zorluklar yaşamış bir aile olabilir.',
-    'Partnerinizin ailesi geniş ve misafirperver görünüyor. İnançlı ya da kültürlü, farklı şehir ya da ülkelerle bağlantısı olan bir aile olabilir.',
-    'Partnerinizin ailesi geleneksel ve otoriter görünüyor. Statüye önem veren, sorumlulukların erken yaşta üstlenildiği bir aile olabilir.',
-    'Partnerinizin ailesi modern ve özgürlükçü görünüyor. Bağları gevşek ya da arkadaşça olan, sıra dışı bir aile olabilir.',
-    'Partnerinizin ailesi duygusal ve fedakâr görünüyor. Sanatçı ya da manevi yönü güçlü, sınırları belirsiz bir aile olabilir.',
+  // ----- Pro: evlilik potansiyeli -----
+  evlilikGiris: 'Haritanızdaki evlilik göstergeleri tek tek değerlendirilerek evlilik potansiyeliniz hesaplandı.',
+  evlilikBant: [
+    'Haritanızda evlilik ve kalıcı bir birliktelik güçlü biçimde vurgulanıyor gibi görünüyor. Doğru kişiyle karşılaştığınızda bağı resmîleştirmeye yatkın olduğunuz okunuyor.',
+    'Haritanızda evlilik potansiyeli belirgin görünüyor. Evliliğin hayatınızda yer alması büyük ölçüde doğru zamanlama ve doğru kişiyle ilgili gibi okunuyor.',
+    'Haritanızda evlilik, kendiliğinden gelen bir süreçten çok bilinçle seçilen bir yol gibi görünüyor. Bağlılık geç ya da alışılmışın dışında bir biçimde gelebilir, ama geldiğinde bilinçli bir seçim olduğu okunuyor.',
   ],
-  aileKalip: 'Onuncu evinizin girişinde {Burc} burcu bulunuyor.',
-  aileGezegen: {
-    gunes: 'saygın ve görünür', ay: 'kalabalık ve duygusal', merkur: 'konuşkan ve hareketli', venus: 'sıcak ve uyumlu',
-    mars: 'tartışmalı ama canlı', jupiter: 'geniş, bereketli ve koruyucu', saturn: 'katı kuralları olan ya da zorluklarla sınanmış',
-    uranus: 'beklenmedik değişimler yaşamış', neptun: 'hassas ya da belirsizliklerle dolu', pluton: 'güçlü ve kontrolcü',
-    kuzeyDugum: 'hayatınızda önemli bir rol oynayacak',
+  evlilikEtken: {
+    yoneticiKose: 'Evlilik konusunun hayatınızda görünür ve belirleyici bir yer tuttuğu okunuyor.',
+    yoneticiArdil: 'Evliliğin hayatınızda zamanla, adım adım güçlenen bir konu olduğu görülüyor.',
+    yoneticiGizli: 'Evlilik konusunun hayatınızda zaman zaman arka planda kaldığı, iş ya da iç dünyanızla gölgelendiği görülüyor.',
+    yoneticiGuclu: 'Evlilik ve ortaklık alanınız güçlü ve kendinden emin bir enerji taşıyor gibi görünüyor.',
+    yoneticiZayif: 'Evlilik konusunda kendinizi rahat ifade etmenin emek istediği okunuyor.',
+    yoneticiIyicil: 'Evlilik alanınız sevgi ve şansla destekleniyor gibi görünüyor.',
+    venus7: 'Evlilik alanınız sevgi, uyum ve çekicilikle destekleniyor gibi görünüyor.',
+    jupiter7: 'Evlilik alanınız şans, bereket ve koruyucu bir enerjiyle destekleniyor gibi görünüyor.',
+    ay7: 'Evlilik alanınız duygusal bir derinlik ve yuva kurma isteğiyle besleniyor gibi görünüyor.',
+    gunes7: 'Evliliğin kimliğinizin önemli bir parçası olduğu okunuyor.',
+    saturn7: 'Evliliğin geç ya da olgun bir yaşta gelmesi, ama gelen bağın kalıcı olması ihtimali okunuyor.',
+    uranus7: 'Özgürlük ihtiyacınızın evlilik konusunda zaman zaman belirleyici olduğu, alışılmışın dışında bir birlikteliğin size daha iyi gelebileceği okunuyor.',
+    mars7: 'Evlilikte tartışmaların ve iki güçlü iradenin dengesinin emek isteyebileceği görülüyor.',
+    pluton7: 'Evliliğin sizin için yoğun ve dönüştürücü bir deneyim olabileceği okunuyor.',
+    neptun7: 'Evlilikte idealleştirme ile hayal kırıklığı arasındaki dengeye dikkat etmenin önemli olduğu görülüyor.',
+    venusGuclu: 'Sevme ve sevilme kapasitenizin güçlü olduğu okunuyor.',
+    venusZayif: 'Sevginizi ifade etmekte zaman zaman zorlanabileceğiniz görülüyor.',
+    venusGeri: 'Gerçek bağlılığı çoğu zaman olgun bir yaşta bulabileceğiniz okunuyor.',
+    venusJupiter: 'Aşkta şansınızın ve cömert bir sevgi enerjinizin güçlü olduğu okunuyor.',
+    venusSaturn: 'Sevgide güven inşa etmenin zaman alabileceği görülüyor.',
+    esUyumlu: 'Eş potansiyeliniz şans ve sevgiyle destekleniyor gibi görünüyor.',
+    esSaturn: 'Eş konusunda temkinli davrandığınız, bağlanmadan önce uzun süre gözlemlediğiniz okunuyor.',
+    esUranus: 'İlişkilerin ani başlayıp ani değişebileceği, bağlılık için özgürlüğünüze alan açan birine ihtiyaç duyduğunuz görülüyor.',
+    jupiterDsc: 'Karşınıza çıkan kişilerin size şans ve büyüme getirdiği okunuyor.',
   },
-  aileGezegenKalip: 'Onuncu evinizdeki {Gezegen}, partnerinizin ailesinin {ifade} bir yapıda olabileceğine işaret ediyor.',
+  evlilikDestek: 'Sizi destekleyen yanlar',
+  evlilikDikkat: 'Özen isteyen yanlar',
 
-  // ----- Partnerin maddi durumu (8. ev) -----
-  maddi: [
-    'Partneriniz parayı hızlı kazanıp hızlı harcıyor gibi görünüyor. Girişimci ama ani kararlar verebilen biri olabilir.',
-    'Partneriniz birikimi seven, güvenli yatırımlar yapan biri gibi görünüyor. Maddi istikrarı güçlü olabilir.',
-    'Partnerinizin birden fazla gelir kaynağı varmış gibi görünüyor. Ticaret ve iletişimle kazanan, geliri değişken biri olabilir.',
-    'Partnerinizin aileden gelen kaynakları ya da mülkü varmış gibi görünüyor. Parasını temkinli biriktiren biri olabilir.',
-    'Partneriniz cömert harcayan, kendi işinden kazanan biri gibi görünüyor. Gösterişe ve keyfe para ayırabilir.',
-    'Partneriniz hesaplı, bütçe yapan ve emeğiyle kazanan biri gibi görünüyor.',
-    'Partneriniz ortaklıklarla kazanan, güzel şeylere harcayan biri gibi görünüyor. Maddi konularda dengeli olabilir.',
-    'Partnerinizin güçlü kaynakları varmış gibi görünüyor. Miras ya da yatırımla bağlantılı, parasını gizli tutan biri olabilir.',
-    'Partneriniz maddi konularda şanslı görünüyor. Yurt dışı ya da eğitimle bağlantılı gelirleri olabilir, bazen savurgan davranabilir.',
-    'Partneriniz disiplinli ve uzun vadeli birikim yapan biri gibi görünüyor. Maddi gücü zamanla artabilir.',
-    'Partnerinizin beklenmedik gelirleri olabilecek gibi görünüyor. Teknoloji ya da yenilikçi alanlardan kazanan, geliri düzensiz biri olabilir.',
-    'Partnerinizin parayla ilişkisi biraz belirsiz görünüyor. Cömert, sanat ya da yardım alanlarından kazanan biri olabilir. Ortak para konularında açık olmak size iyi gelebilir.',
-  ],
-  maddiKalip: 'Sekizinci evinizin girişinde {Burc} burcu bulunuyor.',
-  maddiGezegen: {
-    gunes: 'görünür ve gururla taşınan', ay: 'dalgalı ama aileyle bağlantılı', merkur: 'ticaret ve sözleşmelerle kazanılan',
-    venus: 'bereketli ve rahat', mars: 'riskli ama girişken', jupiter: 'bol ve koruyucu', saturn: 'geç gelen ama kalıcı',
-    uranus: 'ani iniş çıkışlı', neptun: 'belirsiz ve dikkat isteyen', pluton: 'güçlü ve dönüştürücü', kuzeyDugum: 'gelişmekte olan',
+  // ----- Pro: muhtemel evlilik dönemleri -----
+  tarihlerGiris: 'Haritanızda evliliğin en güçlü biçimde öne çıktığı üç dönem hesaplandı.',
+  tarihlerBos: 'Önümüzdeki yıllarda evlilik göstergelerinin belirgin biçimde bir araya geldiği bir dönem öne çıkmıyor gibi görünüyor. Bu, evliliğin olmayacağı anlamına gelmez, zamanlamanın kişisel tercihlerinize daha açık olduğu okunuyor.',
+  tarihlerNot: 'Bu dönemler evliliğin gerçekleşebileceği en güçlü zamanları gösterir. Kararlarınızı ve yolunuzu her zaman siz belirlersiniz.',
+  tarihEtiket: { enGuclu: 'En güçlü dönem', diger: 'Güçlü dönem' },
+  yasKalip: '{yas} yaşınızda',
+  tarihNeden: {
+    profeksiyon7: 'Bu yıl hayatınızda ilişki ve evlilik konusunun ön plana çıktığı bir yıl gibi görünüyor.',
+    profeksiyon5: 'Bu yıl aşkın, romantizmin ve yeni bir başlangıcın öne çıktığı bir dönem gibi okunuyor.',
+    profeksiyon1: 'Bu yıl yeni bir sayfa açtığınız, kendinizi yeniden tanımladığınız bir dönem gibi okunuyor.',
+    profeksiyon11: 'Bu yıl dileklerinizin ve sosyal çevrenizin hareketlendiği bir dönem gibi görünüyor.',
+    yilinYoneticisi: 'Yılın enerjisinin doğrudan evlilik konusuna bağlandığı görülüyor.',
+    jupiter7: 'Evlilik alanınızda şansın ve fırsatların açıldığı bir dönem gibi görünüyor.',
+    jupiterTemas: 'Aşk ve evlilik göstergelerinizin bereketli bir dönemden geçtiği okunuyor.',
+    saturn7: 'İlişkilerde ciddiyetin ve kalıcı adımların öne çıktığı bir dönem gibi görünüyor.',
+    tutulma: 'Hayatınızda ilişkiler ekseninde kader niteliğinde bir dönüm noktası okunuyor.',
+    tutulmaVenus: 'Aşk hayatınızda önemli bir dönüşümün başladığı görülüyor.',
+    srYukselen: 'Bu yılın genel temasının ortaklık ve evlilik olduğu okunuyor.',
+    srYedi: 'Bu yıl karşınıza çıkacak kişilerin hayatınızda önemli bir yer tutabileceği görülüyor.',
   },
-  maddiGezegenKalip: 'Sekizinci evinizdeki {Gezegen}, partnerinizin kaynaklarının {ifade} bir yapıda olabileceğine işaret ediyor.',
 
-  // Paragraflar arası bağlaçlar
   baglaclar: ['Bunun yanında', 'Ayrıca', 'Buna ek olarak'],
 };

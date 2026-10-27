@@ -186,7 +186,7 @@
           <div class="analiz-secenekleri">
             <article class="analiz-secimi">
               <span class="secim-simge" aria-hidden="true">${glif('☉')}</span>
-              <h1 tabindex="-1">Kişiye özel ilişki analizi</h1>
+              <h1 tabindex="-1">Kişiye özel eş potansiyeli analizi</h1>
               <button type="button" class="dugme-ana dugme-acik" data-git="form" data-mod="birey">Hesapla <span class="ok">→</span></button>
             </article>
             <article class="analiz-secimi">
@@ -198,7 +198,7 @@
         </section>
 
         <ol class="icerik-listesi">
-          <li><span class="amblem" aria-hidden="true">${glif('☉')}</span><div><div class="baslik-satiri"><h3>İlişki analizi</h3><span class="rozet">Tek kişi</span></div><p>Eşinizde ne arıyorsunuz, sizi kim çeker, evlilik alanınız nasıl ve partnerinizle nerede karşılaşabilirsiniz?</p></div></li>
+          <li><span class="amblem" aria-hidden="true">${glif('☉')}</span><div><div class="baslik-satiri"><h3>Eş potansiyeli</h3><span class="rozet">Tek kişi</span></div><p>Hayatınıza nasıl bir eş girebilir, sizi kim çeker, eşinizle nerede tanışabilirsiniz, evlilik potansiyeliniz ve en güçlü evlilik dönemleriniz.</p></div></li>
           <li><span class="amblem" aria-hidden="true">${glif('♀')}</span><div><div class="baslik-satiri"><h3>Çift analizi: uyum</h3><span class="rozet">Ücretsiz</span></div><p>Çekim, bağlanma, iletişim, romantizm, güven ve huzur. Her biri yüzdesi ve yorumuyla.</p></div></li>
           <li><span class="amblem" aria-hidden="true">${glif('☽')}</span><div><div class="baslik-satiri"><h3>İlişki yapısı</h3><span class="rozet rozet-pro">Pro plan</span></div><p>İlişkiniz nasıl başlayabilir, nereden beslenebilir, hangi konularda sınanabilir?</p></div></li>
           <li><span class="amblem" aria-hidden="true">${glif('♃')}</span><div><div class="baslik-satiri"><h3>Gelecek öngörüsü</h3><span class="rozet rozet-pro">Pro plan</span></div><p>Önümüzdeki 12 ayın güçlü dönemleri: ilişki ne zaman başlayabilir, ne zaman derinleşebilir?</p></div></li>
@@ -280,7 +280,7 @@
         ${ustCubuk()}
         <button type="button" class="geri" data-git="giris">← Geri</button>
         <div class="form-giris">
-          <p class="etiket">${birey ? 'İlişki analizi' : 'Çift analizi'}</p>
+          <p class="etiket">${birey ? 'Eş potansiyeli' : 'Çift analizi'}</p>
           <h2 tabindex="-1">${birey ? 'Doğum bilgileriniz' : 'Doğum bilgileri'}</h2>
           <p class="aciklama">Doğum saatini olabildiğince doğru yazın. Saatinizi doğum belgenizde ya da e-Devlet'teki nüfus kaydınızda bulabilirsiniz.</p>
         </div>
@@ -291,7 +291,7 @@
           <p class="yer-notu">Doğum yeri için il ya da şehir adını yazıp listeden seçin.</p>
           ${birey ? `<p class="yer-notu analiz-hakki">${ucretsizAnaliz()
             ? `Ücretsiz analiz hakkınızı ${kac(ucretsizAnaliz().ad)} için kullandınız. Farklı bir kişi için Pro plan gerekir.`
-            : 'Üyeliğinizle bir ilişki analizi ücretsizdir. Daha fazla analiz için Pro plan gerekir.'}</p>` : ''}
+            : 'Üyeliğinizle bir eş potansiyeli analizi ücretsizdir. Daha fazla analiz için Pro plan gerekir.'}</p>` : ''}
         </form>
         ${altBilgi()}
       </section>`;
@@ -410,7 +410,7 @@
           <div class="yukleniyor-ic">
             ${cark()}
             <h2 tabindex="-1">${durum.mod === 'birey' ? 'Haritanız okunuyor' : 'Yıldızlarınız karşılaştırılıyor'}</h2>
-            <p>${durum.mod === 'birey' ? 'Doğum haritanız hesaplanıyor ve ilişki potansiyeliniz yorumlanıyor.' : 'Doğum haritalarınız hesaplanıyor ve uyumunuz yorumlanıyor.'}</p>
+            <p>${durum.mod === 'birey' ? 'Doğum haritanız hesaplanıyor, eş potansiyeliniz ve evlilik dönemleriniz yorumlanıyor.' : 'Doğum haritalarınız hesaplanıyor ve uyumunuz yorumlanıyor.'}</p>
           </div>
         </div>
       </section>`;
@@ -837,60 +837,131 @@
       ${icerik.map((c, n) => `<div class="alt-panel" data-alt-panel="${n}" ${durum.altSekme === n ? '' : 'hidden'}>${c}</div>`).join('')}`;
   }
 
-  // ---------- Soru sor ----------
+  // ---------- Soru gönder ----------
+  // Soru, doğum bilgileriyle birlikte info@hemisy.com adresine e-posta olarak gider (FormSubmit, sunucusuz form
+  // servisi). Tuğçenur Özay 24 saat içinde kişinin e-posta adresine cevap verir. Uygulama içinde mesaj olarak
+  // cevap, üyelik sistemi kurulduğunda eklenecek. İlk soru ücretsizdir, sonrası Pro üyelik ister.
+  const SORU_ADRESI = 'https://formsubmit.co/ajax/info@hemisy.com';
 
   function soruKutusu() {
     const sorulan = durum.sorulanSoru;
+    const birey = durum.sonuc?.birey;
     const govde = sorulan
       ? `
         <blockquote class="sorulan-soru">${kac(sorulan)}</blockquote>
-        <p class="aciklama">Sorunuz kaydedildi. Cevaplama çok yakında açılıyor; cevabınız ikinizin haritasına göre hazırlanıp burada görünecek.</p>
+        <p class="aciklama">Sorunuz Tuğçenur Özay'a iletildi. Cevabınız 24 saat içinde e-posta adresinize gönderilecek.</p>
         <button type="button" class="dugme-ana" data-pro>Daha fazla soru için Pro ${KILIT_SIMGESI}</button>`
       : `
-        <p class="aciklama">İlişkinizle ilgili merak ettiğiniz bir şeyi yazın; cevap ikinizin haritasına göre hazırlanır.</p>
+        <p class="aciklama">${birey ? 'Eş potansiyeliniz, evlilik dönemleriniz ya da ilişkileriniz' : 'İlişkiniz'} hakkında merak ettiğiniz bir şeyi yazın. Sorunuzu Tuğçenur Özay ${birey ? 'haritanıza' : 'ikinizin haritasına'} bakarak 24 saat içinde cevaplar.</p>
         <form id="soru-formu" class="soru-formu" novalidate>
           <label class="gizli" for="soru-metni">Sorunuz</label>
-          <textarea id="soru-metni" rows="3" maxlength="300" placeholder="Örneğin: Bu ilişkide en çok neye dikkat etmeliyiz?"></textarea>
+          <textarea id="soru-metni" rows="3" maxlength="500" placeholder="${birey ? 'Örneğin: Önümüzdeki yıl evlilik için uygun mu?' : 'Örneğin: Bu ilişkide en çok neye dikkat etmeliyiz?'}"></textarea>
+          <div class="alan">
+            <label for="soru-eposta">Cevabın gönderileceği e-posta</label>
+            <input id="soru-eposta" type="text" inputmode="email" autocomplete="email" placeholder="ornek@eposta.com">
+          </div>
           <p class="form-hata" role="alert" hidden></p>
           <button type="submit" class="dugme-ana">Soruyu gönder <span class="ok">→</span></button>
         </form>`;
     return `
       <section class="soru-kutusu yuzey" aria-labelledby="soru-baslik">
         <div class="baslik-satiri">
-          <h3 id="soru-baslik">Bir soru sorun</h3>
+          <h3 id="soru-baslik">Tuğçenur Özay'a soru gönderin</h3>
           <span class="rozet ${sorulan ? 'rozet-pro' : ''}">${sorulan ? 'Pro' : '1 ücretsiz'}</span>
         </div>
         ${govde}
-        <p class="soru-notu">İlk soru ücretsizdir. Daha fazla soru için Pro üyelik gerekir.</p>
+        <p class="soru-notu">İlk soru ücretsizdir. Daha fazla soru için Pro üyelik gerekir. Sorularınız 24 saat içinde cevaplanır.</p>
       </section>`;
   }
 
-  function soruGonder(olay) {
+  // E-postada soruyla birlikte gidecek doğum bilgileri
+  function soruBilgileri() {
+    return durum.kisiler.slice(0, durum.sonuc?.birey ? 1 : 2)
+      .map((k) => `${k.ad} (${cinsiyetAdi(k.cinsiyet)}): ${tarihYaz(k.tarih)} ${k.saat}${k.yaklasik ? ' (yaklaşık)' : ''}, ${k.yer}`)
+      .join('\n');
+  }
+
+  async function soruGonder(olay) {
     olay.preventDefault();
     const metin = document.getElementById('soru-metni');
-    const soru = metin.value.trim();
-    if (soru.length < 5) {
-      const kutu = kok.querySelector('.soru-formu .form-hata');
-      kutu.textContent = 'Lütfen sorunuzu yazın.';
+    const eposta = document.getElementById('soru-eposta');
+    const kutu = kok.querySelector('.soru-formu .form-hata');
+    const hata = (yazi, alan) => {
+      kutu.textContent = yazi;
       kutu.hidden = false;
-      metin.setAttribute('aria-invalid', 'true');
-      metin.focus();
-      return;
+      alan?.setAttribute('aria-invalid', 'true');
+      alan?.focus();
+    };
+    const soru = metin.value.trim();
+    const adres = eposta.value.trim();
+    if (soru.length < 5) return hata('Lütfen sorunuzu yazın.', metin);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(adres)) return hata('Cevabın gönderilebilmesi için geçerli bir e-posta adresi yazın.', eposta);
+    const dugme = olay.target.querySelector('[type="submit"]');
+    dugme.disabled = true;
+    dugme.firstChild.textContent = 'Gönderiliyor… ';
+    try {
+      const yanit = await fetch(SORU_ADRESI, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          _subject: `hēmisy soru: ${durum.sonuc?.birey ? 'Eş potansiyeli' : 'Çift analizi'} · ${durum.kisiler[0].ad}`,
+          _replyto: adres,
+          _template: 'table',
+          _captcha: 'false',
+          'E-posta': adres,
+          Rapor: durum.sonuc?.birey ? 'Eş potansiyeli' : 'Çift analizi',
+          'Doğum bilgileri': soruBilgileri(),
+          Soru: soru,
+        }),
+      });
+      const veri = await yanit.json().catch(() => ({}));
+      if (!yanit.ok || String(veri.success) !== 'true') throw new Error(veri.message || 'gönderilemedi');
+    } catch {
+      dugme.disabled = false;
+      dugme.firstChild.textContent = 'Soruyu gönder ';
+      return hata('Sorunuz şu anda gönderilemedi. Lütfen biraz sonra yeniden deneyin ya da info@hemisy.com adresine yazın.');
     }
     durum.sorulanSoru = soru;
     try { localStorage.setItem(SORU_ANAHTARI, soru); } catch { /* depolama kapalı */ }
-    const eski = kok.querySelector('.soru-kutusu');
-    eski.outerHTML = soruKutusu();
+    kok.querySelector('.soru-kutusu').outerHTML = soruKutusu();
     kok.querySelector('.soru-kutusu [data-pro]')?.focus();
   }
 
-  // ---------- Bireysel ilişki analizi ----------
+  // ---------- Eş potansiyeli (bireysel analiz) ----------
+
+  // Pro kart: yüzde ya da dönem listesi taşıyabilir
+  function bireyKarti(b) {
+    const yuzde = b.yuzde != null ? `
+      <p class="yuzde" aria-label="yüzde ${b.yuzde}"><small>%</small>${b.yuzde}</p>` : '';
+    const donemler = b.donemler?.length ? `
+      <ol class="donem-listesi">
+        ${b.donemler.map((d) => `
+          <li class="${d.enGuclu ? 'en-guclu' : ''}">
+            <p class="donem-etiket">${d.etiket} · ${d.alt}</p>
+            <h4>${d.baslik}</h4>
+            <p>${kac(d.metin)}</p>
+          </li>`).join('')}
+      </ol>` : '';
+    const cubuk = b.yuzde != null ? `<div class="cubuk" aria-hidden="true"><span style="width:${b.yuzde}%"></span></div>` : '';
+    const ucretli = `${donemler}${b.ucretli.length ? `<div class="yorum">${paragraflar(b.ucretli)}</div>` : ''}`;
+    return `
+      <article class="uyum-kart yuzey" id="b-${b.id}">
+        <header class="kart-bas ${yuzde ? '' : 'kart-bas-yuzdesiz'}">
+          <span class="amblem" aria-hidden="true">${glif(b.glif)}</span>
+          <h3>${b.soru}</h3>
+          ${durum.kilitAcik ? yuzde : ''}
+        </header>
+        ${durum.kilitAcik ? cubuk : ''}
+        <div class="yorum">${paragraflar(b.ucretsiz)}</div>
+        ${kilitli(ucretli)}
+      </article>`;
+  }
 
   function bireyEkrani() {
     const k = durum.kisiler[0];
     const a = durum.sonuc.analiz;
+    const yorum = durum.sonuc.yorum;
     const satir = (etiket, n) => `<li><span>${etiket}</span><b>${glif(n.glif)} ${n.burc.ad}</b></li>`;
-    const ES_ETIKETI = { kadin: ['Eşte aranan', 'Çekim'], erkek: ['Eşte aranan', 'Çekim'], belirtilmedi: ['Sevme biçimi', 'Arzu'] }[a.cinsiyet];
     return `
       <section class="ekran sonuc birey-sonuc">
         ${location.hash === '#test' ? '<p class="test-bandi">Test modu · tüm kilitler açık</p>' : ''}
@@ -899,25 +970,24 @@
         <header class="gece sonuc-bas">
           <canvas class="gece-yildizlar" aria-hidden="true"></canvas>
           ${cark()}
-          <p class="etiket">İlişki analizi</p>
+          <p class="etiket">Eş potansiyeli</p>
           <div>
             <h1 tabindex="-1">${kac(k.ad)}</h1>
             <p class="cift-bilgi">${kac(cinsiyetAdi(k.cinsiyet))} · ${tarihYaz(k.tarih)} ${kac(k.saat)}</p>
           </div>
           <ul class="birey-ozet">
-            ${satir(ES_ETIKETI[0], a.es)}
-            ${satir(ES_ETIKETI[1], a.cekim)}
-            <li><span>7. ev</span><b>${S.BURCLAR[a.yedinci.burc].ad}</b></li>
-            <li><span>7. evin yöneticisi</span><b>${glif(a.yonetici.nokta.glif)} ${a.yonetici.nokta.ev}. ev</b></li>
+            ${satir('Eş potansiyeli', a.es)}
+            ${satir('İlişki potansiyeli', a.cekim)}
           </ul>
         </header>
-        ${k.yaklasik ? '<p class="uyari">Doğum saati yaklaşık girildi: 7. ev ve yöneticisi kayabilir.</p>' : ''}
-        ${durum.sonuc.yorum.filter((y) => !y.pro).map(iliskiKarti).join('')}
+        ${k.yaklasik ? '<p class="uyari">Doğum saati yaklaşık girildi: tanışma yeri, evlilik potansiyeli ve evlilik dönemleri kayabilir.</p>' : ''}
+        ${yorum.filter((y) => !y.pro).map(iliskiKarti).join('')}
         <div class="bolum-ayraci">
-          <p class="etiket">Derin analiz · Pro plan</p>
-          <p class="aciklama">Ev türetme tekniğiyle partnerinizin görünümü, mesleği, ailesi ve maddi durumu.</p>
+          <p class="etiket">Pro plan</p>
+          <p class="aciklama">Eşinizle nerede tanışabileceğiniz, evlilik potansiyeliniz ve en güçlü üç evlilik döneminiz.</p>
         </div>
-        ${durum.sonuc.yorum.filter((y) => y.pro).map(iliskiKarti).join('')}
+        ${yorum.filter((y) => y.pro).map(bireyKarti).join('')}
+        ${soruKutusu()}
         <details class="acilir birey-harita">
           <summary>Harita bilgileri</summary>
           ${natalKarti(0)}
@@ -982,7 +1052,7 @@
     },
     proAnaliz: {
       baslik: 'Pro plan ile sınırsız analiz',
-      metin: 'Üyeliğinizle bir ilişki analizi ücretsizdir ve bu hakkı kullandınız. Kendi analizinizi aynı doğum bilgileriyle istediğiniz zaman yeniden açabilirsiniz. Farklı kişiler için analiz yapmak Pro plan ile mümkün olacak. Ödeme sistemi eklendiğinde Pro planı buradan başlatabileceksiniz.',
+      metin: 'Üyeliğinizle bir eş potansiyeli analizi ücretsizdir ve bu hakkı kullandınız. Kendi analizinizi aynı doğum bilgileriyle istediğiniz zaman yeniden açabilirsiniz. Farklı kişiler için analiz yapmak Pro plan ile mümkün olacak. Ödeme sistemi eklendiğinde Pro planı buradan başlatabileceksiniz.',
     },
     dil: {
       baslik: 'Dil',
@@ -1145,7 +1215,7 @@
     if (id.startsWith('tarih-')) olay.target.value = tarihMaskesi(olay.target.value);
     else if (id.startsWith('saat-')) olay.target.value = saatMaskesi(olay.target.value);
     else if (id.startsWith('yer-')) onerileriGoster(olay.target);
-    else if (id === 'soru-metni') {
+    else if (id === 'soru-metni' || id === 'soru-eposta') {
       olay.target.removeAttribute('aria-invalid');
       kok.querySelector('.soru-formu .form-hata').hidden = true;
     }
