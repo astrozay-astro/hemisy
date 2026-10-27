@@ -364,7 +364,20 @@
   // çözülür ve rapor altından belirir. Sesli oynatma tıklamayla izinlidir. Tarayıcı engellerse video sessiz oynar,
   // oynatılamazsa adımlar aynı sürede zamanlayıcıyla akar.
   const ACILIS_SURESI = 4900;
-  const PERDE_GIRIS = 900;
+  const PERDE_GIRIS = 450;
+  // Video, form ekranı açılınca önceden yüklenir: butona basıldığında logo ilk anda görünür, boş bekleme olmaz
+  let onYuklenenVideo = null;
+  function videoyuOnYukle() {
+    if (onYuklenenVideo) return;
+    onYuklenenVideo = document.createElement('video');
+    onYuklenenVideo.className = 'acilis-video';
+    onYuklenenVideo.src = 'marka/hemisy-acilis.mp4';
+    onYuklenenVideo.poster = 'marka/hemisy-acilis.jpg';
+    onYuklenenVideo.preload = 'auto';
+    onYuklenenVideo.playsInline = true;
+    onYuklenenVideo.load();
+  }
+
   function acilisAc() {
     document.querySelector('.acilis-perde')?.remove();
     const perdeEl = document.createElement('div');
@@ -372,15 +385,18 @@
     perdeEl.setAttribute('aria-hidden', 'true');
     perdeEl.innerHTML = `
       <div class="acilis-cark">${cark()}</div>
-      <video class="acilis-video" src="marka/hemisy-acilis.mp4" poster="marka/hemisy-acilis.jpg" playsinline preload="auto"></video>
       <div class="acilis-alt">
         <p class="acilis-baslik">${durum.mod === 'birey' ? 'Haritanız okunuyor' : 'Haritalarınız karşılaştırılıyor'}</p>
-        <p class="acilis-adim"></p>
+        <p class="acilis-adim gorunur">${kac(ilkAdim())}</p>
         <div class="acilis-ilerleme"><span></span></div>
       </div>`;
+    videoyuOnYukle();
+    const video = onYuklenenVideo;
+    onYuklenenVideo = null;
+    video.currentTime = 0;
+    perdeEl.insertBefore(video, perdeEl.querySelector('.acilis-alt'));
     document.body.append(perdeEl);
     document.documentElement.classList.add('acilis-acik');
-    const video = perdeEl.querySelector('video');
     const adimEl = perdeEl.querySelector('.acilis-adim');
     const cubuk = perdeEl.querySelector('.acilis-ilerleme span');
     const baslangic = performance.now();
@@ -402,14 +418,14 @@
       setTimeout(() => { adimEl.textContent = metin; adimEl.classList.add('gorunur'); }, 220);
     };
     const adimlar = (liste) => {
-      const aralik = Math.max(550, (sure() - gecen() - 500) / liste.length);
+      const aralik = Math.max(550, (sure() - gecen() - 500) / (liste.length + 1));
       let i = 0;
       const sonraki = () => {
         if (i >= liste.length) return;
         yaz(liste[i++]);
         zamanlayici = setTimeout(sonraki, aralik);
       };
-      sonraki();
+      zamanlayici = setTimeout(sonraki, aralik);
     };
 
     const bitti = new Promise((coz) => {
@@ -442,6 +458,14 @@
     setTimeout(kaldir, 1800);
   }
 
+  // Perdenin ilk yazısı: hesap bitmeden, form bilgileriyle hemen görünür
+  function ilkAdim() {
+    const k = durum.kisiler;
+    return durum.mod === 'birey'
+      ? `${tarihYaz(k[0].tarih)} · ${k[0].saat} · ${k[0].yer.split(',')[0]}`
+      : `${k[0].ad} ve ${k[1].ad} · doğum anları hesaplanıyor`;
+  }
+
   // Perdede akan hesap adımları: kişinin gerçek harita bilgileri
   function hesapAdimlari(natal) {
     const k = durum.kisiler;
@@ -449,7 +473,6 @@
       const g = natal[0].harita.gezegenler;
       const a = durum.sonuc.analiz;
       return [
-        `${tarihYaz(k[0].tarih)} · ${k[0].saat} · ${k[0].yer.split(',')[0]}`,
         `Güneş ${g.gunes.metin} · Ay ${g.ay.metin}`,
         `Yükselen ${g.yukselen.metin}`,
         `7. ev yöneticisi ${a.yonetici.ad}, ${a.yonetici.burc.ad} · ${a.yonetici.ev}. ev`,
@@ -1232,6 +1255,7 @@
   function goster(ekran) {
     if ((ekran === 'sonuc' && (!durum.sonuc || durum.sonuc.birey)) || (ekran === 'birey' && !durum.sonuc?.birey)) ekran = 'form';
     kok.innerHTML = EKRANLAR[ekran]();
+    if (ekran === 'form') videoyuOnYukle();
     kok.firstElementChild.classList.add('giriyor');
     window.scrollTo(0, 0);
     yildizlariCiz();

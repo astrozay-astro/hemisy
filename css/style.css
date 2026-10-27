@@ -364,7 +364,7 @@ a { color: inherit; }
 
 /* Açılış perdesi: harita okunurken tam ekran. Ortada marka videosu, arkasında yavaşça dönen zodyak çarkı, altta
    kişinin hesap adımları ve ilerleme çizgisi. Zemin videonun bejinden kenarlara doğru sitenin leylak sisine geçer.
-   Giriş 0,9 sn, çıkış 1,6 sn. */
+   Giriş 0,35 sn (logo ve ilk yazı ilk anda görünür), çıkış 1,6 sn. */
 .yukleniyor { min-height: 82vh; justify-content: center; text-align: center; gap: 0.7rem; }
 .yukleniyor h2 { font-size: 2.2rem; font-weight: 300; }
 .yukleniyor p { color: var(--soluk); font-weight: 300; }
@@ -372,7 +372,7 @@ a { color: inherit; }
 .acilis-perde {
   position: fixed; inset: 0; z-index: 60; overflow: hidden;
   background: radial-gradient(90% 60% at 50% 46%, #ddd5c3 0%, #d8cfbc 38%, #ddd6d4 62%, #e9e5f3 86%, #f2f0fa 100%);
-  animation: perdeGir 0.9s cubic-bezier(.4, 0, .2, 1) backwards;
+  animation: perdeGir 0.35s ease-out backwards;
   transition: opacity 1.6s cubic-bezier(.4, 0, .2, 1);
 }
 .acilis-perde > * { transition: transform 1.6s cubic-bezier(.4, 0, .2, 1), filter 1.6s cubic-bezier(.4, 0, .2, 1); }
@@ -382,7 +382,6 @@ a { color: inherit; }
   width: min(125vw, 150vh); aspect-ratio: 16 / 9; height: auto; max-width: none; object-fit: cover;
   -webkit-mask-image: radial-gradient(closest-side, #000 70%, transparent 100%);
   mask-image: radial-gradient(closest-side, #000 70%, transparent 100%);
-  animation: videoGir 1.4s cubic-bezier(.2, .7, .2, 1) backwards;
 }
 .acilis-cark { position: absolute; left: 50%; top: 46%; width: min(150vw, 110vh); aspect-ratio: 1; transform: translate(-50%, -50%); }
 .acilis-cark .gece-cark {
@@ -408,7 +407,6 @@ a { color: inherit; }
 .acilis-alt { transition: opacity 0.5s ease; }
 .acilis-perde.kapaniyor .acilis-alt { opacity: 0; }
 @keyframes perdeGir { from { opacity: 0; } }
-@keyframes videoGir { from { opacity: 0; transform: translate(-50%, -50%) scale(0.97); } }
 
 /* ---------- Sonuç ---------- */
 
@@ -613,7 +611,7 @@ details.acilir > *:not(summary) { margin-top: 0.6rem; }
 @keyframes yuksel { from { transform: translateY(30px); opacity: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .ekran.giriyor, .perde-kutu, .gece-cark, body::before, .acilis-perde, .acilis-video { animation: none; }
+  .ekran.giriyor, .perde-kutu, .gece-cark, body::before, .acilis-perde { animation: none; }
 }
 
 /* Eş potansiyeli: muhtemel evlilik dönemleri */
