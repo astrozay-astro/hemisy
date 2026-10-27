@@ -37,7 +37,28 @@ for satir in open(sys.argv[1], encoding='utf-8'):
     if bolge not in bolge_no:
         bolge_no[bolge] = len(bolgeler)
         bolgeler.append(bolge)
-    satirlar.append([ad, a[2], ulke, round(float(a[4]), 3), round(float(a[5]), 3), bolge_no[bolge], nufus])
+    satirlar.append([ad, a[2], ulke, round(float(a[4]), 3), round(float(a[5]), 3), bolge_no[bolge], nufus, kod in ('PPLC', 'PPLA')])
+
+# Semtleri ayıkla: başkent ya da il/eyalet merkezi olmayan bir yer, daha kalabalık bir şehre 20 km'den
+# yakınsa o şehrin semti ya da banliyösü sayılır (ör. East New York, Nishi-Tokyo)
+import math
+satirlar.sort(key=lambda s: (not s[7], -s[6]))
+kalan, izgara = [], {}
+for s in satirlar:
+    hucre = (int(s[3] // 0.5), int(s[4] // 0.5))
+    yakin = False
+    if not s[7]:
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                for k in izgara.get((hucre[0] + dx, hucre[1] + dy), []):
+                    km = 111 * math.hypot(s[3] - k[3], (s[4] - k[4]) * math.cos(math.radians(s[3])))
+                    if km < 20 and k[6] > s[6]:
+                        yakin = True
+    if yakin:
+        continue
+    kalan.append(s)
+    izgara.setdefault(hucre, []).append(s)
+satirlar = [s[:7] for s in kalan]
 
 # Türkçe ad yalnızca o addaki en kalabalık şehre verilir (Londra = İngiltere'deki London, Kanada'daki değil)
 satirlar.sort(key=lambda s: -s[6])
