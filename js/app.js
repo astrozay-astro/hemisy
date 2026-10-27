@@ -372,8 +372,8 @@
 
   const paragraflar = (liste) => liste.map((p) => `<p>${kac(p)}</p>`).join('');
 
+  // Uyum bölümü ücretsizdir: tüm paragraflar açık
   function uyumKarti(b) {
-    const ucretli = b.ucretli.length ? `<div class="yorum">${paragraflar(b.ucretli)}</div>` : '';
     return `
       <article class="uyum-kart yuzey" id="u-${b.id}">
         <header class="kart-bas">
@@ -382,8 +382,7 @@
           <p class="yuzde" aria-label="yüzde ${b.yuzde}"><small>%</small>${b.yuzde}</p>
         </header>
         <div class="cubuk" aria-hidden="true"><span style="width:${b.yuzde}%"></span></div>
-        <div class="yorum">${paragraflar(b.ucretsiz)}</div>
-        ${kilitli(ucretli)}
+        <div class="yorum">${paragraflar([...b.ucretsiz, ...b.ucretli])}</div>
       </article>`;
   }
 
@@ -610,7 +609,7 @@
   const PERDELER = {
     rapor: {
       baslik: 'Tam rapor çok yakında',
-      metin: 'Ödeme sistemi eklendiğinde tam raporu buradan açabileceksiniz. Tam rapor; tüm uyum yorumlarını, ilişki yapısını ve gelecek öngörüsünü içerir.',
+      metin: 'Ödeme sistemi eklendiğinde tam raporu buradan açabileceksiniz. Tam rapor, ilişki yapısının yedi başlığının tamamını ve önümüzdeki 12 ayın gelecek öngörüsünü içerir.',
     },
     dil: {
       baslik: 'Dil',
