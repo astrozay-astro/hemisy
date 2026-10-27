@@ -358,18 +358,27 @@
 
   // ---------- Hesaplama ----------
 
-  // Açılış videosu (marka/hemisy-acilis.mp4, 4,9 sn, sesli) hesaplama sırasında bir kez baştan sona oynar, sonuç video
-  // bitince açılır. Video oynatılamazsa (otomatik oynatma kapalı, dosya yüklenemedi) en az 1,8 sn beklenir.
+  // Açılış videosu (marka/hemisy-acilis.mp4, 4,9 sn, sesli): hesaplama sırasında tam ekran, bir kez baştan sona
+  // oynar. Sonuç video bitince altta hazırlanır, perde yavaşça aydınlanıp çözülerek yoruma geçilir.
+  // Sesli oynatma "Analizimi göster" tıklamasıyla izinlidir. Tarayıcı yine de engellerse video sessiz oynar.
+  // Video oynatılamazsa en az 1,8 sn beklenir.
   const ACILIS_SURESI = 4900;
-  function acilisBekle() {
-    const video = kok.querySelector('.acilis-video');
-    return new Promise((coz) => {
-      let bitti = false;
-      const bitir = () => { if (!bitti) { bitti = true; coz(); } };
-      if (!video) { setTimeout(bitir, 1800); return; }
+  function acilisAc() {
+    document.querySelector('.acilis-perde')?.remove();
+    const perdeEl = document.createElement('div');
+    perdeEl.className = 'acilis-perde';
+    perdeEl.setAttribute('aria-hidden', 'true');
+    perdeEl.innerHTML = `
+      <video class="acilis-video" src="marka/hemisy-acilis.mp4" poster="marka/hemisy-acilis.jpg" playsinline preload="auto"></video>
+      <p class="acilis-yazi">${durum.mod === 'birey' ? 'Haritanız okunuyor' : 'Yıldızlarınız karşılaştırılıyor'}</p>`;
+    document.body.append(perdeEl);
+    document.documentElement.classList.add('acilis-acik');
+    const video = perdeEl.querySelector('video');
+    const bitti = new Promise((coz) => {
+      let tamam = false;
+      const bitir = () => { if (!tamam) { tamam = true; coz(); } };
       video.addEventListener('ended', bitir, { once: true });
       video.addEventListener('error', () => setTimeout(bitir, 1800), { once: true });
-      // Sesli oynatma "Analizimi göster" tıklamasıyla izinli. Tarayıcı yine de engellerse video sessiz oynar.
       video.muted = false;
       video.play()?.catch(() => {
         video.muted = true;
@@ -377,11 +386,21 @@
       });
       setTimeout(bitir, ACILIS_SURESI + 3000);
     });
+    return { perdeEl, bitti };
+  }
+
+  // Zarif geçiş: perde ışığa doğru açılır ve çözülür, altındaki rapor belirerek gelir
+  function acilisKapat(perdeEl) {
+    document.documentElement.classList.remove('acilis-acik');
+    perdeEl.classList.add('kapaniyor');
+    const kaldir = () => perdeEl.remove();
+    perdeEl.addEventListener('transitionend', kaldir, { once: true });
+    setTimeout(kaldir, 1600);
   }
 
   async function hesapla() {
+    const acilis = acilisAc();
     goster('yukleniyor');
-    const acilis = acilisBekle();
     try {
       const birey = durum.mod === 'birey';
       const natal = [];
@@ -397,8 +416,9 @@
         durum.sonuc = { birey: true, natal, analiz, yorum: S.bireyselYorum(analiz) };
         analiziKaydet(durum.kisiler[0]);
         durum.hata = '';
-        await acilis;
+        await acilis.bitti;
         goster('birey');
+        acilisKapat(acilis.perdeEl);
         return;
       }
       const [h1, h2] = natal.map((n) => n.harita);
@@ -417,24 +437,22 @@
       durum.hata = '';
       durum.sekme = 0;
       durum.altSekme = 0;
-      await acilis;
+      await acilis.bitti;
       goster('sonuc');
+      acilisKapat(acilis.perdeEl);
     } catch (hata) {
       durum.hata = hata.message;
+      acilisKapat(acilis.perdeEl);
       goster('form');
     }
   }
 
+  // Perdenin altında, ekran okuyucular için
   function yukleniyorEkrani() {
     return `
       <section class="ekran yukleniyor" aria-live="polite">
-        <div class="acilis">
-          <video class="acilis-video" src="marka/hemisy-acilis.mp4" poster="marka/hemisy-acilis.jpg" playsinline preload="auto" aria-hidden="true"></video>
-        </div>
-        <div class="yukleniyor-ic">
-          <h2 tabindex="-1">${durum.mod === 'birey' ? 'Haritanız okunuyor' : 'Yıldızlarınız karşılaştırılıyor'}</h2>
-          <p>${durum.mod === 'birey' ? 'Doğum haritanız hesaplanıyor, eş potansiyeliniz ve evlilik dönemleriniz yorumlanıyor.' : 'Doğum haritalarınız hesaplanıyor ve uyumunuz yorumlanıyor.'}</p>
-        </div>
+        <h2 tabindex="-1">${durum.mod === 'birey' ? 'Haritanız okunuyor' : 'Yıldızlarınız karşılaştırılıyor'}</h2>
+        <p>${durum.mod === 'birey' ? 'Doğum haritanız hesaplanıyor, eş potansiyeliniz ve evlilik dönemleriniz yorumlanıyor.' : 'Doğum haritalarınız hesaplanıyor ve uyumunuz yorumlanıyor.'}</p>
       </section>`;
   }
 
