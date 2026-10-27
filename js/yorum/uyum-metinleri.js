@@ -282,6 +282,69 @@ window.ASTROSHIP_UYUM_METINLERI = {
     'mars-eros': '{X:in} arzusu, {Y:in} aşk arzusunun tam kalbine dokunabilir. Aranızdaki cinsel çekim karşı konulmaz bir hâl alabilir.',
   },
 
+  // Huzur başlığına özel anlatımlar: bu başlık çekimi değil çatışma ve uyumu anlatır.
+  // Tutku metinleri burada kullanılırsa tutku yüzdesi düşük bir çiftte "yoğun tutku" denmiş olur.
+  huzur: {
+    'mars-pluton': {
+      k: 'Aranızda güçlü bir irade çatışması olabilir. İkiniz de geri adım atmakta zorlanabilirsiniz. Gücü birbirinize karşı değil ortak bir hedef için kullandığınızda bu enerji sakinleşebilir.',
+      u: 'Zorluklar karşısında birbirinize güç verebilirsiniz. Kriz anlarında bile aynı tarafta durabilirsiniz.',
+      g: 'Tartışmalarınız inatlaşmaya ve kontrol mücadelesine dönüşebilir. Kıskançlık ya da sahiplenme belirdiğinde sınırlarınızı sakin bir dille konuşmak size iyi gelebilir.',
+    },
+    'mars-mars': {
+      k: 'Enerjiniz aynı yöne aktığında birlikte çok iş başarabilirsiniz. Ama ikiniz de aynı anda öne çıkmak istediğinizde tartışma kolay başlayabilir.',
+      u: 'Birbirinizin temposuna kolayca uyum sağlayabilirsiniz. Anlaşmazlıklar uzamadan çözülebilir.',
+      g: 'İsteklerinizi ve öfkenizi dile getirme biçimleriniz çatışabilir. Kavgalar çabuk alevlenebilir. Tartışmayı soğumaya bırakmak size iyi gelebilir.',
+    },
+    'ay-mars': {
+      k: '{Y:in} dolaysızlığı {X:in} duygularını kolayca harekete geçirebilir. Bu bazen koruyucu bir sıcaklık, bazen de kırgınlık olarak yaşanabilir.',
+      u: '{Y}, {X:in} duygusal ihtiyaçlarına somut adımlarla karşılık verebilir. Bu, aranızdaki huzuru güçlendirebilir.',
+      g: '{Y:in} sabırsızlığı ya da öfkesi {X:in} hassas noktalarına dokunabilir. Tartışmalar çabuk alevlenebilir. Sözlerinizi seçmek kırgınlıkların birikmesini önleyebilir.',
+    },
+    'gunes-mars': {
+      k: '{Y}, {X:i} harekete geçirebilir, ama bu enerji kolayca rekabete de dönüşebilir. Kimin haklı olduğundan çok neyin işe yaradığına bakmak size iyi gelebilir.',
+      u: 'Birlikteyken enerjiniz yükselebilir ve anlaşmazlıklar yapıcı bir yöne akabilir.',
+      g: 'Gurur çatışmaları kolay çıkabilir. {Y:in} çıkışları {X:e} meydan okuma gibi gelebilir. Tartışmayı bir yarışa çevirmemek huzurunuzu koruyabilir.',
+    },
+  },
+
+  // Ölçülü anlatımlar: yoğunluk başlıklarında (tutku, karmik bağ) yüzde düşükken (<55) kullanılır.
+  // Temas haritada vardır ama başlığın genel tablosunu belirlemez, bu yüzden "çok güçlü" gibi ifadeler kullanılmaz.
+  // Aynı yer tutucu kuralları geçerlidir. Bir anahtar yoksa normal metin kullanılır.
+  olculu: {
+    ciftler: {
+      'venus-mars': 'Aranızda zaman zaman bir kıpırtı hissedilebilir, ama bu çekim ilişkinizin ana yakıtı olmayabilir. Arzunun canlı kalması için ortak anlar yaratmak size iyi gelebilir.',
+      'mars-pluton': 'Bazı anlarda aranızda beklenmedik bir yoğunluk belirebilir. Bu yoğunluk çekimden çok inatlaşma ya da kontrol isteği olarak da kendini gösterebilir. Böyle anlarda sınırlarınızı sakin bir dille konuşmak size iyi gelebilir.',
+      'venus-pluton': 'Sevginizde zaman zaman sahiplenme ya da kıskançlık kıpırtıları olabilir. Bu, çekiminizi belirleyen bir şey olmaktan çok güveninizin sınandığı küçük anlar olarak yaşanabilir.',
+      'mars-mars': 'Enerjileriniz bazen aynı yöne akabilir, bazen birbirine çarpabilir. Bu etki çekiminizi çok artırmasa da ortak bir hedefte buluştuğunuzda sizi canlandırabilir.',
+      'gunes-mars': '{Y}, zaman zaman {X:i} harekete geçirebilir. Ancak bu enerji fiziksel çekimden çok ortak işlerde ve tartışmalarda kendini gösterebilir.',
+      'mars-yukselen': '{X:in} enerjisi {Y:e} zaman zaman etkileyici gelebilir. Yine de bu etki tek başına güçlü bir çekim yaratmayabilir.',
+      'venus-yukselen': '{X}, {Y:in} tarzını beğenebilir. Bu beğeni zamanla bir sıcaklığa dönüşebilir, ama ilk görüşte bir kıvılcım olmayabilir.',
+      'ay-mars': '{Y:in} enerjisi zaman zaman {X:in} duygularını harekete geçirebilir. Bu etki çekimden çok gündelik tepkilerde, bazen de küçük tartışmalarda hissedilebilir.',
+      'venus-uranus': 'Aranızda arada bir beklenmedik ve heyecan verici anlar olabilir. Bu anlar kalıcı bir çekimden çok ilişkinize renk katan sürprizler olabilir.',
+      'gunes-kuzeyDugum': '{X}, {Y:in} gelişimine bazı konularda ilham verebilir. Bu etki bir kader buluşmasından çok yol üstünde öğrenilen bir ders gibi yaşanabilir.',
+      'ay-kuzeyDugum': '{X:in} duygusal tavrı, {Y:e} bazı konularda yeni bir bakış açısı kazandırabilir.',
+      'venus-kuzeyDugum': '{X:in} sevgisi, {Y:in} hayatında küçük ama anlamlı bir yön değişikliğine katkı sağlayabilir.',
+      'kuzeyDugum-yukselen': '{Y}, {X:in} hayatında bazı yeni kapıların açılmasına vesile olabilir.',
+    },
+    evler: {
+      'mars-1': '{X}, {Y:in} hayatına canlılık katabilir. Bu canlılık çekimden çok birlikte bir şeyler yapma isteği olarak hissedilebilir.',
+      'mars-5': '{X}, {Y:in} eğlenceli tarafını zaman zaman uyandırabilir. Flört kendiliğinden gelişmese de birlikte eğlenmeyi öğrenebilirsiniz.',
+      'mars-8': 'Mahrem alanınızda zamanla derinleşebilecek bir yakınlık olabilir. Bu yakınlık için önce güvenin oluşması gerekebilir.',
+      'venus-1': '{X}, {Y:i} sevimli bulabilir. Bu beğeni çekimden çok sıcak bir yakınlık olarak hissedilebilir.',
+      'venus-5': 'Birlikte keyifli zaman geçirebilirsiniz. Bu keyif zamanla romantik bir renk de kazanabilir.',
+      'venus-8': 'Sevginiz zamanla derinleşebilir. Bu derinlik ilk anda değil, güven oluştukça gelebilir.',
+      'pluton-1': '{X}, {Y} üzerinde zaman zaman etkili olabilir. Bu etki çekimden çok {Y:in} bazı alışkanlıklarını değiştirmesi olarak görülebilir.',
+      'pluton-5': 'Romantik anlarınız bazen beklenenden ciddi bir hâl alabilir. Bu ciddiyet hafiflikle dengelendiğinde size iyi gelebilir.',
+      'pluton-8': 'Aranızda zamanla açılabilecek derin bir alan olabilir. Bu alan kendiliğinden değil, güven ve sabırla açılabilir.',
+      'gunes-12': '{Y}, {X:in} bazı yanlarını sezgisel olarak anlayabilir. Bu bağ çoğu zaman sessiz ve arka planda kalabilir.',
+      'ay-12': '{Y}, {X:in} duygularını zaman zaman sezgileriyle anlayabilir. Söylenmeyen duygular birikmesin diye açık konuşmak önemli olabilir.',
+    },
+    kismetler: {
+      'venus-eros': '{X:in} sevgisi, {Y:in} aşk arzusuna zaman zaman dokunabilir. Bu dokunuş ilişkinize ince bir romantizm katabilir.',
+      'mars-eros': '{X:in} enerjisi, {Y:in} arzusunu zaman zaman uyandırabilir. Bu kıvılcımın büyümesi ikinizin ilgisine bağlı olabilir.',
+    },
+  },
+
   // Kişinin karakterine dair kısa ifade (gezegenin burcundan).
   // {N} kişinin adı. {ise} ikinci kişide " ise" olur: "Can aşkta zarafet bekleyebilir. Elif ise …"
   burcIfadeleri: {
@@ -341,7 +404,6 @@ window.ASTROSHIP_UYUM_METINLERI = {
   // Yüzde düzeyine göre giriş cümlesi: [yüksek (≥75), orta (55–74), düşük (<55)]
   bantlar: {
     tutku: ['Çekim bu ilişkinin en canlı yanlarından biri olabilir. Aranızda kıvılcım eksik olmayabilir.', 'Çekim her an parlamasa da doğru anlarda alevlenebilir.', 'Fiziksel çekim bu ilişkinin ön plandaki yanı olmayabilir. Bağınız daha çok başka alanlardan beslenebilir.'],
-    cinsellik: ['Mahrem alanınızda çok güçlü bir uyum ve yoğunluk olabilir.', 'Cinsel uyumunuz zamanla ve birbirinizi tanıdıkça derinleşebilir.', 'Cinsellik bu ilişkinin ön plandaki yanı olmayabilir. Yakınlığınız daha çok duygusal ve zihinsel bağdan beslenebilir.'],
     baglanma: ['Duygusal bağınız derin olabilir. Birbirinize kolayca tutunabilirsiniz.', 'Aranızda duygusal bir bağ olabilir, ama onu güçlendirmek ikinizin de emeğini isteyebilir.', 'Duygusal olarak birbirinizi anlamanız zaman alabilir. Bu bağın anahtarı sabır olabilir.'],
     iletisim: ['Zihinsel olarak çok iyi anlaşabilirsiniz. Konuşmak sizin için bir keyif olabilir.', 'İletişiminiz genel olarak iyi olabilir, ama yanlış anlaşılmalara açık kalabilir.', 'İletişim, bu ilişkinin en çok özen isteyen alanı olabilir.'],
     romantizm: ['Romantizm, ilişkinizin en parlak yanlarından biri olabilir.', 'Aranızda şefkat olabilir, ama romantizmi canlı tutmak biraz özen isteyebilir.', 'Romantizm kendiliğinden gelişmeyebilir. Birbirinizin sevgi dilini öğrenmek size iyi gelebilir.'],

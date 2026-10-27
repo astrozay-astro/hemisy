@@ -12,7 +12,6 @@
     baglanma: ['ay', 'gunes', 'venus'],
     iletisim: ['merkur'],
     romantizm: ['venus', 'gunes'],
-    cinsellik: ['mars', 'venus'],
     guven: ['gunes', 'ay'],
     huzur: ['mars', 'ay'],
     karmik: [],
@@ -61,12 +60,14 @@
   }
 
   // Bir göstergenin paragrafı. isimleBasliyor: metin bir isimle başlıyorsa bağlaçtan sonra küçük harfe çevrilmez.
-  function etkenParagrafi(etken, adlar, anlatilanlar, ilkMi, baslikId) {
+  // olculu: yoğunluk başlığında yüzde düşük; metin temasın varlığını anlatır ama güçlü çekim iddia etmez
+  function etkenParagrafi(etken, adlar, anlatilanlar, ilkMi, baslikId, olculu) {
+    const O = olculu ? M.olculu : null;
     let sablon;
     let govde;
     if (etken.tur === 'aci') {
-      const metinler = M.ciftler[`${etken.p}-${etken.q}`];
-      sablon = metinler[aciTuru(etken)] ?? metinler.g;
+      const metinler = M[baslikId]?.[`${etken.p}-${etken.q}`] ?? M.ciftler[`${etken.p}-${etken.q}`];
+      sablon = O?.ciftler[`${etken.p}-${etken.q}`] ?? metinler[aciTuru(etken)] ?? metinler.g;
       govde = doldur(sablon, { X: adlar[etken.kimP], Y: adlar[etken.kimQ] });
       const kisilik = [];
       for (const [nokta, kim] of [[etken.a, etken.kimP], [etken.b, etken.kimQ]]) {
@@ -76,13 +77,13 @@
         kisilik.push({ nokta, ad: adlar[kim] });
       }
       const ekler = [kisilikCumlesi(kisilik)];
-      if (ilkMi && etken.aci.orb < 2) ekler.push(M.gucluTemas);
+      if (ilkMi && etken.aci.orb < 2 && !olculu) ekler.push(M.gucluTemas);
       govde = [govde, ...ekler].filter(Boolean).join(' ');
     } else if (etken.tur === 'ev') {
-      sablon = M.evler[`${etken.p}-${etken.ev}`];
+      sablon = O?.evler[`${etken.p}-${etken.ev}`] ?? M.evler[`${etken.p}-${etken.ev}`];
       govde = doldur(sablon, { X: adlar[etken.kim], Y: adlar[etken.evSahibi] });
     } else if (etken.tur === 'kismet') {
-      sablon = M.kismetler[`${etken.p}-eros`];
+      sablon = O?.kismetler[`${etken.p}-eros`] ?? M.kismetler[`${etken.p}-eros`];
       govde = doldur(sablon, { X: adlar[etken.kim], Y: adlar[etken.kismetSahibi] });
     } else {
       sablon = M.burcCiftleri[`${etken.p}-${etken.q}`];
@@ -107,8 +108,12 @@
     if (!secilen.length) return { ...baslik, nedenler, ucretsiz: [`${giris} ${M.bosBaslik}`], ucretli: [] };
 
     const anlatilanlar = new Set();
+    // Yoğunluk başlığında metin yüzdeyle çelişmesin: yüzde düşükse tüm temaslar, ortaysa temel tema
+    // dışındaki temaslar ölçülü anlatılır (ör. Venüs–Mars yokken Mars–Plüton "çok güçlü çekim" demez)
+    const temel = (e) => e.tur === 'aci' && (baslik.cekirdek || []).includes(`${e.p}-${e.q}`);
+    const olculu = (e) => baslik.tur === 'yogunluk' && (bant === 2 || (bant === 1 && !temel(e)));
     const paragraflar = secilen.map((e, i) => {
-      const p = etkenParagrafi(e, adlar, anlatilanlar, i === 0, baslik.id);
+      const p = etkenParagrafi(e, adlar, anlatilanlar, i === 0, baslik.id, olculu(e));
       return i === 0 ? p.metin : baglacEkle(p, secilen[i - 1], e, i);
     });
     return { ...baslik, nedenler, ucretsiz: [`${giris} ${paragraflar[0]}`], ucretli: paragraflar.slice(1) };

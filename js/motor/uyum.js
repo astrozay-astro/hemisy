@@ -2,7 +2,7 @@
 //  1) Sinastri açıları (burç + derece kuralı, orb ≤ 10°; açı ne kadar tamsa o kadar ağır)
 //  2) Ev yerleşimleri (bir kişinin gezegeninin diğerinin hangi evine düştüğü)
 //  3) Burç uyumu: element ve nitelik ilişkisi (aynı çift arasında açı yoksa)
-//  4) Eros Kısmeti temasları (çekim ve cinsellik başlıklarında)
+//  4) Eros Kısmeti temasları (çekim başlığında)
 // Cinsiyet seçimi, geleneğin her çift türü için öne çıkardığı temasların ağırlığını değiştirir.
 (() => {
   'use strict';
@@ -22,14 +22,6 @@
       ciftler: { 'venus-mars': 1, 'mars-pluton': 0.8, 'venus-pluton': 0.7, 'mars-mars': 0.5, 'gunes-mars': 0.5, 'mars-yukselen': 0.6, 'venus-yukselen': 0.4, 'ay-mars': 0.4, 'venus-uranus': 0.4 },
       evler: { mars: [1, 5, 8], venus: [1, 5, 8], pluton: [1, 5, 8] },
       burclar: [['venus', 'mars'], ['mars', 'mars']],
-      kismet: ['venus', 'mars'],
-    },
-    {
-      id: 'cinsellik', ad: 'Cinsellik ve Mahremiyet', glif: '♇', tur: 'yogunluk', agirlik: 1.1,
-      cekirdek: ['mars-pluton', 'venus-pluton', 'venus-mars', 'mars-mars'], cekirdekYoksa: 45,
-      ciftler: { 'mars-pluton': 1, 'venus-pluton': 0.9, 'venus-mars': 0.7, 'mars-mars': 0.7, 'ay-mars': 0.5, 'ay-pluton': 0.5, 'mars-yukselen': 0.4, 'venus-uranus': 0.3 },
-      evler: { mars: [5, 8], venus: [8], pluton: [1, 8], ay: [8] },
-      burclar: [['mars', 'mars'], ['venus', 'mars']],
       kismet: ['venus', 'mars'],
     },
     {

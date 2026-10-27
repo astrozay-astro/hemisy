@@ -13,8 +13,9 @@
     sekme: 0,
     altSekme: 0,
     hata: '',
-    // Test anahtarı: adresin sonuna #test eklenince ücretli bölümler açık görünür
-    kilitAcik: location.hash === '#test',
+    // Geçici: yorumlar gözden geçirilirken ücretli bölümler herkese açık. Ödeme gelince yalnızca #test açsın:
+    // kilitAcik: location.hash === '#test',
+    kilitAcik: true,
     sorulanSoru: '',
   };
 
@@ -167,7 +168,7 @@
         </section>
 
         <ol class="icerik-listesi yuzey">
-          <li><span class="amblem" aria-hidden="true">${glif('♀')}</span><div><div class="baslik-satiri"><h3>Uyum</h3><span class="rozet">Ücretsiz</span></div><p>Çekim, cinsellik, bağlanma, iletişim, romantizm ve güven. Her biri yüzdesi ve yorumuyla.</p></div></li>
+          <li><span class="amblem" aria-hidden="true">${glif('♀')}</span><div><div class="baslik-satiri"><h3>Uyum</h3><span class="rozet">Ücretsiz</span></div><p>Çekim, bağlanma, iletişim, romantizm, güven ve huzur. Her biri yüzdesi ve yorumuyla.</p></div></li>
           <li><span class="amblem" aria-hidden="true">${glif('☽')}</span><div><div class="baslik-satiri"><h3>İlişki yapısı</h3><span class="rozet rozet-pro">Pro plan</span></div><p>İlişkiniz nasıl başlayabilir, nereden beslenebilir, hangi konularda sınanabilir?</p></div></li>
           <li><span class="amblem" aria-hidden="true">${glif('♃')}</span><div><div class="baslik-satiri"><h3>Gelecek öngörüsü</h3><span class="rozet rozet-pro">Pro plan</span></div><p>Önümüzdeki 12 ayın güçlü dönemleri: ilişki ne zaman başlayabilir, ne zaman derinleşebilir?</p></div></li>
         </ol>
@@ -842,7 +843,7 @@
     const y = durum.sonuc.yorum;
     return `
       <section class="ekran sonuc">
-        ${durum.kilitAcik ? '<p class="test-bandi">Test modu · tüm kilitler açık</p>' : ''}
+        ${location.hash === '#test' ? '<p class="test-bandi">Test modu · tüm kilitler açık</p>' : ''}
         ${ustCubuk()}
         <button type="button" class="geri" data-git="form">← Bilgileri değiştir</button>
         <header class="gece sonuc-bas">
