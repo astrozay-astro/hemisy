@@ -1,12 +1,10 @@
-// Karmik bağ yorumlarını kurar (yedi başlık). Her başlık bir arketip girişiyle açılır, ardından iki kişinin haritasında
-// gerçekten bulunan karmik temasların metinleri en güçlüden başlayarak eklenir. Temas yoksa başlığın "iz yok" metni kullanılır.
-//  1) Ruhsal tanışıklık: drakonik sinastri, drakonik × drakonik, Vertex
-//  2) Geçmişten gelen iz: Güney Ay Düğümü temasları ve iki kişinin Güney Düğüm burcu
-//  3) Ruhsal amaç: drakonik Davison Güneş, Ay, Yükselen ve Kuzey Ay Düğümü temasları
-//  4) Karmik sözleşme: Satürn temasları
-//  5) Gölge ve dönüşüm: Plüton ve Kara Ay temasları
-//  6) Kader kapıları: Ruh, Talih ve Evlilik Kısmeti temasları
-//  7) Vedik bakış: Ay nakşatraları, Aştakuta, Mangal Doşa, Jaimini bağları
+// Karmik bağ yorumlarını kurar (yedi başlık). Anlatım bir hikâye gibi ilerler:
+//  1) Geçmişte nereden tanışıyorsunuz: en güçlü geçmiş izinden bir rol seçilir (anne–çocuk, sevgililer, yoldaşlar …)
+//     Kaynaklar: Güney Ay Düğümü temasları, drakonik sinastri, drakonik × drakonik, Satürn ve Plüton kavuşumları.
+//     Rolü taşıyan kişi gezegenin sahibidir. O hayatın ortamı, hatırlayan kişinin Güney Düğüm burcundan okunur.
+//  2) O hayattan taşıdıklarınız: rolün bugünkü izi ve iki kişinin Güney Düğüm burcu (ustalık ve alışkanlık)
+//  3) Bu hayatta neden bir araya geldiniz: rolün dersi, drakonik Davison (Güneş, Ay, Yükselen), Kuzey Düğüm ve Vertex
+//  4) Karmik sözleşme: Satürn   5) Gölge: Plüton ve Kara Ay   6) Kısmetler   7) Vedik: nakşatra, Aştakuta, Mangal, Jaimini
 // Tanıtım: giriş ve ilk özel cümle ücretsiz görünür, gerisi tam rapordadır.
 (() => {
   'use strict';
@@ -19,32 +17,14 @@
   const birlestir = (...parcalar) => parcalar.filter(Boolean).join(' ');
   const cumleler = (p) => p.match(/[^.!?]+[.!?]+["”]?/g) || [p];
 
-  // {N} yer tutucusunu {X} ya da {Y} yapar (ruh / kişilik ifadeleri için)
-  const kime = (metin, harf) => metin.replace(/\{N/g, `{${harf}`);
-
-  function baglaYap(paragraflar) {
-    return paragraflar.map((p, i) => {
-      if (!i) return p.metin;
-      const baglac = M.baglaclar[(i - 1) % 3];
-      return `${baglac} ${p.isimleBasliyor ? p.metin : kucukBasla(p.metin)}`;
-    });
-  }
-
-  // Aynı türde aynı noktanın iki kez anlatılmaması için (ör. iki ayrı drakonik Venüs teması)
-  function tekil(temaslar, anahtar) {
-    const gorulen = new Set();
-    return temaslar.filter((t) => {
-      const k = anahtar(t);
-      if (gorulen.has(k)) return false;
-      gorulen.add(k);
-      return true;
-    });
-  }
-
-  // ozel: hazır (adları doldurulmuş) paragraflar. Bir isimle başlayan paragraf bağlaçtan sonra küçük harfe çevrilmez.
+  // ozel: hazır (adları doldurulmuş) paragraflar. Bir isimle ya da kendi geçişiyle başlayan paragrafa bağlaç eklenmez.
   function kart(id, giris, ozel, adlar) {
-    const paragraflar = ozel.filter(Boolean).map((metin) => ({ metin, isimleBasliyor: [adlar[0], adlar[1]].some((a) => metin.startsWith(a)) }));
-    const bagli = baglaYap(paragraflar);
+    const paragraflar = ozel.filter(Boolean);
+    const bagli = paragraflar.map((p, i) => {
+      if (!i || p.startsWith('Başka bir yaşamda')) return p;
+      const isimle = [adlar[0], adlar[1]].some((a) => p.startsWith(a));
+      return `${M.baglaclar[(i - 1) % M.baglaclar.length]} ${isimle ? p : kucukBasla(p)}`;
+    });
     const ilk = bagli.length ? cumleler(bagli[0]) : [];
     return {
       id,
@@ -54,57 +34,88 @@
     };
   }
 
-  // Temas metnini, X ve Y yer tutucuları doğru kişilere gidecek biçimde doldurur
-  const temasMetni = (metin, t, adlar) => S.yorumDoldur(metin, { X: adlar[t.kim], Y: adlar[t.digeri] });
-
-  // ---------- 1) Ruhsal tanışıklık ----------
-  function tanisiklik(k, adlar) {
-    const bant = k.tanisiklik >= 65 ? 0 : k.tanisiklik >= 45 ? 1 : 2;
-    const secilen = tekil(k.temaslar.filter((t) => ['drakonik', 'drakonikCift', 'vertex'].includes(t.tur)), (t) => `${t.tur}-${t.kim}-${t.p}`).slice(0, 4);
-    const ozel = [M.tanisiklikBant[bant], ...secilen.map((t) => {
-      if (t.tur === 'vertex') return temasMetni(birlestir(M.vertexGiris, M.vertex[t.p]), t, adlar);
-      if (t.tur === 'drakonikCift') {
-        return temasMetni(M.drakonikCift.replace('{ruhX}', kime(M.ruhYuzu[t.p], 'X')).replace('{ruhY}', kime(M.ruhYuzu[t.q], 'Y')), t, adlar);
-      }
-      const kalip = (t.karsit ? M.drakonikKarsit : M.drakonikKavusum)
-        .replace('{ruh}', kime(M.ruhYuzu[t.p], 'X')).replace('{kisilik}', kime(M.kisilikYuzu[t.q], 'Y'));
-      return temasMetni(birlestir(kalip, M.drakonikAnlam[t.p], t.karsit && M.drakonikKarsitEk), t, adlar);
-    })];
-    return kart('tanisiklik', M.girisler.tanisiklik, ozel, adlar);
+  // Aynı türde aynı noktanın iki kez anlatılmaması için
+  function tekil(liste, anahtar) {
+    const gorulen = new Set();
+    return liste.filter((t) => {
+      const k = anahtar(t);
+      if (gorulen.has(k)) return false;
+      gorulen.add(k);
+      return true;
+    });
   }
 
-  // ---------- 2) Geçmişten gelen iz ----------
-  function gecmis(k, adlar) {
-    const secilen = tekil(k.temaslar.filter((t) => t.tur === 'guneyDugum'), (t) => `${t.kim}-${t.p}`).slice(0, 3);
+  // X ve Y yer tutucularını kişilere göre doldurur (X = sahip, Y = diğeri)
+  const doldur = (metin, x, y, adlar) => S.yorumDoldur(metin, { X: adlar[x], Y: adlar[y] });
+
+  // ---------- Geçmiş yaşam rolleri ----------
+  // Her aday: { rol, sahip, hatirlayan, kaynak, agirlik }
+  function rolAdaylari(temaslar) {
+    const adaylar = [];
+    for (const t of temaslar) {
+      if (t.tur === 'guneyDugum' && M.roller[t.p]) {
+        adaylar.push({ rol: t.p, sahip: t.kim, hatirlayan: t.digeri, kaynak: 'guney', agirlik: t.agirlik * 1.3 });
+      } else if (t.tur === 'drakonik' || t.tur === 'drakonikCift') {
+        // Rolü ruhun (drakonik) noktası belirler: t.kim'in ruhu, t.digeri için o gezegenin rolünü oynamıştır
+        adaylar.push({ rol: t.p, sahip: t.kim, hatirlayan: t.digeri, kaynak: 'drakonik', agirlik: t.agirlik });
+      } else if (t.tur === 'saturn' && t.aci.id === 'kavusum') {
+        adaylar.push({ rol: 'saturn', sahip: t.kim, hatirlayan: t.digeri, kaynak: null, agirlik: t.agirlik * 0.8 });
+      } else if (t.tur === 'pluton' && (t.aci.id === 'kavusum' || t.aci.id === 'karsit')) {
+        adaylar.push({ rol: 'pluton', sahip: t.kim, hatirlayan: t.digeri, kaynak: null, agirlik: t.agirlik * 0.8 });
+      }
+    }
+    adaylar.sort((a, b) => b.agirlik - a.agirlik);
+    return tekil(adaylar.filter((a) => M.roller[a.rol]), (a) => a.rol).slice(0, 2);
+  }
+
+  // ---------- 1) Geçmişte nereden tanışıyorsunuz ----------
+  function gecmis(k, roller, adlar) {
+    const bant = k.tanisiklik >= 65 ? 0 : k.tanisiklik >= 45 ? 1 : 2;
+    const [ilk, ikinci] = roller;
+    if (!ilk) return kart('gecmis', M.girisler.gecmis, [M.gecmisYok], adlar);
+    const R = M.roller[ilk.rol];
+    const sahne = M.sahneKalip.replace('{sahne}', M.sahne[k.ruh[ilk.hatirlayan].guneyDugum.indeks]);
+    const ozel = [
+      birlestir(`Geçmiş bir yaşamda ${doldur(R.tanisma, ilk.sahip, ilk.hatirlayan, adlar)}`, doldur(R.dinamik, ilk.sahip, ilk.hatirlayan, adlar), M.kaynak[ilk.kaynak], sahne),
+      ikinci && birlestir(`Başka bir yaşamda ise ${doldur(M.roller[ikinci.rol].tanisma, ikinci.sahip, ikinci.hatirlayan, adlar)}`, doldur(M.roller[ikinci.rol].dinamik, ikinci.sahip, ikinci.hatirlayan, adlar)),
+      M.tanisiklikBant[bant],
+    ];
+    return kart('gecmis', M.girisler.gecmis, ozel, adlar);
+  }
+
+  // ---------- 2) O hayattan bu hayata taşıdıklarınız ----------
+  function tasinan(k, roller, adlar) {
     const burclar = k.ruh.map((r) => r.guneyDugum.indeks);
     const ozel = [
-      ...(secilen.length ? secilen.map((t) => temasMetni(M.guneyDugum[t.p], t, adlar)) : [M.guneyDugumYok]),
+      ...roller.map((r) => doldur(M.roller[r.rol].iz, r.sahip, r.hatirlayan, adlar)),
       birlestir(
         S.yorumDoldur(M.guneyBurc[burclar[0]], { N: adlar[0] }),
         S.yorumDoldur(M.guneyBurc[burclar[1]], { N: adlar[1] }),
         burclar[0] === burclar[1] && M.guneyIkisiAyni,
       ),
     ];
-    return kart('gecmis', M.girisler.gecmis, ozel, adlar);
+    return kart('tasinan', M.girisler.tasinan, ozel, adlar);
   }
 
-  // ---------- 3) Ruhsal amaç ----------
-  function amac(k, adlar) {
+  // ---------- 3) Bu hayatta neden bir araya geldiniz ----------
+  function neden(k, roller, adlar) {
     const g = k.drakonikDavison.gezegenler;
-    const secilen = tekil(k.temaslar.filter((t) => t.tur === 'kuzeyDugum'), (t) => `${t.kim}-${t.p}`).slice(0, 2);
+    const kuzey = tekil(k.temaslar.filter((t) => t.tur === 'kuzeyDugum' && M.kuzeyDugum[t.p]), (t) => `${t.kim}-${t.p}`).slice(0, 2);
+    const vertex = k.temaslar.find((t) => t.tur === 'vertex' && M.vertex[t.p]);
     const ozel = [
-      birlestir(M.amacGunes[g.gunes.indeks], M.amacAy[g.ay.indeks]),
-      M.amacYukselen[g.yukselen.indeks],
-      ...secilen.map((t) => temasMetni(M.kuzeyDugum[t.p], t, adlar)),
+      roller[0] && doldur(M.roller[roller[0].rol].ders, roller[0].sahip, roller[0].hatirlayan, adlar),
+      birlestir(M.amacGunes[g.gunes.indeks], M.amacAy[g.ay.indeks], M.amacYukselen[g.yukselen.indeks]),
+      ...kuzey.map((t) => doldur(M.kuzeyDugum[t.p], t.kim, t.digeri, adlar)),
+      vertex && doldur(birlestir(M.vertexGiris, M.vertex[vertex.p]), vertex.kim, vertex.digeri, adlar),
     ];
-    return kart('amac', M.girisler.amac, ozel, adlar);
+    return kart('neden', M.girisler.neden, ozel, adlar);
   }
 
   // ---------- 4) Karmik sözleşme ----------
   function sozlesme(k, adlar) {
     const secilen = tekil(k.temaslar.filter((t) => t.tur === 'saturn'), (t) => `${t.kim}-${t.q}`).slice(0, 3);
     const ozel = secilen.length
-      ? secilen.map((t) => temasMetni(M.saturn[t.q][UYUMLU.includes(t.aci.id) ? 'u' : 'g'], t, adlar))
+      ? secilen.map((t) => doldur(M.saturn[t.q][UYUMLU.includes(t.aci.id) ? 'u' : 'g'], t.kim, t.digeri, adlar))
       : [M.saturnYok];
     return kart('sozlesme', M.girisler.sozlesme, ozel, adlar);
   }
@@ -114,8 +125,8 @@
     const pluton = tekil(k.temaslar.filter((t) => t.tur === 'pluton'), (t) => `${t.kim}-${t.q}`).slice(0, 2);
     const karaAy = tekil(k.temaslar.filter((t) => t.tur === 'karaAy'), (t) => `${t.kim}-${t.p}`).slice(0, 2);
     const ozel = [
-      ...pluton.map((t) => temasMetni(M.pluton[t.q][UYUMLU.includes(t.aci.id) ? 'u' : 'g'], t, adlar)),
-      ...karaAy.map((t) => temasMetni(M.karaAy[t.p], t, adlar)),
+      ...pluton.map((t) => doldur(M.pluton[t.q][UYUMLU.includes(t.aci.id) ? 'u' : 'g'], t.kim, t.digeri, adlar)),
+      ...karaAy.map((t) => doldur(M.karaAy[t.p], t.kim, t.digeri, adlar)),
     ];
     return kart('golge', M.girisler.golge, ozel.length ? ozel : [M.golgeYok], adlar);
   }
@@ -128,7 +139,7 @@
     const ozel = secilen.map((t) => {
       const kalip = anlatilan.has(t.kismet) ? M.kismetKarsilikli.replace('{nokta}', M.kismetNoktasi[t.kismet]) : M.kismet[t.kismet];
       anlatilan.add(t.kismet);
-      return temasMetni(kalip.replace('{verici}', M.kismetVerici[t.p]), t, adlar);
+      return doldur(kalip.replace('{verici}', M.kismetVerici[t.p]), t.kim, t.digeri, adlar);
     });
     return kart('kader', M.girisler.kader, ozel.length ? ozel : [M.kaderYok], adlar);
   }
@@ -154,7 +165,7 @@
     if (v.mangal.var[0] && v.mangal.var[1]) mangal = M.mangal.ikisi;
     else if (v.mangal.var[0] || v.mangal.var[1]) mangal = S.yorumDoldur(M.mangal.biri, { N: adlar[v.mangal.var[0] ? 0 : 1] });
 
-    const jaimini = tekil(v.jaimini, (j) => j.tur).slice(0, 2).map((j) => temasMetni(M.jaimini[j.tur], j, adlar));
+    const jaimini = tekil(v.jaimini, (j) => j.tur).slice(0, 2).map((j) => doldur(M.jaimini[j.tur], j.kim, j.digeri, adlar));
 
     const ozel = [
       birlestir(S.yorumDoldur(M.nakshatra[n1], { N: adlar[0] }), n1 === n2 && M.ayniNakshatra),
@@ -170,13 +181,15 @@
   // karmik: S.karmikAnaliz çıktısı; vedikSonuc: S.vedikAnaliz çıktısı; kisiler: [{ ad }]
   function karmaYorumu(karmik, vedikSonuc, kisiler) {
     const adlar = { 0: kisiler[0].ad, 1: kisiler[1].ad };
+    const roller = rolAdaylari(karmik.temaslar);
     return {
       tanisiklik: karmik.tanisiklik,
       guna: vedikSonuc.kuta.toplam,
+      roller,
       basliklar: [
-        tanisiklik(karmik, adlar),
-        gecmis(karmik, adlar),
-        amac(karmik, adlar),
+        gecmis(karmik, roller, adlar),
+        tasinan(karmik, roller, adlar),
+        neden(karmik, roller, adlar),
         sozlesme(karmik, adlar),
         golge(karmik, adlar),
         kader(karmik, adlar),

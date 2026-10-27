@@ -1,7 +1,7 @@
 // İlişki yapısı yorum metinleri (kompozit ve Davison haritaları).
 // Arka planda Helenistik (sekt, gezegen gücü, köşe evler, görmeme, kısmetler, yönetici zinciri), karmik (Ay Düğümleri,
 // geri hareket, 12. ev) ve neoklasik (arketipler, türetilmiş evler) yöntemler kullanılır; okuyucuya teknik terim verilmez.
-// Dil her zaman olasılık dilidir: kesin hükümler yerine "olabilir", "-ebilir", "eğiliminde olabilir".
+// Arka plan bilgisi (giriş cümleleri, mitoloji) kesin dille yazılır. Yorum ise olasılık dilindedir: "olabilir", "-ebilir".
 // Burç dizileri Koç'tan Balık'a, ev dizileri 1. evden 12. eve sıralıdır (tüm burç evleri).
 window.ASTROSHIP_ILISKI_METINLERI = {
   basliklar: {
@@ -16,13 +16,13 @@ window.ASTROSHIP_ILISKI_METINLERI = {
 
   // Her başlığın açılış cümlesi (arketip)
   girisler: {
-    baslangic: 'Bir ilişkinin ilk anı, bütün hikâyesinin tohumunu taşıyabilir.',
-    kimlik: 'Her ilişkinin, Apollon\'un ışığı gibi yolunu aydınlatan bir özü olabilir.',
-    beslenme: 'Her ilişkinin atan bir kalbi olabilir. Gece boyunca yüzü değişen Ay gibi duygular da bu kalpten beslenebilir.',
-    iyiGelen: 'Afrodit\'in dokunduğu her şey güzelleşebilir. Bu ilişkide onun dokunuşunun nerede durduğu, size neyin iyi geleceğini anlatabilir.',
-    sinav: 'Kronos, zamanın ve olgunluğun simgesi olabilir. Her ilişkiye kendi sınavlarını getirebilir.',
-    catisma: 'Ares, hem tutkunun hem de öfkenin kaynağı olabilir. Bir ilişkide nerede durduğu, kıvılcımların nereden çıkabileceğini gösterebilir.',
-    karmik: 'Bazı ilişkiler bir tanışmadan çok bir hatırlayış gibi olabilir.',
+    baslangic: 'Bir ilişkinin ilk anı, bütün hikâyesinin tohumunu taşır.',
+    kimlik: 'Her ilişkinin, Apollon\'un ışığı gibi yolunu aydınlatan bir özü vardır.',
+    beslenme: 'Her ilişkinin atan bir kalbi vardır. Gece boyunca yüzü değişen Ay gibi duygular da bu kalpten beslenir.',
+    iyiGelen: 'Afrodit\'in dokunduğu her şey güzelleşir. Bu ilişkide onun dokunuşunun nerede durduğu, size neyin iyi geleceğini anlatır.',
+    sinav: 'Kronos, zamanın ve olgunluğun simgesidir. Her ilişkiye kendi sınavlarını getirir.',
+    catisma: 'Ares, hem tutkunun hem de öfkenin kaynağıdır. Bir ilişkide nerede durduğu, kıvılcımların nereden çıkacağını gösterir.',
+    karmik: 'Bazı ilişkiler bir tanışmadan çok bir hatırlayıştır.',
   },
 
   // Bölümün konusu; güç, köşe ve görmeme cümlelerinde kullanılır
