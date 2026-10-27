@@ -39,27 +39,20 @@
   const utcYaz = (d) => `${iki(d.getUTCDate())}.${iki(d.getUTCMonth() + 1)}.${d.getUTCFullYear()} ${iki(d.getUTCHours())}:${iki(d.getUTCMinutes())} UTC`;
   const koordinat = (enlem, boylam) => `${S.dereceYaz(Math.abs(enlem))} ${enlem >= 0 ? 'K' : 'G'}, ${S.dereceYaz(Math.abs(boylam))} ${boylam >= 0 ? 'D' : 'B'}`;
 
-  // Logo (marka/hemisy-logo.svg ile aynı çizim; rengi bulunduğu yerin yazı renginden alır)
-  const LOGO = (sinif = '') => `
-    <svg class="logo ${sinif}" viewBox="6 16 424 143" role="img" aria-label="hēmisy">
-      <g fill="currentColor">
-        <rect x="10" y="19.6" width="14.6" height="100.4"/>
-        <path d="M24.6 66 C29 57.5 37 49.5 48 49.5 C66 49.5 75.4 61 75.4 80 V120 H61.3 V82 C61.3 69 56 63 46.5 63 C35 63 24.6 71 24.6 84 Z"/>
-        <rect x="95.7" y="34.6" width="44.5" height="7.6"/>
-        <rect x="160.3" y="52" width="14.1" height="68"/>
-        <path d="M174.4 66 C178 57 185 50.5 194 50.5 C209 50.5 216.2 60 216.2 78 V120 H202 V80 C202 69 198 63.5 190 63.5 C181 63.5 174.4 71 174.4 84 Z"/>
-        <path d="M216.2 66 C220 57 227 50.5 236 50.5 C251 50.5 258 60 258 78 V120 H243.9 V80 C243.9 69 240 63.5 232 63.5 C223 63.5 216.2 71 216.2 84 Z"/>
-        <rect x="268.3" y="52" width="14.7" height="68"/>
-        <path d="M275.65 18.5 C276.5 28.6 277.7 31.6 287.2 32.6 C277.7 33.6 276.5 36.6 275.65 46.7 C274.8 36.6 273.6 33.6 264.1 32.6 C273.6 31.6 274.8 28.6 275.65 18.5 Z"/>
-        <polygon points="350.3,52 366.5,52 395,113 387,123"/>
-        <polygon points="410.4,52 424,52 378.4,155.3 363.2,155.3"/>
-      </g>
-      <g fill="none" stroke="currentColor">
-        <path d="M145.1 77 A28.4 30.3 0 1 0 139.8 105.5" stroke-width="14.4"/>
-        <path d="M90.2 77 H152.3" stroke-width="11"/>
-        <path d="M341 64 C336 57.5 328 55.5 320 55.5 C307 55.5 299.5 61 299.5 70 C299.5 80 309 83 321 86.5 C334 90 342.5 94 342.5 104 C342.5 113 334 116.5 321 116.5 C309 116.5 300.5 112.5 296 104.5" stroke-width="12.5"/>
-      </g>
-    </svg>`;
+  // Logo: marka/hemisy-isim.png (tasarımcının logosundan birebir, şeffaf arka planlı)
+  const LOGO = (sinif = '') => `<a href="#" class="logo-baglanti" data-git="giris" aria-label="hēmisy ana sayfa"><img class="logo ${sinif}" src="marka/hemisy-isim.png" alt="hēmisy" width="608" height="224"></a>`;
+
+  const PROFIL_SIMGESI = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="7" r="3.4" stroke="currentColor" stroke-width="1.3"/><path d="M3.6 17c.9-3.1 3.4-4.8 6.4-4.8s5.5 1.7 6.4 4.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+
+  // Tüm ekranlarda aynı üst çubuk: solda logo, sağda dil seçimi ve profil
+  const ustCubuk = () => `
+    <header class="ust-cubuk">
+      ${LOGO()}
+      <div class="ust-kontroller">
+        <button type="button" class="ust-dugme" data-dil aria-label="Dil seçimi">TR</button>
+        <button type="button" class="ust-dugme ust-profil" data-profil aria-label="Profil">${PROFIL_SIMGESI}</button>
+      </div>
+    </header>`;
 
   // İnce çizgili zodyak çarkı: burç dilimleri, derece işaretleri ve ortada iki kesişen çember
   const BURC_GLIFLERI = ['♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓'];
@@ -140,8 +133,6 @@
   const altBilgi = () => `
     <footer class="alt-bilgi">
       <div class="iletisim"><span>www.hemisy.com</span><span>info@hemisy.com</span></div>
-      <p>hēmisy eğlence amaçlıdır. Önemli kararlarınızı yalnızca bu rapora dayandırmayın.</p>
-      <p>Doğum bilgileriniz cihazınızda işlenir ve hiçbir yere kaydedilmez.</p>
     </footer>`;
 
   // ---------- Giriş ----------
@@ -149,25 +140,13 @@
   function girisEkrani() {
     return `
       <section class="ekran giris">
-        <header class="ust-cubuk">${LOGO()}<span class="etiket">İlişki astrolojisi</span></header>
-
+        ${ustCubuk()}
         <section class="gece kahraman">
           <canvas class="gece-yildizlar" aria-hidden="true"></canvas>
           ${cark()}
-          <p class="etiket">Kişiye özel uyum raporu</p>
-          <h1 tabindex="-1">İki doğum haritası,<br><em>tek bir hikâye.</em></h1>
-          <p>Doğum haritalarınızı karşılaştırıyor; aranızdaki çekimi, bağı ve ilişkinizin geleceğini sizin için yorumluyoruz.</p>
-          <button type="button" class="dugme-ana dugme-acik" data-git="form">Uyumunuza bakın <span class="ok">→</span></button>
-          <p class="kucuk-not">Yaklaşık 1 dakika · Bilgileriniz kaydedilmez</p>
+          <h1 tabindex="-1">Kişiye özel ilişki analizi</h1>
+          <button type="button" class="dugme-ana dugme-acik" data-git="form">Uyumu hesapla <span class="ok">→</span></button>
         </section>
-
-        <ol class="icerik-listesi yuzey">
-          <li><span class="amblem" aria-hidden="true">${glif('♀')}</span><div><h3>Uyum</h3><p>Çekim, bağlanma, iletişim, romantizm ve güven; her biri yüzdesi ve yorumuyla.</p></div></li>
-          <li><span class="amblem" aria-hidden="true">${glif('☽')}</span><div><h3>İlişki yapısı</h3><p>İlişkiniz nasıl başlar, nereden beslenir, hangi konularda sınanır.</p></div></li>
-          <li><span class="amblem" aria-hidden="true">${glif('♃')}</span><div><h3>Gelecek öngörüsü</h3><p>Önümüzdeki 12 ayın güçlü dönemleri: ilişki ne zaman başlar, ne zaman derinleşir.</p></div></li>
-        </ol>
-        <p class="alinti">${glif('☉')}Love is gonna save us${glif('☽')}</p>
-        ${altBilgi()}
       </section>`;
   }
 
@@ -239,7 +218,8 @@
   function formEkrani() {
     return `
       <section class="ekran form-ekrani">
-        <div class="ust-cubuk"><button type="button" class="geri" data-git="giris">← Geri</button>${LOGO('logo-kucuk')}</div>
+        ${ustCubuk()}
+        <button type="button" class="geri" data-git="giris">← Geri</button>
         <div class="form-giris">
           <h2 tabindex="-1">Doğum bilgileri</h2>
           <p class="aciklama">Doğum saatini olabildiğince doğru yazın. Saatinizi doğum belgenizde ya da e-Devlet'teki nüfus kaydınızda bulabilirsiniz.</p>
@@ -580,7 +560,8 @@
     return `
       <section class="ekran sonuc">
         ${durum.kilitAcik ? '<p class="test-bandi">Test modu · tüm kilitler açık</p>' : ''}
-        <div class="ust-cubuk"><button type="button" class="geri" data-git="form">← Bilgileri değiştir</button>${LOGO('logo-kucuk')}</div>
+        ${ustCubuk()}
+        <button type="button" class="geri" data-git="form">← Bilgileri değiştir</button>
         <header class="gece sonuc-bas">
           <canvas class="gece-yildizlar" aria-hidden="true"></canvas>
           ${cark()}
@@ -605,7 +586,22 @@
       </section>`;
   }
 
-  // ---------- Ödeme yakında perdesi ----------
+  // ---------- Alt perde (tam rapor, dil, profil) ----------
+
+  const PERDELER = {
+    rapor: {
+      baslik: 'Tam rapor çok yakında',
+      metin: 'Ödeme sistemi eklendiğinde tam raporu buradan açabileceksiniz. Tam rapor; tüm uyum yorumlarını, ilişki yapısını ve gelecek öngörüsünü içerir.',
+    },
+    dil: {
+      baslik: 'Dil',
+      metin: 'Şu an Türkçe görüntülüyorsunuz. İngilizce çok yakında eklenecek.',
+    },
+    profil: {
+      baslik: 'Hesabınız',
+      metin: 'Üyelik çok yakında: üye olarak haritalarınızı saklayabilecek ve raporlarınıza dilediğiniz zaman ulaşabileceksiniz.',
+    },
+  };
 
   const perde = document.createElement('div');
   perde.className = 'perde';
@@ -613,15 +609,17 @@
   perde.innerHTML = `
     <div class="perde-arka" data-kapat></div>
     <div class="perde-kutu" role="dialog" aria-modal="true" aria-labelledby="perde-baslik">
-      <h2 id="perde-baslik" tabindex="-1">Tam rapor çok yakında</h2>
-      <p>Ödeme sistemi eklendiğinde tam raporu buradan açabileceksiniz. Tam rapor; tüm uyum yorumlarını, ilişki yapısını ve gelecek öngörüsünü içerir.</p>
+      <h2 id="perde-baslik" tabindex="-1"></h2>
+      <p class="perde-metin"></p>
       <button type="button" class="dugme-ana" data-kapat>Tamam <span class="ok">✓</span></button>
     </div>`;
   document.body.appendChild(perde);
   let perdeyiAcan = null;
 
-  function perdeAc(dugme) {
+  function perdeAc(dugme, tur) {
     perdeyiAcan = dugme;
+    perde.querySelector('h2').textContent = PERDELER[tur].baslik;
+    perde.querySelector('.perde-metin').textContent = PERDELER[tur].metin;
     perde.hidden = false;
     perde.querySelector('h2').focus();
   }
@@ -656,14 +654,17 @@
   }
 
   document.addEventListener('click', (olay) => {
-    const hedef = olay.target.closest('[data-git], [data-sekme], [data-alt-sekme], [data-kilit], [data-kapat], [data-kaydir]');
+    const hedef = olay.target.closest('[data-git], [data-sekme], [data-alt-sekme], [data-kilit], [data-dil], [data-profil], [data-kapat], [data-kaydir]');
     if (!hedef) return;
     if (hedef.dataset.git) {
+      olay.preventDefault();
       if (hedef.dataset.git !== 'form' || !kok.querySelector('#dogum-formu')) durum.hata = '';
       goster(hedef.dataset.git);
     } else if (hedef.dataset.sekme) sekmeSec(Number(hedef.dataset.sekme));
     else if (hedef.dataset.altSekme) altSekmeSec(Number(hedef.dataset.altSekme));
-    else if (hedef.hasAttribute('data-kilit')) perdeAc(hedef);
+    else if (hedef.hasAttribute('data-kilit')) perdeAc(hedef, 'rapor');
+    else if (hedef.hasAttribute('data-dil')) perdeAc(hedef, 'dil');
+    else if (hedef.hasAttribute('data-profil')) perdeAc(hedef, 'profil');
     else if (hedef.hasAttribute('data-kapat')) perdeKapat();
     else if (hedef.dataset.kaydir) {
       olay.preventDefault();

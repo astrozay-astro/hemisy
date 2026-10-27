@@ -8,7 +8,7 @@ Türkçe astroloji uyum testi: iki kişinin doğum haritasını karşılaştır�
 
 - `index.html`: sitenin giriş dosyası
 - `css/style.css`: tasarım (renkler, yazı tipi, tüm görünüm)
-- `marka/hemisy-logo.svg`: logo
+- `marka/`: logo (hemisy-isim.png: yalnızca isim; hemisy-logo.png: imzalı; -acik: koyu zemin için)
 - `js/app.js`: ekranlar ve aralarındaki geçişler
 - `js/turkce.js`: isimlere doğru Türkçe eki getiren yardımcı (Ayşe'nin, Mehmet'in)
 - `js/motor/`: hesaplama motoru

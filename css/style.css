@@ -106,8 +106,18 @@ button { font-family: inherit; }
 }
 
 .ust-cubuk { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 48px; }
-.logo { display: block; color: var(--murekkep); height: 30px; width: auto; }
-.logo-kucuk { height: 24px; }
+.logo-baglanti { display: block; line-height: 0; border-radius: 6px; }
+.logo { display: block; height: 34px; width: auto; max-width: 100%; }
+.ust-kontroller { display: flex; align-items: center; gap: 0.45rem; }
+.ust-dugme {
+  appearance: none; min-width: 42px; height: 42px; padding: 0 0.8rem; border-radius: 999px;
+  border: 1px solid var(--cizgi); background: var(--kart); color: var(--murekkep);
+  font: 500 0.75rem/1 var(--f); letter-spacing: 0.14em; cursor: pointer;
+  display: inline-grid; place-items: center;
+}
+.ust-dugme:hover { border-color: var(--murekkep); }
+.ust-profil { padding: 0; width: 42px; }
+.ust-profil svg { width: 20px; height: 20px; }
 .geri {
   appearance: none; background: none; border: 0; padding: 0.5rem 0; min-height: 44px;
   color: var(--soluk); font: 400 var(--boy-s)/1 var(--f); letter-spacing: 0.02em; cursor: pointer;
@@ -162,8 +172,8 @@ button { font-family: inherit; }
 
 /* ---------- Giriş ---------- */
 
-.kahraman { display: grid; gap: 1.15rem; padding: 2.25rem 1.4rem 1.6rem; min-height: 30rem; align-content: end; }
-.kahraman h1 { font-size: clamp(2.3rem, 10.5vw, 3.2rem); font-weight: 300; line-height: 1.06; }
+.kahraman { display: grid; gap: 1.75rem; padding: 2.5rem 1.4rem 1.6rem; min-height: min(36rem, 78svh); align-content: end; }
+.kahraman h1 { font-size: clamp(2.4rem, 11vw, 3.4rem); font-weight: 200; line-height: 1.06; max-width: 11ch; }
 .kahraman h1 em { font-style: normal; font-weight: 200; color: var(--gece-metin); }
 .kahraman p { color: var(--gece-soluk); font-size: 1.0625rem; font-weight: 300; max-width: 30rem; }
 .kucuk-not { font-size: var(--boy-xs); letter-spacing: 0.08em; text-align: center; color: var(--gece-soluk); }
