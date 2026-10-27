@@ -17,6 +17,8 @@
     // kilitAcik: location.hash === '#test',
     kilitAcik: true,
     sorulanSoru: '',
+    // 'cift': iki kişilik uyum raporu, 'birey': tek kişilik ilişki analizi
+    mod: 'cift',
   };
 
   // Ücretsiz soru hakkı: kullanılan soru bu cihazda saklanır, ikinci soru Pro üyelik ister
@@ -53,7 +55,7 @@
   // Tüm ekranlarda aynı üst çubuk: solda logo, sağda dil seçimi ve profil
   const ustCubuk = () => `
     <header class="ust-cubuk">
-      ${LOGO()}
+      <div class="logo-grubu">${LOGO()}<span class="imza">by Tuğçenur Özay</span></div>
       <div class="ust-kontroller">
         <button type="button" class="ust-dugme" data-dil aria-label="Dil seçimi">TR</button>
         <button type="button" class="ust-dugme ust-profil" data-profil aria-label="Profil">${PROFIL_SIMGESI}</button>
@@ -164,11 +166,15 @@
           <canvas class="gece-yildizlar" aria-hidden="true"></canvas>
           ${cark()}
           <h1 tabindex="-1">Kişiye özel ilişki analizi</h1>
-          <button type="button" class="dugme-ana dugme-acik" data-git="form">Uyumu hesapla <span class="ok">→</span></button>
+          <div class="giris-dugmeleri">
+            <button type="button" class="dugme-ana dugme-acik" data-git="form" data-mod="birey">İlişki analizi <span class="ok">→</span></button>
+            <button type="button" class="dugme-ana dugme-cizgi" data-git="form" data-mod="cift">Çift analizi <span class="ok">→</span></button>
+          </div>
         </section>
 
         <ol class="icerik-listesi yuzey">
-          <li><span class="amblem" aria-hidden="true">${glif('♀')}</span><div><div class="baslik-satiri"><h3>Uyum</h3><span class="rozet">Ücretsiz</span></div><p>Çekim, bağlanma, iletişim, romantizm, güven ve huzur. Her biri yüzdesi ve yorumuyla.</p></div></li>
+          <li><span class="amblem" aria-hidden="true">${glif('☉')}</span><div><div class="baslik-satiri"><h3>İlişki analizi</h3><span class="rozet">Tek kişi</span></div><p>Eşinizde ne arıyorsunuz, sizi kim çeker, evlilik alanınız nasıl ve partnerinizle nerede karşılaşabilirsiniz?</p></div></li>
+          <li><span class="amblem" aria-hidden="true">${glif('♀')}</span><div><div class="baslik-satiri"><h3>Çift analizi: uyum</h3><span class="rozet">Ücretsiz</span></div><p>Çekim, bağlanma, iletişim, romantizm, güven ve huzur. Her biri yüzdesi ve yorumuyla.</p></div></li>
           <li><span class="amblem" aria-hidden="true">${glif('☽')}</span><div><div class="baslik-satiri"><h3>İlişki yapısı</h3><span class="rozet rozet-pro">Pro plan</span></div><p>İlişkiniz nasıl başlayabilir, nereden beslenebilir, hangi konularda sınanabilir?</p></div></li>
           <li><span class="amblem" aria-hidden="true">${glif('♃')}</span><div><div class="baslik-satiri"><h3>Gelecek öngörüsü</h3><span class="rozet rozet-pro">Pro plan</span></div><p>Önümüzdeki 12 ayın güçlü dönemleri: ilişki ne zaman başlayabilir, ne zaman derinleşebilir?</p></div></li>
         </ol>
@@ -206,11 +212,11 @@
     return metin;
   }
 
-  function kisiAlanlari(i) {
+  function kisiAlanlari(i, baslik = `${i + 1}. kişi`) {
     const k = durum.kisiler[i];
     return `
       <fieldset class="kisi yuzey">
-        <legend class="etiket">${i + 1}. kişi</legend>
+        <legend class="etiket">${baslik}</legend>
         <div class="alan">
           <label for="ad-${i}">İsim</label>
           <input id="ad-${i}" type="text" autocomplete="off" autocapitalize="words" value="${kac(k.ad)}" placeholder="Örneğin ${i === 0 ? 'Elif' : 'Can'}">
@@ -243,19 +249,20 @@
   }
 
   function formEkrani() {
+    const birey = durum.mod === 'birey';
     return `
       <section class="ekran form-ekrani">
         ${ustCubuk()}
         <button type="button" class="geri" data-git="giris">← Geri</button>
         <div class="form-giris">
-          <h2 tabindex="-1">Doğum bilgileri</h2>
+          <p class="etiket">${birey ? 'İlişki analizi' : 'Çift analizi'}</p>
+          <h2 tabindex="-1">${birey ? 'Doğum bilgileriniz' : 'Doğum bilgileri'}</h2>
           <p class="aciklama">Doğum saatini olabildiğince doğru yazın. Saatinizi doğum belgenizde ya da e-Devlet'teki nüfus kaydınızda bulabilirsiniz.</p>
         </div>
         <form id="dogum-formu" novalidate>
-          ${kisiAlanlari(0)}
-          ${kisiAlanlari(1)}
+          ${birey ? kisiAlanlari(0, 'Sizin bilgileriniz') : `${kisiAlanlari(0)}${kisiAlanlari(1)}`}
           <p class="form-hata" role="alert" ${durum.hata ? '' : 'hidden'}>${kac(durum.hata)}</p>
-          <button type="submit" class="dugme-ana">Uyumumuzu göster <span class="ok">→</span></button>
+          <button type="submit" class="dugme-ana">${birey ? 'Analizimi göster' : 'Uyumumuzu göster'} <span class="ok">→</span></button>
           <p class="yer-notu">Doğum yeri için il ya da şehir adını yazıp listeden seçin.</p>
         </form>
         ${altBilgi()}
@@ -265,8 +272,11 @@
   function formuOku() {
     const sorunlar = [];
     const isaretle = (girdi, gecerli) => girdi.setAttribute('aria-invalid', gecerli ? 'false' : 'true');
-    const kisiler = [0, 1].map((i) => {
-      const no = `${i + 1}. kişinin`;
+    const birey = durum.mod === 'birey';
+    const kisiler = (birey ? [0] : [0, 1]).map((i) => {
+      // Tek kişide "isminiz", iki kişide "1. kişinin ismi"
+      const no = birey ? '' : `${i + 1}. kişinin `;
+      const ek = (iyelik, siz) => (birey ? siz : `${no}${iyelik}`);
       const ad = document.getElementById(`ad-${i}`);
       const tarih = document.getElementById(`tarih-${i}`);
       const saat = document.getElementById(`saat-${i}`);
@@ -284,11 +294,11 @@
       isaretle(saat, k.saat);
       isaretle(yer, k.yer);
       document.getElementById(`cinsiyet-${i}`).classList.toggle('hatali', !k.cinsiyet);
-      if (!k.ad) sorunlar.push(`${no} ismi`);
-      if (!k.cinsiyet) sorunlar.push(`${no} cinsiyeti`);
-      if (!k.tarih) sorunlar.push(`${no} doğum tarihi (örnek: 14.02.1995)`);
-      if (!k.saat) sorunlar.push(`${no} doğum saati (örnek: 09:30)`);
-      if (!k.yer) sorunlar.push(`${no} doğum yeri`);
+      if (!k.ad) sorunlar.push(ek('ismi', 'isminiz'));
+      if (!k.cinsiyet) sorunlar.push(ek('cinsiyeti', 'cinsiyetiniz'));
+      if (!k.tarih) sorunlar.push(`${ek('doğum tarihi', 'doğum tarihiniz')} (örnek: 14.02.1995)`);
+      if (!k.saat) sorunlar.push(`${ek('doğum saati', 'doğum saatiniz')} (örnek: 09:30)`);
+      if (!k.yer) sorunlar.push(ek('doğum yeri', 'doğum yeriniz'));
       return k;
     });
     return { kisiler, sorunlar };
@@ -297,12 +307,13 @@
   function formuGonder(olay) {
     olay.preventDefault();
     const { kisiler, sorunlar } = formuOku();
-    durum.kisiler = kisiler.map((k, i) => ({
+    // Tek kişilik analizde 2. kişinin bilgileri korunur (çift analizine dönülürse kaybolmasın)
+    kisiler.forEach((k, i) => { durum.kisiler[i] = {
       ...k,
       // Geçersiz değerler kaybolmasın diye kutudaki hâli korunur
       tarih: k.tarih ?? document.getElementById(`tarih-${i}`).value.trim(),
       saat: k.saat ?? document.getElementById(`saat-${i}`).value.trim(),
-    }));
+    }; });
     if (sorunlar.length) {
       const kutu = kok.querySelector('.form-hata');
       kutu.textContent = `Lütfen kontrol edin: ${sorunlar.join(', ')}.`;
@@ -319,13 +330,21 @@
     goster('yukleniyor');
     const baslangic = Date.now();
     try {
+      const birey = durum.mod === 'birey';
       const natal = [];
-      for (let i = 0; i < 2; i++) {
+      for (let i = 0; i < (birey ? 1 : 2); i++) {
         const k = durum.kisiler[i];
         const yer = await S.yerBul(k.yer);
-        if (!yer) throw new Error(`${i + 1}. kişinin doğum yeri bulunamadı: "${k.yer}". Lütfen il ya da şehir adını yazıp listeden seçin.`);
+        if (!yer) throw new Error(`${birey ? 'Doğum yeriniz' : `${i + 1}. kişinin doğum yeri`} bulunamadı: "${k.yer}". Lütfen il ya da şehir adını yazıp listeden seçin.`);
         const zaman = S.yereldenUtc(k.tarih, k.saat, yer.bolge);
         natal.push({ yer, zaman, harita: S.haritaHesapla(zaman.utc, yer.enlem, yer.boylam) });
+      }
+      if (birey) {
+        const analiz = S.bireyselAnaliz(natal[0].harita, durum.kisiler[0].cinsiyet);
+        durum.sonuc = { birey: true, natal, analiz, yorum: S.bireyselYorum(analiz) };
+        durum.hata = '';
+        setTimeout(() => goster('birey'), Math.max(0, 1800 - (Date.now() - baslangic)));
+        return;
       }
       const [h1, h2] = natal.map((n) => n.harita);
       const uyum = S.uyumHesapla([h1, h2], durum.kisiler.map((k) => k.cinsiyet));
@@ -828,6 +847,43 @@
     kok.querySelector('.soru-kutusu [data-pro]')?.focus();
   }
 
+  // ---------- Bireysel ilişki analizi ----------
+
+  function bireyEkrani() {
+    const k = durum.kisiler[0];
+    const a = durum.sonuc.analiz;
+    const satir = (etiket, n) => `<li><span>${etiket}</span><b>${glif(n.glif)} ${n.burc.ad}</b></li>`;
+    const ES_ETIKETI = { kadin: ['Eşte aranan', 'Çekim'], erkek: ['Eşte aranan', 'Çekim'], belirtilmedi: ['Sevme biçimi', 'Arzu'] }[a.cinsiyet];
+    return `
+      <section class="ekran sonuc birey-sonuc">
+        ${location.hash === '#test' ? '<p class="test-bandi">Test modu · tüm kilitler açık</p>' : ''}
+        ${ustCubuk()}
+        <button type="button" class="geri" data-git="form">← Bilgileri değiştir</button>
+        <header class="gece sonuc-bas">
+          <canvas class="gece-yildizlar" aria-hidden="true"></canvas>
+          ${cark()}
+          <p class="etiket">İlişki analizi</p>
+          <div>
+            <h1 tabindex="-1">${kac(k.ad)}</h1>
+            <p class="cift-bilgi">${kac(cinsiyetAdi(k.cinsiyet))} · ${tarihYaz(k.tarih)} ${kac(k.saat)}</p>
+          </div>
+          <ul class="birey-ozet">
+            ${satir(ES_ETIKETI[0], a.es)}
+            ${satir(ES_ETIKETI[1], a.cekim)}
+            <li><span>7. ev</span><b>${S.BURCLAR[a.yedinci.burc].ad}</b></li>
+            <li><span>7. evin yöneticisi</span><b>${glif(a.yonetici.nokta.glif)} ${a.yonetici.nokta.ev}. ev</b></li>
+          </ul>
+        </header>
+        ${k.yaklasik ? '<p class="uyari">Doğum saati yaklaşık girildi: 7. ev ve yöneticisi kayabilir.</p>' : ''}
+        ${durum.sonuc.yorum.map(iliskiKarti).join('')}
+        <details class="acilir birey-harita">
+          <summary>Harita bilgileri</summary>
+          ${natalKarti(0)}
+        </details>
+        ${altBilgi()}
+      </section>`;
+  }
+
   // ---------- Sonuç ekranı ----------
 
   const SEKMELER = [
@@ -934,10 +990,10 @@
 
   // ---------- Ekran geçişleri ----------
 
-  const EKRANLAR = { giris: girisEkrani, form: formEkrani, yukleniyor: yukleniyorEkrani, sonuc: sonucEkrani };
+  const EKRANLAR = { giris: girisEkrani, form: formEkrani, yukleniyor: yukleniyorEkrani, sonuc: sonucEkrani, birey: bireyEkrani };
 
   function goster(ekran) {
-    if (ekran === 'sonuc' && !durum.sonuc) ekran = 'form';
+    if ((ekran === 'sonuc' && (!durum.sonuc || durum.sonuc.birey)) || (ekran === 'birey' && !durum.sonuc?.birey)) ekran = 'form';
     kok.innerHTML = EKRANLAR[ekran]();
     kok.firstElementChild.classList.add('giriyor');
     window.scrollTo(0, 0);
@@ -962,6 +1018,7 @@
     if (!hedef) return;
     if (hedef.dataset.git) {
       olay.preventDefault();
+      if (hedef.dataset.mod) durum.mod = hedef.dataset.mod;
       if (hedef.dataset.git !== 'form' || !kok.querySelector('#dogum-formu')) durum.hata = '';
       goster(hedef.dataset.git);
     } else if (hedef.dataset.sekme) sekmeSec(Number(hedef.dataset.sekme));
