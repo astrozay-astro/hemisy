@@ -64,8 +64,8 @@
   const utcYaz = (d) => `${iki(d.getUTCDate())}.${iki(d.getUTCMonth() + 1)}.${d.getUTCFullYear()} ${iki(d.getUTCHours())}:${iki(d.getUTCMinutes())} UTC`;
   const koordinat = (enlem, boylam) => `${S.dereceYaz(Math.abs(enlem))} ${enlem >= 0 ? 'K' : 'G'}, ${S.dereceYaz(Math.abs(boylam))} ${boylam >= 0 ? 'D' : 'B'}`;
 
-  // Logo: marka/hemisy-isim.png (tasarımcının logosundan birebir, şeffaf arka planlı)
-  const LOGO = (sinif = '') => `<a href="#" class="logo-baglanti" data-git="giris" aria-label="hēmisy ana sayfa"><img class="logo ${sinif}" src="marka/hemisy-isim.png" alt="hēmisy" width="608" height="224"></a>`;
+  // Logo: marka/hemisy-isim-acik.png (tasarımcının logosunun koyu zemin için açık sürümü, şeffaf arka planlı)
+  const LOGO = (sinif = '') => `<a href="#" class="logo-baglanti" data-git="giris" aria-label="hēmisy ana sayfa"><img class="logo ${sinif}" src="marka/hemisy-isim-acik.png" alt="hēmisy" width="608" height="224"></a>`;
 
   const PROFIL_SIMGESI = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="7" r="3.4" stroke="currentColor" stroke-width="1.3"/><path d="M3.6 17c.9-3.1 3.4-4.8 6.4-4.8s5.5 1.7 6.4 4.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
 
@@ -133,7 +133,7 @@
         const y = rastgele() * height;
         const r = rastgele() < 0.06 ? 1.2 : 0.3 + rastgele() * 0.6;
         c.globalAlpha = 0.25 + rastgele() * 0.65;
-        c.fillStyle = '#f3eadf';
+        c.fillStyle = '#e8ebff';
         c.beginPath();
         c.arc(x, y, r, 0, Math.PI * 2);
         c.fill();
@@ -160,7 +160,7 @@
 
   const altBilgi = () => `
     <footer class="alt-bilgi">
-      <img class="alt-logo" src="marka/hemisy-isim.png" alt="hēmisy" width="608" height="224">
+      <img class="alt-logo" src="marka/hemisy-isim-acik.png" alt="hēmisy" width="608" height="224">
       <div class="iletisim">
         <a href="https://www.hemisy.com" target="_blank" rel="noopener">www.hemisy.com</a>
         <a href="mailto:info@hemisy.com">info@hemisy.com</a>
@@ -182,17 +182,22 @@
         <section class="gece kahraman">
           <canvas class="gece-yildizlar" aria-hidden="true"></canvas>
           ${cark()}
-          <div class="analiz-secimi">
-            <h1 tabindex="-1">Kişiye özel ilişki analizi</h1>
-            <button type="button" class="dugme-ana dugme-acik" data-git="form" data-mod="birey">Hesapla <span class="ok">→</span></button>
-          </div>
-          <div class="analiz-secimi">
-            <h2>Çiftlere özel ilişki analizi</h2>
-            <button type="button" class="dugme-ana dugme-acik" data-git="form" data-mod="cift">Hesapla <span class="ok">→</span></button>
+          <p class="etiket kahraman-etiket">İlişki astrolojisi</p>
+          <div class="analiz-secenekleri">
+            <article class="analiz-secimi">
+              <span class="secim-simge" aria-hidden="true">${glif('☉')}</span>
+              <h1 tabindex="-1">Kişiye özel ilişki analizi</h1>
+              <button type="button" class="dugme-ana dugme-acik" data-git="form" data-mod="birey">Hesapla <span class="ok">→</span></button>
+            </article>
+            <article class="analiz-secimi">
+              <span class="secim-simge" aria-hidden="true">${glif('☌')}</span>
+              <h2>Çiftlere özel ilişki analizi</h2>
+              <button type="button" class="dugme-ana dugme-acik" data-git="form" data-mod="cift">Hesapla <span class="ok">→</span></button>
+            </article>
           </div>
         </section>
 
-        <ol class="icerik-listesi yuzey">
+        <ol class="icerik-listesi">
           <li><span class="amblem" aria-hidden="true">${glif('☉')}</span><div><div class="baslik-satiri"><h3>İlişki analizi</h3><span class="rozet">Tek kişi</span></div><p>Eşinizde ne arıyorsunuz, sizi kim çeker, evlilik alanınız nasıl ve partnerinizle nerede karşılaşabilirsiniz?</p></div></li>
           <li><span class="amblem" aria-hidden="true">${glif('♀')}</span><div><div class="baslik-satiri"><h3>Çift analizi: uyum</h3><span class="rozet">Ücretsiz</span></div><p>Çekim, bağlanma, iletişim, romantizm, güven ve huzur. Her biri yüzdesi ve yorumuyla.</p></div></li>
           <li><span class="amblem" aria-hidden="true">${glif('☽')}</span><div><div class="baslik-satiri"><h3>İlişki yapısı</h3><span class="rozet rozet-pro">Pro plan</span></div><p>İlişkiniz nasıl başlayabilir, nereden beslenebilir, hangi konularda sınanabilir?</p></div></li>
@@ -404,8 +409,8 @@
           <canvas class="gece-yildizlar" aria-hidden="true"></canvas>
           <div class="yukleniyor-ic">
             ${cark()}
-            <h2 tabindex="-1">Yıldızlarınız karşılaştırılıyor</h2>
-            <p>Doğum haritalarınız hesaplanıyor ve uyumunuz yorumlanıyor.</p>
+            <h2 tabindex="-1">${durum.mod === 'birey' ? 'Haritanız okunuyor' : 'Yıldızlarınız karşılaştırılıyor'}</h2>
+            <p>${durum.mod === 'birey' ? 'Doğum haritanız hesaplanıyor ve ilişki potansiyeliniz yorumlanıyor.' : 'Doğum haritalarınız hesaplanıyor ve uyumunuz yorumlanıyor.'}</p>
           </div>
         </div>
       </section>`;
@@ -418,9 +423,12 @@
     const cevre = 2 * Math.PI * r;
     return `
       <svg class="halka" viewBox="0 0 120 120" role="img" aria-label="Genel uyum yüzde ${yuzde}">
-        <defs><linearGradient id="halka-renk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3eadf"/><stop offset="1" stop-color="#b9a3c4"/></linearGradient></defs>
-        <circle cx="60" cy="60" r="${r}" fill="none" stroke="rgba(243,234,223,.16)" stroke-width="3" />
-        <circle cx="60" cy="60" r="${r}" fill="none" stroke="url(#halka-renk)" stroke-width="3" stroke-linecap="round"
+        <defs>
+          <linearGradient id="halka-renk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9fe3ff"/><stop offset=".55" stop-color="#b8a6ff"/><stop offset="1" stop-color="#e3b6ff"/></linearGradient>
+          <filter id="halka-isilti" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <circle cx="60" cy="60" r="${r}" fill="none" stroke="rgba(220,224,255,.12)" stroke-width="3" />
+        <circle cx="60" cy="60" r="${r}" fill="none" stroke="url(#halka-renk)" stroke-width="3" filter="url(#halka-isilti)" stroke-linecap="round"
           stroke-dasharray="${((cevre * yuzde) / 100).toFixed(2)} ${cevre.toFixed(2)}" transform="rotate(-90 60 60)" />
         <text x="60" y="72" text-anchor="middle" class="halka-sayi"><tspan class="halka-yuzde" dy="-16">%</tspan><tspan dy="16">${yuzde}</tspan></text>
       </svg>`;
