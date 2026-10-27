@@ -104,14 +104,27 @@
     const bant = baslik.yuzde >= 75 ? 0 : baslik.yuzde >= 55 ? 1 : 2;
     const giris = M.bantlar[baslik.id][bant];
     const nedenler = baslik.etkenler.map((e) => nedenSatiri(e, adlar));
-    const secilen = baslik.etkenler.slice(0, GOSTERGE_SAYISI);
-    if (!secilen.length) return { ...baslik, nedenler, ucretsiz: [`${giris} ${M.bosBaslik}`], ucretli: [] };
-
-    const anlatilanlar = new Set();
     // Yoğunluk başlığında metin yüzdeyle çelişmesin: yüzde düşükse tüm temaslar, ortaysa temel tema
     // dışındaki temaslar ölçülü anlatılır (ör. Venüs–Mars yokken Mars–Plüton "çok güçlü çekim" demez)
     const temel = (e) => e.tur === 'aci' && (baslik.cekirdek || []).includes(`${e.p}-${e.q}`);
     const olculu = (e) => baslik.tur === 'yogunluk' && (bant === 2 || (bant === 1 && !temel(e)));
+    // Aynı metne düşen göstergeler (ör. aynı çiftin iki yönü, aynı ev yerleşiminin iki yönü) bir kez anlatılır
+    const metinAnahtari = (e) => {
+      if (e.tur === 'aci') return `a-${e.p}-${e.q}-${olculu(e) ? 'o' : aciTuru(e)}`;
+      if (e.tur === 'ev') return `e-${e.p}-${e.ev}-${olculu(e) ? 'o' : ''}`;
+      if (e.tur === 'kismet') return `k-${e.p}-${olculu(e) ? 'o' : ''}`;
+      return `b-${e.p}-${e.q}-${e.iliski.mesafe}`;
+    };
+    const gorulen = new Set();
+    const secilen = baslik.etkenler.filter((e) => {
+      const k = metinAnahtari(e);
+      if (gorulen.has(k)) return false;
+      gorulen.add(k);
+      return true;
+    }).slice(0, GOSTERGE_SAYISI);
+    if (!secilen.length) return { ...baslik, nedenler, ucretsiz: [`${giris} ${M.bosBaslik}`], ucretli: [] };
+
+    const anlatilanlar = new Set();
     const paragraflar = secilen.map((e, i) => {
       const p = etkenParagrafi(e, adlar, anlatilanlar, i === 0, baslik.id, olculu(e));
       return i === 0 ? p.metin : baglacEkle(p, secilen[i - 1], e, i);
