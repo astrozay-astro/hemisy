@@ -501,6 +501,10 @@
 
   // ---------- Sonuç: İlişki yapısı ve Gelecek ----------
 
+  // Yalnızca #test modunda: kartın hangi göstergelerden üretildiği (yorum denetimi için)
+  const kaynakSatiri = (b) => (location.hash === '#test' && b.kaynak?.length
+    ? `<p class="kaynak"><b>Kaynak</b> ${b.kaynak.map(kac).join(' · ')}</p>` : '');
+
   function iliskiKarti(b) {
     const ucretli = b.ucretli.length ? `<div class="yorum">${paragraflar(b.ucretli)}</div>` : '';
     return `
@@ -512,6 +516,7 @@
         </header>
         <div class="yorum">${paragraflar(b.ucretsiz)}</div>
         ${kilitli(ucretli)}
+        ${kaynakSatiri(b)}
       </article>`;
   }
 
@@ -994,6 +999,7 @@
         ${durum.kilitAcik ? cubuk : ''}
         <div class="yorum">${paragraflar(b.ucretsiz)}</div>
         ${kilitli(ucretli)}
+        ${kaynakSatiri(b)}
       </article>`;
   }
 

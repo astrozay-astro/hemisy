@@ -29,8 +29,8 @@ window.ASTROSHIP_BIREY_METINLERI = {
     { nitelik: 'gizemli, tutkulu, derin duygulu ve sahiplenici', meslek: ['finans', 'araştırma', 'dedektiflik', 'psikoloji', 'güvenlik'], guclu: 'sadık ve derin', zayif: 'kontrolcü ve kıskanç' },
     { nitelik: 'özgür ruhlu, maceracı, iyimser ve neşeli', meslek: ['akademi', 'seyahat', 'spor', 'medya', 'felsefe'], guclu: 'dürüst ve açık sözlü', zayif: 'bağlılık konusunda çekingen' },
     { nitelik: 'sorumluluk sahibi, disiplinli, güvenilir ve çalışkan', meslek: ['iş dünyası', 'kamu kurumları', 'mühendislik', 'finans'], guclu: 'sadık ve kararlı', zayif: 'soğuk ve mesafeli' },
-    { nitelik: 'özgür düşünceli, yenilikçi, arkadaş canlısı ve sıra dışı', meslek: ['araştırma', 'psikoloji', 'finans', 'kriz yönetimi', 'teknoloji'], guclu: 'vizyon sahibi', zayif: 'duygusal olarak mesafeli' },
-    { nitelik: 'hassas, sezgisel, şefkatli ve romantik', meslek: ['akademi', 'eğitim', 'yayıncılık', 'hukuk', 'sağlık', 'sanat'], guclu: 'anlayışlı ve fedakâr', zayif: 'dağınık ve kararsız' },
+    { nitelik: 'özgür düşünceli, yenilikçi, arkadaş canlısı ve sıra dışı', meslek: ['teknoloji', 'bilim', 'havacılık', 'sosyoloji', 'sivil toplum', 'dijital girişimler'], guclu: 'vizyon sahibi', zayif: 'duygusal olarak mesafeli' },
+    { nitelik: 'hassas, sezgisel, şefkatli ve romantik', meslek: ['sanat', 'müzik', 'sağlık', 'psikoloji', 'denizcilik', 'yardım kuruluşları'], guclu: 'anlayışlı ve fedakâr', zayif: 'dağınık ve kararsız' },
   ],
   // Erkekte Ay burcu
   erkekAyParca: [
@@ -137,21 +137,20 @@ window.ASTROSHIP_BIREY_METINLERI = {
     'Sizi sıra dışı ve özgür düşünceli insanlar çekiyor gibi görünüyor. Arzunuz sürpriz ve özgünlükle uyanabilir.',
     'Sizi romantik, hayalperest ve hassas insanlar çekiyor gibi görünüyor. Arzunuz sezgisel bir bağla uyanabilir.',
   ],
-  // Çekim göstergesinin evi. {kisiler}: erkekler, kadınlar ya da insanlar
-  kisiler: { kadin: 'erkekler', erkek: 'kadınlar', belirtilmedi: 'insanlar' },
+  // Çekim göstergesinin evi: çekimin nasıl ve nerede doğduğu (burç cümlesiyle tek paragraf olur)
   evCekim: [
-    'Kendine güvenen, varlığıyla dikkat çeken {kisiler} sizi kolayca etkiliyor gibi görünüyor. Çekimin sizin için çoğu zaman ilk bakışta başladığı okunuyor.',
-    'Güven veren, ayakları yere basan ve zevk sahibi {kisiler} sizi etkiliyor gibi görünüyor. Somut bir istikrar sizin için çekimin parçası olabilir.',
-    'Sohbeti güçlü, esprili ve meraklı {kisiler} sizi etkiliyor gibi görünüyor. Çekimin sizin için çoğu zaman bir konuşmayla başladığı okunuyor.',
-    'Sıcak, koruyucu ve aileye değer veren {kisiler} sizi etkiliyor gibi görünüyor. Kendinizi evinizde hissettiğiniz biri size çekici gelebilir.',
-    'Eğlenceli, yaratıcı ve flörtöz {kisiler} sizi etkiliyor gibi görünüyor. Aşkı oyun ve keyifle yaşamak sizin için önemli olabilir.',
-    'Çalışkan, becerikli ve özenli {kisiler} sizi etkiliyor gibi görünüyor. İş ortamında ya da gündelik rutininizde karşılaştığınız biri size çekici gelebilir.',
-    'Kendinden emin, ilişkiye açık ve dengeli {kisiler} sizi etkiliyor gibi görünüyor. Ciddi bir bağ kurabileceğiniz birinin size en çekici gelen kişi olduğu okunuyor.',
-    'Gizemli, yoğun ve derin {kisiler} sizi etkiliyor gibi görünüyor. Yüzeysel bir ilgi yerine tutkulu ve dönüştürücü bir bağ arıyor olabilirsiniz.',
-    'Farklı kültürlerden, ufku geniş ve maceracı {kisiler} sizi etkiliyor gibi görünüyor. Yolculukların ve yeni deneyimlerin çekimi uyandırdığı okunuyor.',
-    'Başarılı, statü sahibi ve hedefleri olan {kisiler} sizi etkiliyor gibi görünüyor. Hayranlık duyduğunuz biri size kolayca çekici gelebilir.',
-    'Özgür ruhlu, sosyal ve sıra dışı {kisiler} sizi etkiliyor gibi görünüyor. Arkadaşlıkla başlayan bir yakınlığın zamanla çekime dönüştüğü okunuyor.',
-    'Ulaşılması zor, gizemli ya da hayatınıza sessizce giren {kisiler} sizi etkiliyor gibi görünüyor. Gizli ya da platonik çekimler hayatınızda yer bulabilir.',
+    'Çekim sizin için çoğu zaman ilk bakışta, karşınızdakinin varlığını hissettiğiniz anda başlıyor.',
+    'Güven ve somut bir istikrar hissettiğinizde çekiminiz derinleşiyor, ilgiyi büyük jestlerden çok tutarlılıkta arıyorsunuz.',
+    'Çekim sizin için çoğu zaman bir sohbetle, bir mesajla ya da esprili bir atışmayla başlıyor.',
+    'Kendinizi evinizde gibi hissettiğiniz, sıcak ve tanıdık bir yakınlıkta çekiminiz uyanıyor.',
+    'Çekim sizin için çoğu zaman eğlencenin, flörtün ve oyunun içinde doğuyor, aşkı keyifle yaşamak istiyorsunuz.',
+    'Çekim çoğu zaman gündelik hayatın içinde, her gün gördüğünüz ve emeğine şahit olduğunuz birine karşı yavaş yavaş gelişiyor.',
+    'Ciddi bir bağ kurabileceğinizi hissettiğiniz kişiye çekiliyorsunuz, flörtten çok ortaklık arıyorsunuz.',
+    'Yüzeysel bir ilgi size yetmiyor, çekiminiz derinlik, gizem ve yoğunluk hissettiğinizde uyanıyor.',
+    'Ufkunuzu açan, size yeni bir dünya gösteren biri karşısında çekiminiz hızla uyanabilir.',
+    'Hayranlık duyduğunuz, başarısıyla öne çıkan birine karşı çekiminiz kolayca uyanabilir.',
+    'Çekiminiz çoğu zaman arkadaşlıkla başlıyor, ortak fikirler ve dostluk zamanla yakınlığa dönüşüyor.',
+    'Ulaşılması zor, gizemli ya da hayatınıza sessizce giren birine karşı çekim duyabilirsiniz. Platonik duygular da hayatınızda yer bulabilir.',
   ],
   // Çekim göstergesi geri hareketliyse
   geri: {
@@ -175,7 +174,17 @@ window.ASTROSHIP_BIREY_METINLERI = {
   ],
 
   // ----- Açılar: diğer noktaya göre, u = uyumlu, g = gergin, k = kavuşum -----
-  roller: { es: 'Eş potansiyeliniz', cekim: 'İlişki potansiyeliniz' },
+  roller: { es: 'Eşinizle kuracağınız bağ', cekim: 'Çekildiğiniz ilişkiler' },
+  // Eş göstergesi ile çekim göstergesi arasındaki açı: uzun vadede aranan kişi ile ilk anda çekilinen kişi
+  sentez: {
+    kavusum: 'Uzun vadede yanınızda görmek istediğiniz kişi ile ilk anda çekildiğiniz kişi büyük ölçüde aynı kişi olabilir. Aşk ile bağlılık sizin hayatınızda ayrı yollardan değil, tek bir ilişkide birleşiyor. Bu yoğunluk güçlü bir bağ kurar, ama ilişkinin ritmini kimin belirleyeceği konusunda zaman zaman tartışmalar doğabilir.',
+    uyumlu: 'Uzun vadede aradığınız eş ile ilk anda çekildiğiniz kişiler birbirine yakın çizgiler taşıyor. Heyecan duyduğunuz biriyle kalıcı bir bağ kurmanız kolaylaşabilir, çekim zamanla güvene dönüşebilir.',
+    kare: 'Uzun vadede aradığınız eş ile ilk anda çekildiğiniz kişiler arasında bir sürtünme var. Sizi heyecanlandıran kişi ile hayatınızı birlikte kurmak istediğiniz kişi her zaman aynı olmayabilir. Bu farkı gördüğünüzde seçimleriniz daha bilinçli hale gelir.',
+    karsit: 'Uzun vadede yanınızda görmek istediğiniz kişi ile ilk anda çekildiğiniz kişi karşı uçlarda durabilir. Güçlü bir çekim hissettiğiniz ilişkilerde gurur, bağımsızlık ve kimin yön vereceği üzerine çekişmeler yaşanabilir. Karşınızdakinin gücünü bir tehdit olarak değil, sizi tamamlayan bir denge olarak gördüğünüzde bu çekim kalıcı bir bağa dönüşebilir.',
+    quincunx: 'Uzun vadede aradığınız eş ile ilk anda çekildiğiniz kişiler farklı ihtiyaçlarınıza sesleniyor. Bir ilişkide ikisini birden bulmak küçük ayarlamalar ve sabır isteyebilir.',
+  },
+  // Kuzey Ay Düğümü 7. evde: eş potansiyeline karmik katman
+  dugumEs: 'İlişkiler bu hayatta sizi en çok büyütecek alanlardan biri. Hayatınıza girecek kişinin size güveni, paylaşmayı ve derin bir bağ kurmayı öğreten biri olması olası.',
   aciAnlam: {
     gunes: {
       u: '{Rol} özgüvenle ve canlılıkla destekleniyor gibi görünüyor. Kendinizi ifade edebildiğiniz ilişkilerde daha mutlu olabilirsiniz.',
@@ -233,14 +242,14 @@ window.ASTROSHIP_BIREY_METINLERI = {
       k: '{Rol} kader yolunuzla buluşmuş gibi görünüyor. Bir ilişki hayatınızda dönüm noktası olabilir.',
     },
     yukselen: {
-      u: '{Rol} kişiliğinizle uyumlu görünüyor. İlişkilerde kendiniz olabilirsiniz.',
-      g: '{Rol} ile dışarıya yansıttığınız kimlik çatışıyor gibi görünüyor. İlişkide gerçek ihtiyaçlarınızı göstermek emek isteyebilir.',
-      k: '{Rol} doğrudan tavrınıza ve görünüşünüze yansıyor gibi görünüyor. İlk izleniminiz güçlü olabilir.',
+      u: '{Rol} doğal tavrınızla kolayca uyum sağlıyor. Partnerinizin yanında rol yapmanız gerekmiyor, ilk tanışmada bile aranızda rahat bir akış kurulabilir.',
+      g: '{Rol} ile dışarıya gösterdiğiniz yüz arasında bir fark var. İlişkide güçlü görünmek yerine gerçek ihtiyaçlarınızı söylemek bağınızı derinleştirebilir.',
+      k: '{Rol} doğrudan tavrınıza ve görünüşünüze yansıyor. Karşınızdakiler üzerinde güçlü bir ilk izlenim bırakabilirsiniz.',
     },
     mc: {
-      u: '{Rol} hedeflerinizle uyumlu görünüyor. Kariyerinizi destekleyen bir partner sizin için önemli olabilir.',
-      g: '{Rol} ile kariyer hedefleriniz zaman zaman çatışıyor gibi görünüyor. İş ve ilişki dengesi sizin için önemli bir konu olabilir.',
-      k: '{Rol} hayat hedeflerinizle iç içe görünüyor. Partneriniz toplum içindeki yerinizi etkileyebilir.',
+      u: '{Rol} hedeflerinizle aynı yöne akıyor. Kariyerinizi destekleyen, başarınızla gurur duyan biri yanınızda olabilir.',
+      g: '{Rol} ile kariyer hedefleriniz zaman zaman çekişiyor. İş ve ilişki arasındaki dengeyi baştan konuşmak sizi rahatlatabilir.',
+      k: '{Rol} toplum içindeki yerinizle iç içe. Partneriniz kariyerinizi ve görünürlüğünüzü doğrudan etkileyebilir.',
     },
   },
 
@@ -271,6 +280,8 @@ window.ASTROSHIP_BIREY_METINLERI = {
   // ortamı, gruplar, toplu etkinlikler, sosyal medya, meslek toplulukları ve arkadaş aracılığı, Balık su olan yerler,
   // hastaneler, sanat ve bilim alanları ve beklenmedik yerler.
   tanismaSahneBaglac: ['Örneğin', 'Mesela', 'Hatta'],
+  // Alçalan burcundan gelen ikinci sahnenin başı
+  tanismaIkinci: 'Bir başka ihtimal olarak',
   tanismaSahne: [
     [
       'hiç beklemediğiniz bir anda, ilk görüşte yanınıza gelip adımı hemen atan biriyle tanışabilirsiniz.',
@@ -441,20 +452,31 @@ window.ASTROSHIP_BIREY_METINLERI = {
       'bir hastanede, deniz kenarında bir inzivada ya da hiç beklemediğiniz bir yerde karşılaşabilirsiniz.',
     ],
   ],
-  // Yöneticinin burcunun niteliği: öncü, sabit, değişken
-  tanismaNitelik: [
-    'Tanışmanızın hızlı ve kendiliğinden gelişmesi, ilişkinin de kısa sürede bir yöne evrilmesi ihtimali okunuyor.',
-    'Tanışmanızın zamana yayılması, uzun süredir tanıdığınız biriyle bağın yavaş yavaş derinleşmesi ihtimali okunuyor.',
-    'Tanışmanızın bir tesadüfle gerçekleşmesi, yollarınızın birkaç kez kesişmesinin ardından ilişkinin başlaması ihtimali okunuyor.',
+  // Yöneticinin burcuna göre tanışmanın temposu
+  tanismaTempo: [
+    'Tanışma ani ve hızlı olabilir, ilk adımın hemen atıldığı bir başlangıç olası.',
+    'Tanışmanın ardından bağın acele etmeden, güven oluştukça yavaş yavaş kurulması olası.',
+    'Yollarınızın birkaç kez kesişmesi, ilişkinin uzun sohbetlerle olgunlaşması olası.',
+    'Kendinizi güvende hissettiğiniz tanıdık bir ortamda, duygusal bir yakınlıkla başlayan bir süreç olası.',
+    'İlk izlenimin çok güçlü olduğu, göz alıcı bir başlangıç olası.',
+    'Tanışmanın gündelik hayatın içinde sessizce başlayıp zamanla fark edilmesi olası.',
+    'Birinin sizi tanıştırmasıyla ya da zarif bir davetle başlayan, dengeli ilerleyen bir süreç olası.',
+    'İlk karşılaşmanın yoğun olması ama ilişkinin bir süre gözlerden uzak, temkinli ilerlemesi olası.',
+    'Kendiliğinden, plansız ve maceralı bir başlangıç olası, ilişki farklı şehirler ya da ülkeler arasında gidip gelebilir.',
+    'Tanışma hızlı başlayabilir, ama bağın ciddileşmesi ve resmîleşmesi kendi zamanını alabilir.',
+    'Sürpriz bir tanışma ya da arkadaşlıkla başlayıp zamanla aşka dönüşen bir süreç olası.',
+    'Tesadüf gibi görünen, rüya gibi bir karşılaşma olası, ilk anda bir tanışıklık hissi yaşayabilirsiniz.',
   ],
-  tanismaGeri: 'Geçmişten tanıdığınız biriyle yeniden karşılaşmanız ya da eski bir bağın yeniden canlanması ihtimali de görülüyor.',
+  tanismaGeri: 'Geçmişte yollarınızın kesiştiği biriyle yeniden karşılaşmanız da ihtimaller arasında.',
 
   // ----- Pro: evlilik potansiyeli -----
-  evlilikGiris: 'Haritanızdaki evlilik göstergeleri tek tek değerlendirilerek evlilik potansiyeliniz hesaplandı.',
+  evlilikGiris: 'Haritanızdaki evlilik göstergeleri tek tek değerlendirildi.',
+  // Puan bantları: 75 ve üstü, 62–74, 48–61, 48'in altı. Metnin tonu puanla aynı yönde olmalı.
   evlilikBant: [
-    'Haritanızda evlilik ve kalıcı bir birliktelik güçlü biçimde vurgulanıyor gibi görünüyor. Doğru kişiyle karşılaştığınızda bağı resmîleştirmeye yatkın olduğunuz okunuyor.',
-    'Haritanızda evlilik potansiyeli belirgin görünüyor. Evliliğin hayatınızda yer alması büyük ölçüde doğru zamanlama ve doğru kişiyle ilgili gibi okunuyor.',
-    'Haritanızda evlilik, kendiliğinden gelen bir süreçten çok bilinçle seçilen bir yol gibi görünüyor. Bağlılık geç ya da alışılmışın dışında bir biçimde gelebilir, ama geldiğinde bilinçli bir seçim olduğu okunuyor.',
+    'Haritanızda evlilik ve kalıcı bir birliktelik güçlü biçimde vurgulanıyor. Doğru kişiyle karşılaştığınızda bağı resmîleştirmeye yatkın olduğunuz okunuyor.',
+    'Haritanızda evlilik, desteklenen bir tema olarak öne çıkıyor. Doğru zamanlama ve doğru kişiyle bu potansiyelin hayata geçmesi kolaylaşabilir.',
+    'Haritanızda evlilik temasını tek başına öne çıkaran ya da geri çeken güçlü bir tablo oluşmuyor. Bu, evliliğin olmayacağı anlamına gelmez. Konunun büyük ölçüde sizin seçimlerinize, karşılaşacağınız kişiyle kuracağınız uyuma ve hayat koşullarınıza bağlı olduğunu gösterir.',
+    'Haritanızda evlilik, kendiliğinden gelen bir süreçten çok bilinçle seçilen bir yol gibi duruyor. Bağlılık geç ya da alışılmışın dışında bir biçimde gelebilir, ama geldiğinde sizin seçiminiz olacaktır.',
   ],
   evlilikEtken: {
     yoneticiKose: 'Evlilik konusunun hayatınızda görünür ve belirleyici bir yer tuttuğu okunuyor.',
@@ -481,14 +503,39 @@ window.ASTROSHIP_BIREY_METINLERI = {
     esSaturn: 'Eş konusunda temkinli davrandığınız, bağlanmadan önce uzun süre gözlemlediğiniz okunuyor.',
     esUranus: 'İlişkilerin ani başlayıp ani değişebileceği, bağlılık için özgürlüğünüze alan açan birine ihtiyaç duyduğunuz görülüyor.',
     jupiterDsc: 'Karşınıza çıkan kişilerin size şans ve büyüme getirdiği okunuyor.',
+    yoneticiSaturn: 'Evlilik konusunda temkinli ve geç karar veren bir yapınız olabilir, sorumluluk duygusu bu konuda öne geçebilir.',
+    venusEv: 'Sevginin hayatınızda keyifle ve kolay ifade bulduğu görülüyor.',
+    venusOnIki: 'Sevginizi zaman zaman içinizde saklayabilir, gizli ya da ulaşılması zor aşklara yönelebilirsiniz.',
+    venusDispoKose: 'Sevgi hayatınızın sağlam ve görünür bir zemine oturduğu görülüyor.',
+    venusDispoGizli: 'İlişkilerde fazla fedakâr davranmaya eğilimli olabilirsiniz, kendi ihtiyaçlarınızı da görmek önemli.',
+    dugum7: 'Evlilik ve ortaklık konusunun hayatınızda kadersel bir ağırlık taşıdığı, doğru bağın sizi ileri taşıyacağı okunuyor.',
+    guneyDugum7: 'Geçmişten gelen ilişki alışkanlıklarını fark edip bırakmak, yeni bir bağa alan açabilir.',
+    kismetKose: 'Evlilik konusunun hayatınızda görünür ve canlı bir yeri olduğu okunuyor.',
+    kismetIyicil: 'Evlilik kapınızın sevgi ve şansla aralandığı görülüyor.',
+    kismetYoneticiGizli: 'Evliliğin hayatınıza dolambaçlı yollardan ya da beklenmedik koşullarda girmesi olası.',
   },
+  // Evlilik noktasının evi: evliliğin hayatınıza hangi alandan girdiği
+  evlilikNoktasiEv: [
+    'Evlilik sizin için önce kendinizi tanıma ve kendi kimliğinizi kurma yolculuğuyla bağlantılı görünüyor.',
+    'Evlilik hayatınıza maddi güven, ortak birikim ve değer verdiğiniz şeyler üzerinden girebilir.',
+    'Evlilik hayatınıza yakın çevreniz, kardeşleriniz ya da gündelik iletişiminiz üzerinden girebilir.',
+    'Evlilik sizin için en çok yuva, aile ve köklerle anlam kazanıyor.',
+    'Evlilik hayatınıza aşk, keyif ve romantizmle girebilir, çocuk konusu da bu yolda önemli bir yer tutabilir.',
+    'Evlilik hayatınıza iş, gündelik düzen ve birbirine destek olma üzerinden girebilir.',
+    'Evlilik hayatınızda doğrudan ve görünür bir yer tutuyor, ortaklık sizin için hayatın merkezinde.',
+    'Evlilik sizin için derin bir dönüşüm, güven ve ortak kaynaklarla bağlantılı görünüyor.',
+    'Evlilik hayatınıza uzaklar, yabancı kültürler, eğitim ya da inanç üzerinden girebilir.',
+    'Evlilik kariyerinizle ve toplumdaki yerinizle iç içe görünüyor.',
+    'Evlilik hayatınıza arkadaş çevreniz, topluluklar ve ortak hayaller üzerinden girebilir.',
+    'Evlilik sizin için gözlerden uzak, sessiz ve ruhsal bir bağla anlam kazanıyor.',
+  ],
   evlilikDestek: 'Sizi destekleyen yanlar',
   evlilikDikkat: 'Özen isteyen yanlar',
 
   // ----- Pro: muhtemel evlilik dönemleri -----
-  tarihlerGiris: 'Haritanızda evliliğin en güçlü biçimde öne çıktığı üç dönem hesaplandı.',
+  tarihlerGiris: 'Haritanızda ilişki ve evlilik temalarının en güçlü biçimde öne çıktığı üç dönem hesaplandı.',
   tarihlerBos: 'Önümüzdeki yıllarda evlilik göstergelerinin belirgin biçimde bir araya geldiği bir dönem öne çıkmıyor gibi görünüyor. Bu, evliliğin olmayacağı anlamına gelmez, zamanlamanın kişisel tercihlerinize daha açık olduğu okunuyor.',
-  tarihlerNot: 'Bu dönemler evliliğin gerçekleşebileceği en güçlü zamanları gösterir. Kararlarınızı ve yolunuzu her zaman siz belirlersiniz.',
+  tarihlerNot: 'Bu dönemler ilişki ve evlilik konularının en çok hareketlendiği zamanları gösterir. Kararlarınızı ve yolunuzu her zaman siz belirlersiniz.',
   tarihEtiket: { enGuclu: 'En güçlü dönem', diger: 'Güçlü dönem' },
   yasKalip: '{yas} yaşınızda',
   tarihNeden: {
@@ -506,5 +553,37 @@ window.ASTROSHIP_BIREY_METINLERI = {
     srYedi: 'Bu yıl karşınıza çıkacak kişilerin hayatınızda önemli bir yer tutabileceği görülüyor.',
   },
 
-  baglaclar: ['Bunun yanında', 'Ayrıca', 'Buna ek olarak'],
+  // Aynı tetikleyici birden fazla dönemde çıkarsa ikinci kez bu cümleler kullanılır
+  tarihNedenAlt: {
+    profeksiyon7: 'Yılın ana gündemi ortaklıklar ve bağlılık olabilir.',
+    yilinYoneticisi: 'Yıl boyunca ilişki konuları kararlarınızın merkezinde durabilir.',
+    jupiter7: 'İlişkiler alanınızda kapıların yeniden aralandığı, yeni tanışmaların kolaylaştığı bir dönem olabilir.',
+    jupiterTemas: 'Sevgi ve bağlılık konularında içinizin daha umutlu, daha açık olduğu bir dönem olabilir.',
+    saturn7: 'İlişkilerde kalıcı ve ciddi adımlar atma isteği artabilir.',
+    tutulma: 'İlişkiler ekseninde beklenmedik bir dönüm noktası yaşanabilir.',
+    srYukselen: 'Yılın genel havası birliktelik ve ortaklık yönünde esebilir.',
+    srYedi: 'Yıl içinde hayatınıza girecek biri önemli bir yer edinebilir.',
+  },
+  tarihRehberAlt: 'Bu dönemde kendinize ve ilişki beklentilerinize dürüstçe bakmak, doğru kararı kolaylaştırabilir.',
+  // Dönemin aylarına özgü tetikleyici: neden tam bu aylar
+  tarihPencere: {
+    jupiterTemas: 'Bu aylarda aşk ve evlilik göstergelerinizin üzerinden bereketli bir geçiş tamlaşıyor.',
+    tutulma: 'Bu aylarda bir tutulma ilişkiler eksenini harekete geçiriyor, ani başlangıçlar ya da kararlar gündeme gelebilir.',
+    tutulmaVenus: 'Bu aylarda bir tutulma aşk hayatınızı doğrudan harekete geçiriyor.',
+  },
+  // Dönemi nasıl değerlendirebilirsiniz: dönemin ana tetikleyicisine göre
+  tarihRehber: {
+    profeksiyon7: 'Ertelediğiniz ilişki kararlarını konuşmak ve geleceğe dair adım atmak için uygun bir zaman olabilir.',
+    profeksiyon5: 'Yeni insanlarla tanışmaya ve flörte açık olmak bu dönemi verimli kılabilir.',
+    profeksiyon1: 'Kendinize yatırım yaptığınız, yenilendiğiniz bir dönem doğru kişiyi de hayatınıza çekebilir.',
+    profeksiyon11: 'Arkadaş çevrenizin davetlerine katılmak ve sosyal çevrenizi genişletmek bu dönemde önem kazanabilir.',
+    yilinYoneticisi: 'Bir ilişkiniz varsa onu bir sonraki aşamaya taşımayı konuşmak için uygun bir yıl olabilir.',
+    jupiter7: 'Davetleri geri çevirmemek ve karşınıza çıkan fırsatlara açık olmak bu dönemde size iyi gelebilir.',
+    jupiterTemas: 'Kalbinizi açık tutmak ve ilişkiye alan açmak bu dönemde kolaylaşabilir.',
+    saturn7: 'Sorumlulukları paylaşmak, ortak bir düzen ya da ev kurmak gibi somut adımlar gündeme gelebilir.',
+    tutulma: 'Ani gelişmeler karşısında sakin kalmak ve kararları aceleye getirmemek önemli olabilir.',
+    tutulmaVenus: 'Duygularınızı açıkça ifade etmek bu dönemde ilişkinizi güçlendirebilir.',
+    srYukselen: 'Bu yıl ortaklık ve birliktelik konularına bilinçle zaman ayırmak size iyi gelebilir.',
+    srYedi: 'Karşınıza çıkan yeni kişilere önyargısız yaklaşmak bu dönemde önemli olabilir.',
+  },
 };

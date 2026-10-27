@@ -608,3 +608,7 @@ details.acilir > *:not(summary) { margin-top: 0.6rem; }
 .donem-listesi h4 { font-size: 1.5rem; font-weight: 400; font-variant-numeric: lining-nums; }
 .donem-listesi p:last-child { color: var(--soluk); font-size: var(--boy-s); line-height: 1.6; }
 .soru-formu .alan input { min-height: 50px; }
+
+/* Test modu: kartın gösterge kaynağı */
+.kaynak { margin-top: 0.4rem; padding: 0.7rem 0.9rem; border-radius: 14px; border: 1px dashed var(--cizgi-guclu); background: var(--vurgu-acik); font: 400 0.75rem/1.55 var(--f); color: var(--soluk); letter-spacing: 0.01em; }
+.kaynak b { font-weight: 500; color: var(--vurgu); letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.65rem; margin-right: 0.4rem; }

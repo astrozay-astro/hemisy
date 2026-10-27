@@ -52,7 +52,12 @@
       detay: { es: detay(harita, esGostergesi), cekim: detay(harita, cekimGostergesi) },
       // Eşle nerede tanışılır: 7. evin yöneticisinin bulunduğu ev ve burç
       yonetici: g[yonetici],
+      // Alçalan'ın (7. ev girişi) burcu: tanışma için ikinci sahne
+      yedinciBurc: burcIndeksi(harita.evler[6]),
+      // Kuzey Ay Düğümü 7. evde ya da Alçalan'a 6° içinde
+      dugum7: g.kuzeyDugum.ev === 7 || S.aciFarki(g.kuzeyDugum.boylam, harita.evler[6]) <= 6,
       evlilik: S.evlilikPotansiyeli(harita, c),
+      evlilikNoktasi: S.evlilikNoktasi(harita, c),
       tarihler: S.evlilikTarihleri(harita, c, simdi),
     };
   }

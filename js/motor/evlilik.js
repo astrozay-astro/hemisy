@@ -8,13 +8,17 @@
 //  - Venüs: yönetim/yücelim +5, zarar/düşüş −4, geri −4, Jüpiter ile uyumlu açı ya da kavuşum +5, Satürn ile gergin açı −3
 //  - Eş göstergesi (kadında Güneş, erkekte Ay, belirtilmemişse Venüs): Venüs ya da Jüpiter ile uyumlu açı ya da
 //    kavuşum +6, Satürn ile gergin açı ya da kavuşum −4, Uranüs ile gergin açı ya da kavuşum −5
-//  - Jüpiter Alçalan'a kavuşum, üçgen ya da altmışlık +5
+//  - Jüpiter Alçalan'a kavuşum, üçgen ya da altmışlık +5, 7. ev yöneticisi ile Satürn gergin açı −3
+//  - Venüs'ün evi: 5., 7., 11. ev +3, 12. ev −3. Venüs'ün dispozitörü köşede +2, 6., 8. ya da 12. evde −2
+//  - Kuzey Ay Düğümü 7. evde ya da Alçalan'a 6° içinde +6, 1. evde (Güney Düğüm 7. evde) −2
+//  - Evlilik noktası (erkek: Yükselen + Venüs − Satürn, kadın: Yükselen + Satürn − Venüs): köşe evde +4, Venüs, Jüpiter ya da Alçalan'a 5° içinde +5,
+//    yöneticisi 6., 8. ya da 12. evde −3
 //  Açılarda orb en fazla 6°.
 //
 // Evlilik dönemleri: bugünden (en erken 18 yaşından) itibaren 15 yıl taranır. Her yaş yılı doğum gününden başlar.
 //  - Profeksiyon: yılın evi 7. ev +25, 5. ev +10, 1. ev +8, 11. ev +6. Yılın yöneticisi 7. evin yöneticisi ya da Venüs +10
 //  - Transit (her ayın ortasında): Jüpiter natal 7. evde +2, Jüpiter Alçalan, Venüs, 7. ev yöneticisi ya da eş
-//    göstergesine 3° içinde kavuşum +4 (ay penceresinde tamlığa göre +4…+7), Satürn natal 7. evde ya da Alçalan'a 3° içinde +1
+//    göstergesine ya da evlilik noktasına 3° içinde kavuşum +4 (ay penceresinde tamlığa göre +4…+7), Satürn natal 7. evde ya da Alçalan'a 3° içinde +1
 //  - Tutulmalar (js/veri/tutulmalar.js tablosu): Yükselen–Alçalan eksenine 5° içinde +8, Venüs ya da 7. ev yöneticisine 3° içinde +6
 //  - Solar return (doğum yerinde): Yükselen natal Alçalan burcunda +8, Venüs ya da Jüpiter SR 7. evinde +6
 //  En yüksek puanlı üç yıl seçilir. Her yılda ayların puanına göre en güçlü dört aylık pencere gösterilir.
@@ -41,6 +45,16 @@
 
   const yediYoneticisi = (h) => BURCLAR[burcIndeksi(h.evler[6])].yonetici;
 
+  // Evlilik noktası (Arap noktası, Valens): erkek için Yükselen + Venüs − Satürn, kadın için Yükselen + Satürn − Venüs.
+  // Cinsiyet belirtilmemişse erkek formülü (klasik genel evlilik kısmeti) kullanılır.
+  function evlilikNoktasi(h, cinsiyet) {
+    const g = h.gezegenler;
+    const boylam = cinsiyet === 'kadin'
+      ? norm(g.yukselen.boylam + g.saturn.boylam - g.venus.boylam)
+      : norm(g.yukselen.boylam + g.venus.boylam - g.saturn.boylam);
+    return { boylam, ...S.burcBilgisi(boylam), ev: S.evBul(boylam, h.evler), formul: cinsiyet === 'kadin' ? 'kadın' : 'erkek' };
+  }
+
   function evlilikPotansiyeli(h, cinsiyet) {
     const g = h.gezegenler;
     const yAd = yediYoneticisi(h);
@@ -56,6 +70,7 @@
     if (yGuc === 'yonetim' || yGuc === 'yucelim') ekle('yoneticiGuclu', 7);
     else if (yGuc === 'zarar' || yGuc === 'dusus') ekle('yoneticiZayif', -5);
     if (['venus', 'jupiter'].some((b) => b !== yAd && ['u', 'k'].includes(aciTuru(y.boylam, g[b].boylam)))) ekle('yoneticiIyicil', 5);
+    if (yAd !== 'saturn' && aciTuru(y.boylam, g.saturn.boylam) === 'g') ekle('yoneticiSaturn', -3);
 
     for (const [ad, puan] of Object.entries(YEDIDE_PUAN)) if (g[ad].ev === 7) ekle(`${ad}7`, puan);
 
@@ -63,6 +78,14 @@
     if (vGuc === 'yonetim' || vGuc === 'yucelim') ekle('venusGuclu', 5);
     else if (vGuc === 'zarar' || vGuc === 'dusus') ekle('venusZayif', -4);
     if (g.venus.geri) ekle('venusGeri', -4);
+    if ([5, 7, 11].includes(g.venus.ev)) ekle('venusEv', 3);
+    else if (g.venus.ev === 12) ekle('venusOnIki', -3);
+    // Venüs'ün dispozitörü (bulunduğu burcun yöneticisi): köşede destekler, 6., 8. ya da 12. evde fedakârlık temasını getirir
+    const dAd = BURCLAR[g.venus.indeks].yonetici;
+    if (dAd !== 'venus') {
+      if (KOSE.includes(g[dAd].ev)) ekle('venusDispoKose', 2);
+      else if ([6, 8, 12].includes(g[dAd].ev)) ekle('venusDispoGizli', -2);
+    }
     if (['u', 'k'].includes(aciTuru(g.venus.boylam, g.jupiter.boylam))) ekle('venusJupiter', 5);
     if (aciTuru(g.venus.boylam, g.saturn.boylam) === 'g') ekle('venusSaturn', -3);
 
@@ -73,6 +96,18 @@
 
     const jDsc = S.aciBul(g.jupiter.boylam, dsc);
     if (jDsc && jDsc.orb <= ORB && ['kavusum', 'ucgen', 'altmislik'].includes(jDsc.id)) ekle('jupiterDsc', 5);
+
+    // Ay düğümleri: Kuzey Düğüm 7. evde ya da Alçalan'a yakınsa ilişkiler kişinin gelişim yolu, Güney Düğüm 7. evdeyse
+    // eski ilişki kalıpları öne çıkar
+    if (g.kuzeyDugum.ev === 7 || aciFarki(g.kuzeyDugum.boylam, dsc) <= 6) ekle('dugum7', 6);
+    else if (g.kuzeyDugum.ev === 1) ekle('guneyDugum7', -2);
+
+    // Evlilik noktası (cinsiyete göre)
+    const kismet = evlilikNoktasi(h, cinsiyet).boylam;
+    if (KOSE.includes(S.evBul(kismet, h.evler))) ekle('kismetKose', 4);
+    if ([g.venus.boylam, g.jupiter.boylam, dsc].some((b) => aciFarki(kismet, b) <= 5)) ekle('kismetIyicil', 5);
+    const kAd = BURCLAR[burcIndeksi(kismet)].yonetici;
+    if ([6, 8, 12].includes(g[kAd].ev)) ekle('kismetYoneticiGizli', -3);
 
     const toplam = etkenler.reduce((t, e) => t + e.puan, 55);
     return { yuzde: Math.max(30, Math.min(96, Math.round(toplam))), etkenler };
@@ -104,7 +139,7 @@
     const dsc = norm(g.yukselen.boylam + 180);
     const ascBurc = burcIndeksi(g.yukselen.boylam);
     const dscBurc = (ascBurc + 6) % 12;
-    const hedefler = [dsc, g.venus.boylam, g[yAd].boylam, g[ES[cinsiyet] || 'venus'].boylam];
+    const hedefler = [dsc, g.venus.boylam, g[yAd].boylam, g[ES[cinsiyet] || 'venus'].boylam, evlilikNoktasi(h, cinsiyet).boylam];
 
     let ilkYas = simdi.getUTCFullYear() - dogum.getUTCFullYear();
     if (yilEkle(dogum, ilkYas) > simdi) ilkYas--;
@@ -119,6 +154,8 @@
       const nedenler = {};
       const ekle = (id, puan) => { nedenler[id] = (nedenler[id] || 0) + puan; };
       const aylar = new Array(12).fill(0);
+      // Her ayda hangi tetikleyicilerin çalıştığı: dönemin "neden bu aylar" açıklaması için
+      const ayNedenleri = Array.from({ length: 12 }, () => new Set());
 
       // Profeksiyon
       const ev = (yas % 12) + 1;
@@ -136,7 +173,7 @@
         if (S.evBul(jup, h.evler) === 7) { ekle('jupiter7', 2); puan += 2; }
         // Kavuşum tamlaştıkça puan artar (3° içinde 4, tam kavuşumda 7): dönemin ayı en tam temasa oturur
         const jOrb = Math.min(...hedefler.map((b) => aciFarki(jup, b)));
-        if (jOrb <= 3) { ekle('jupiterTemas', 4); puan += 4 + (3 - jOrb); }
+        if (jOrb <= 3) { ekle('jupiterTemas', 4); puan += 4 + (3 - jOrb); ayNedenleri[a].add('jupiterTemas'); }
         if (S.evBul(sat, h.evler) === 7 || aciFarki(sat, dsc) <= 3) { ekle('saturn7', 1); puan += 1; }
         aylar[a] += puan;
       }
@@ -144,8 +181,8 @@
       // Tutulmalar
       for (const t of tumTutulmalar.filter((x) => x.tarih >= bas && x.tarih < son)) {
         const a = Math.min(11, Math.floor((t.tarih - bas) / (30.44 * 864e5)));
-        if (aciFarki(t.boylam, g.yukselen.boylam) <= 5 || aciFarki(t.boylam, dsc) <= 5) { ekle('tutulma', 8); aylar[a] += 8; }
-        if (aciFarki(t.boylam, g.venus.boylam) <= 3 || aciFarki(t.boylam, g[yAd].boylam) <= 3) { ekle('tutulmaVenus', 6); aylar[a] += 6; }
+        if (aciFarki(t.boylam, g.yukselen.boylam) <= 5 || aciFarki(t.boylam, dsc) <= 5) { ekle('tutulma', 8); aylar[a] += 8; ayNedenleri[a].add('tutulma'); }
+        if (aciFarki(t.boylam, g.venus.boylam) <= 3 || aciFarki(t.boylam, g[yAd].boylam) <= 3) { ekle('tutulmaVenus', 6); aylar[a] += 6; ayNedenleri[a].add('tutulmaVenus'); }
       }
 
       // Solar return: Güneş'in natal konumuna döndüğü an, doğum yerinde
@@ -172,6 +209,8 @@
         baslangic: tarihEkle(bas, enIyi * 30.44),
         bitis: tarihEkle(bas, Math.min(enIyi + 4, 12) * 30.44 - 2),
         nedenler: Object.entries(nedenler).sort((x, y) => y[1] - x[1]).map(([id]) => id),
+        // Pencerenin içindeki aylara özgü tetikleyiciler (tamlaşan Jüpiter teması, tutulmalar)
+        pencere: [...new Set(ayNedenleri.slice(enIyi, enIyi + 4).flatMap((x) => [...x]))],
       });
     }
 
@@ -180,5 +219,5 @@
     return secilen.sort((x, y) => x.yas - y.yas).map((y) => ({ ...y, enGuclu: y === enGuclu }));
   }
 
-  Object.assign(S, { evlilikPotansiyeli, evlilikTarihleri });
+  Object.assign(S, { evlilikPotansiyeli, evlilikTarihleri, evlilikNoktasi });
 })();
