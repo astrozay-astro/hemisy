@@ -140,11 +140,16 @@ button { font-family: inherit; }
 .dugme-acik:hover { background: #fff; }
 
 .alt-bilgi {
-  display: grid; gap: 0.5rem; padding-top: 1.5rem; margin-top: 0.5rem;
+  display: grid; gap: 0.7rem; justify-items: start; padding-top: 1.5rem; margin-top: 0.5rem;
   border-top: 1px solid var(--cizgi); font-size: var(--boy-xs); color: var(--soluk);
 }
-.alt-bilgi .iletisim { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; color: var(--murekkep); letter-spacing: 0.04em; user-select: all; }
-.alt-bilgi .iletisim span { user-select: text; }
+.alt-logo { height: 26px; width: auto; }
+.alt-bilgi a { color: var(--murekkep); text-decoration: none; }
+.alt-bilgi a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.alt-bilgi .iletisim, .alt-bilgi .sosyal { display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; letter-spacing: 0.03em; }
+.alt-bilgi .sosyal a { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 32px; }
+.alt-bilgi .sosyal svg { width: 18px; height: 18px; flex: none; }
+.alt-bilgi .telif { color: var(--silik); }
 
 /* ---------- Gece penceresi (giriş, hesaplama ve sonuç başlığı) ---------- */
 

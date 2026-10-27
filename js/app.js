@@ -130,9 +130,22 @@
       </div>`;
   }
 
+  const INSTAGRAM_SIMGESI = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3" y="3" width="14" height="14" rx="4" stroke="currentColor" stroke-width="1.3"/><circle cx="10" cy="10" r="3.2" stroke="currentColor" stroke-width="1.3"/><circle cx="14.2" cy="5.8" r="0.9" fill="currentColor"/></svg>';
+  const X_SIMGESI = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+
   const altBilgi = () => `
     <footer class="alt-bilgi">
-      <div class="iletisim"><span>www.hemisy.com</span><span>info@hemisy.com</span></div>
+      <img class="alt-logo" src="marka/hemisy-isim.png" alt="hēmisy" width="608" height="224">
+      <div class="iletisim">
+        <a href="https://www.hemisy.com" target="_blank" rel="noopener">www.hemisy.com</a>
+        <a href="mailto:info@hemisy.com">info@hemisy.com</a>
+      </div>
+      <div class="sosyal">
+        <a href="https://www.instagram.com/astrologtugcenurozay" target="_blank" rel="noopener">${INSTAGRAM_SIMGESI}<span>@astrologtugcenurozay</span></a>
+        <a href="https://x.com/astrozay_" target="_blank" rel="noopener">${X_SIMGESI}<span>@astrozay_</span></a>
+      </div>
+      <p>hēmisy eğlence amaçlıdır. Önemli kararlarınızı yalnızca bu rapora dayandırmayın.</p>
+      <p class="telif">© 2026 hēmisy · by Tuğçenur Özay</p>
     </footer>`;
 
   // ---------- Giriş ----------
@@ -153,6 +166,7 @@
           <li><span class="amblem" aria-hidden="true">${glif('☽')}</span><div><h3>İlişki yapısı</h3><p>İlişkiniz nasıl başlar, nereden beslenir, hangi konularda sınanır.</p></div></li>
           <li><span class="amblem" aria-hidden="true">${glif('♃')}</span><div><h3>Gelecek öngörüsü</h3><p>Önümüzdeki 12 ayın güçlü dönemleri: ilişki ne zaman başlar, ne zaman derinleşir.</p></div></li>
         </ol>
+        ${altBilgi()}
       </section>`;
   }
 
