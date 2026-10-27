@@ -1,11 +1,14 @@
-# Astroship · Love is gonna save us
+# hēmisy
+
+www.hemisy.com · info@hemisy.com
 
 Türkçe astroloji uyum testi: iki kişinin doğum haritasını karşılaştırır (sinastri), ilişkinin kompozit ve Davison haritalarını yorumlar.
 
 ## Klasörler
 
 - `index.html`: sitenin giriş dosyası
-- `css/style.css`: Şafak tasarımı (renkler, yazı tipleri, tüm görünüm)
+- `css/style.css`: tasarım (renkler, yazı tipi, tüm görünüm)
+- `marka/hemisy-logo.svg`: logo
 - `js/app.js`: ekranlar ve aralarındaki geçişler
 - `js/turkce.js`: isimlere doğru Türkçe eki getiren yardımcı (Ayşe'nin, Mehmet'in)
 - `js/motor/`: hesaplama motoru

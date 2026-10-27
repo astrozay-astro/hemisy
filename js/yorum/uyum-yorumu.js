@@ -1,12 +1,21 @@
-// Uyum yorumlarını kurar: her başlık için en etkili göstergeleri sırayla anlatan paragraflar üretir.
-// Okuyucuya giden metinlerde teknik bilgi yoktur. Teknik "nedenler" listesi yalnızca Harita bilgileri sekmesinde gösterilir.
-// Ücretsiz kısım: giriş ve ilk paragraf. Ücretli kısım: kalan paragraflar.
+// Uyum yorumlarını kurar: her başlık için en etkili göstergeleri, birbirine bağlaçlarla bağlanan akıcı paragraflar
+// hâlinde anlatır. Okuyucuya giden metinlerde teknik bilgi yoktur; teknik "nedenler" listesi yalnızca Harita bilgileri
+// sekmesinde gösterilir. Ücretsiz kısım: giriş ve ilk paragraf. Ücretli kısım: kalan paragraflar.
 (() => {
   'use strict';
 
   const S = window.Astroship;
   const M = window.ASTROSHIP_UYUM_METINLERI;
-  const KISISEL = ['gunes', 'ay', 'merkur', 'venus', 'mars'];
+  // Kişilik cümlesi yalnızca o başlıkla ilgili gezegenler için eklenir (ör. iletişimde sadece düşünme biçimi)
+  const KISILIK = {
+    tutku: ['venus', 'mars'],
+    baglanma: ['ay', 'gunes', 'venus'],
+    iletisim: ['merkur'],
+    romantizm: ['venus', 'gunes'],
+    guven: ['gunes', 'ay'],
+    huzur: ['mars', 'ay'],
+    karmik: [],
+  };
   const GOSTERGE_SAYISI = 4;
 
   const kac = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -19,15 +28,22 @@
     });
   }
 
+  const kucukBasla = (s) => s.charAt(0).toLocaleLowerCase('tr') + s.slice(1);
+
   function aciTuru(etken) {
     if (etken.aci.id === 'kavusum') return 'k';
     if (etken.aci.id === 'karsit' && (etken.p === 'yukselen' || etken.q === 'yukselen')) return 'alcalan';
     return ['altmislik', 'ucgen'].includes(etken.aci.id) ? 'u' : 'g';
   }
 
-  function kisilikCumlesi(nokta, ad) {
-    const tanim = M.burcIfadeleri[nokta.anahtar];
-    return tanim ? doldur(tanim.kalip.replace('{ifade}', tanim.ifadeler[nokta.indeks]), { N: ad }) : '';
+  // "Can aşkta zarafet … bekliyor; Elif ise arzusunu … gösteriyor."
+  function kisilikCumlesi(parcalar) {
+    if (!parcalar.length) return '';
+    const cumleler = parcalar.map(({ nokta, ad }, i) => {
+      const tanim = M.burcIfadeleri[nokta.anahtar];
+      return doldur(tanim.kalip.replace('{ise}', i ? ' ise' : '').replace('{ifade}', tanim.ifadeler[nokta.indeks]), { N: ad });
+    });
+    return `${cumleler.join('; ')}.`;
   }
 
   // Teknik gösterge satırı (yalnızca Harita bilgileri sekmesi için)
@@ -42,25 +58,40 @@
     return { isaret: etken.a.burc.glif, metin: `${ilgi(etken.kimP)} ${etken.a.iyelik} ${etken.a.burc.ad}, ${ilgi(etken.kimQ)} ${etken.b.iyelik} ${etken.b.burc.ad}`, alt: 'Element ve nitelik uyumu (açı yok)', ton: etken.ton };
   }
 
-  function etkenParagrafi(etken, adlar, anlatilanlar) {
+  // Bir göstergenin paragrafı. isimleBasliyor: metin bir isimle başlıyorsa bağlaçtan sonra küçük harfe çevrilmez.
+  function etkenParagrafi(etken, adlar, anlatilanlar, ilkMi, baslikId) {
+    let sablon;
+    let govde;
     if (etken.tur === 'aci') {
       const metinler = M.ciftler[`${etken.p}-${etken.q}`];
-      const parcalar = [doldur(metinler[aciTuru(etken)] ?? metinler.g, { X: adlar[etken.kimP], Y: adlar[etken.kimQ] })];
+      sablon = metinler[aciTuru(etken)] ?? metinler.g;
+      govde = doldur(sablon, { X: adlar[etken.kimP], Y: adlar[etken.kimQ] });
+      const kisilik = [];
       for (const [nokta, kim] of [[etken.a, etken.kimP], [etken.b, etken.kimQ]]) {
         const anahtar = `${kim}-${nokta.anahtar}`;
-        if (!KISISEL.includes(nokta.anahtar) || anlatilanlar.has(anahtar)) continue;
+        if (!KISILIK[baslikId].includes(nokta.anahtar) || anlatilanlar.has(anahtar)) continue;
         anlatilanlar.add(anahtar);
-        parcalar.push(kisilikCumlesi(nokta, adlar[kim]));
+        kisilik.push({ nokta, ad: adlar[kim] });
       }
-      // Güç cümlesi yalnızca çok güçlü temaslarda eklenir; her paragrafta tekrar etmesin
-      if (etken.aci.orb < 2) parcalar.push(M.gucCumleleri[0]);
-      return parcalar.join(' ');
+      const ekler = [kisilikCumlesi(kisilik)];
+      if (ilkMi && etken.aci.orb < 2) ekler.push(M.gucluTemas);
+      govde = [govde, ...ekler].filter(Boolean).join(' ');
+    } else if (etken.tur === 'ev') {
+      sablon = M.evler[`${etken.p}-${etken.ev}`];
+      govde = doldur(sablon, { X: adlar[etken.kim], Y: adlar[etken.evSahibi] });
+    } else {
+      sablon = M.burcCiftleri[`${etken.p}-${etken.q}`];
+      govde = `${doldur(sablon, { X: adlar[etken.kimP], Y: adlar[etken.kimQ] })} ${M.burcIliskileri[etken.iliski.mesafe]}`;
     }
-    if (etken.tur === 'ev') {
-      return doldur(M.evler[`${etken.p}-${etken.ev}`], { X: adlar[etken.kim], Y: adlar[etken.evSahibi] });
-    }
-    const bas = doldur(M.burcCiftleri[`${etken.p}-${etken.q}`], { X: adlar[etken.kimP], Y: adlar[etken.kimQ] });
-    return `${bas} ${M.burcIliskileri[etken.iliski.mesafe]}`;
+    return { metin: govde, isimleBasliyor: sablon.startsWith('{') };
+  }
+
+  function baglacEkle(paragraf, onceki, simdiki, sira) {
+    const tur = `${onceki.katki >= 0 ? 'olumlu' : 'zor'}${simdiki.katki >= 0 ? 'Olumlu' : 'Zor'}`;
+    const liste = M.baglaclar[tur];
+    const baglac = liste[sira % liste.length];
+    const devam = paragraf.isimleBasliyor ? paragraf.metin : kucukBasla(paragraf.metin);
+    return `${baglac} ${devam}`;
   }
 
   function baslikYorumu(baslik, adlar) {
@@ -71,7 +102,10 @@
     if (!secilen.length) return { ...baslik, nedenler, ucretsiz: [`${giris} ${M.bosBaslik}`], ucretli: [] };
 
     const anlatilanlar = new Set();
-    const paragraflar = secilen.map((e) => etkenParagrafi(e, adlar, anlatilanlar));
+    const paragraflar = secilen.map((e, i) => {
+      const p = etkenParagrafi(e, adlar, anlatilanlar, i === 0, baslik.id);
+      return i === 0 ? p.metin : baglacEkle(p, secilen[i - 1], e, i);
+    });
     return { ...baslik, nedenler, ucretsiz: [`${giris} ${paragraflar[0]}`], ucretli: paragraflar.slice(1) };
   }
 
@@ -82,7 +116,7 @@
     const sirali = [...basliklar].sort((a, b) => b.yuzde - a.yuzde);
     const enIyi = sirali[0];
     const enZor = sirali[sirali.length - 1];
-    const ozet = `En güçlü yanınız ${enIyi.ad.toLocaleLowerCase('tr')} (%${enIyi.yuzde}), en çok emek isteyen alanınız ${enZor.ad.toLocaleLowerCase('tr')} (%${enZor.yuzde}).`;
+    const ozet = `İlişkinizin en güçlü yanı ${enIyi.ad.toLocaleLowerCase('tr')}; en çok özen isteyen alanı ise ${enZor.ad.toLocaleLowerCase('tr')}.`;
     return { genel: sonuc.genel, ozet, basliklar };
   }
 

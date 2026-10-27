@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 436 180" role="img" aria-label="hēmisy by Tuğçenur Özay">
+  <title>hēmisy</title>
+  <g fill="#2A0E2E">
+    <!-- h -->
+    <rect x="10" y="19.6" width="14.6" height="100.4"/>
+    <path d="M24.6 66 C29 57.5 37 49.5 48 49.5 C66 49.5 75.4 61 75.4 80 V120 H61.3 V82 C61.3 69 56 63 46.5 63 C35 63 24.6 71 24.6 84 Z"/>
+    <!-- ē çizgisi -->
+    <rect x="95.7" y="34.6" width="44.5" height="7.6"/>
+    <!-- m -->
+    <rect x="160.3" y="52" width="14.1" height="68"/>
+    <path d="M174.4 66 C178 57 185 50.5 194 50.5 C209 50.5 216.2 60 216.2 78 V120 H202 V80 C202 69 198 63.5 190 63.5 C181 63.5 174.4 71 174.4 84 Z"/>
+    <path d="M216.2 66 C220 57 227 50.5 236 50.5 C251 50.5 258 60 258 78 V120 H243.9 V80 C243.9 69 240 63.5 232 63.5 C223 63.5 216.2 71 216.2 84 Z"/>
+    <!-- i ve kutup yıldızı -->
+    <rect x="268.3" y="52" width="14.7" height="68"/>
+    <path d="M275.65 18.5 C276.5 28.6 277.7 31.6 287.2 32.6 C277.7 33.6 276.5 36.6 275.65 46.7 C274.8 36.6 273.6 33.6 264.1 32.6 C273.6 31.6 274.8 28.6 275.65 18.5 Z"/>
+    <!-- y -->
+    <polygon points="350.3,52 366.5,52 395,113 387,123"/>
+    <polygon points="410.4,52 424,52 378.4,155.3 363.2,155.3"/>
+  </g>
+  <g fill="none" stroke="#2A0E2E" stroke-linecap="butt">
+    <!-- e -->
+    <path d="M145.1 77 A28.4 30.3 0 1 0 139.8 105.5" stroke-width="14.4"/>
+    <path d="M90.2 77 H152.3" stroke-width="11"/>
+    <!-- s -->
+    <path d="M341 64 C336 57.5 328 55.5 320 55.5 C307 55.5 299.5 61 299.5 70 C299.5 80 309 83 321 86.5 C334 90 342.5 94 342.5 104 C342.5 113 334 116.5 321 116.5 C309 116.5 300.5 112.5 296 104.5" stroke-width="12.5"/>
+  </g>
+  <text x="218" y="172" text-anchor="middle" fill="#2A0E2E" font-family="Jost, Futura, 'Century Gothic', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="300" letter-spacing="3.4">by Tuğçenur Özay</text>
+</svg>
