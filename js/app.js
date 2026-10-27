@@ -165,10 +165,13 @@
         <section class="gece kahraman">
           <canvas class="gece-yildizlar" aria-hidden="true"></canvas>
           ${cark()}
-          <h1 tabindex="-1">Kişiye özel ilişki analizi</h1>
-          <div class="giris-dugmeleri">
-            <button type="button" class="dugme-ana dugme-acik" data-git="form" data-mod="birey">İlişki analizi <span class="ok">→</span></button>
-            <button type="button" class="dugme-ana dugme-cizgi" data-git="form" data-mod="cift">Çift analizi <span class="ok">→</span></button>
+          <div class="analiz-secimi">
+            <h1 tabindex="-1">Kişiye özel ilişki analizi</h1>
+            <button type="button" class="dugme-ana dugme-acik" data-git="form" data-mod="birey">Hesapla <span class="ok">→</span></button>
+          </div>
+          <div class="analiz-secimi">
+            <h2>Çiftlere özel ilişki analizi</h2>
+            <button type="button" class="dugme-ana dugme-acik" data-git="form" data-mod="cift">Hesapla <span class="ok">→</span></button>
           </div>
         </section>
 
