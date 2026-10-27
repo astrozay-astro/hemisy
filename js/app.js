@@ -25,6 +25,23 @@
   const SORU_ANAHTARI = 'hemisy-ucretsiz-soru';
   try { durum.sorulanSoru = localStorage.getItem(SORU_ANAHTARI) ?? ''; } catch { /* depolama kapalı */ }
 
+  // Ücretsiz ilişki analizi hakkı: ilk analiz edilen doğum bilgileri bu cihazda saklanır. Aynı bilgilerle rapor
+  // yeniden açılabilir, farklı bir kişi için Pro plan gerekir. Adresin sonunda #test varken sınır uygulanmaz.
+  const ANALIZ_ANAHTARI = 'hemisy-ucretsiz-analiz';
+  const analizKimligi = (k) => [k.tarih, k.saat, k.yer, k.cinsiyet].join('|');
+  function ucretsizAnaliz() {
+    try { return JSON.parse(localStorage.getItem(ANALIZ_ANAHTARI)) ?? null; } catch { return null; }
+  }
+  function analizHakkiVarMi(k) {
+    if (location.hash === '#test') return true;
+    const kayit = ucretsizAnaliz();
+    return !kayit || kayit.kimlik === analizKimligi(k);
+  }
+  function analiziKaydet(k) {
+    if (ucretsizAnaliz()) return;
+    try { localStorage.setItem(ANALIZ_ANAHTARI, JSON.stringify({ kimlik: analizKimligi(k), ad: k.ad })); } catch { /* depolama kapalı */ }
+  }
+
   document.documentElement.lang = 'tr';
 
   // ---------- Yardımcılar ----------
@@ -267,6 +284,9 @@
           <p class="form-hata" role="alert" ${durum.hata ? '' : 'hidden'}>${kac(durum.hata)}</p>
           <button type="submit" class="dugme-ana">${birey ? 'Analizimi göster' : 'Uyumumuzu göster'} <span class="ok">→</span></button>
           <p class="yer-notu">Doğum yeri için il ya da şehir adını yazıp listeden seçin.</p>
+          ${birey ? `<p class="yer-notu analiz-hakki">${ucretsizAnaliz()
+            ? `Ücretsiz analiz hakkınızı ${kac(ucretsizAnaliz().ad)} için kullandınız. Farklı bir kişi için Pro plan gerekir.`
+            : 'Üyeliğinizle bir ilişki analizi ücretsizdir. Daha fazla analiz için Pro plan gerekir.'}</p>` : ''}
         </form>
         ${altBilgi()}
       </section>`;
@@ -324,6 +344,10 @@
       kok.querySelector('[aria-invalid="true"], .secenekler.hatali input')?.focus();
       return;
     }
+    if (durum.mod === 'birey' && !analizHakkiVarMi(durum.kisiler[0])) {
+      perdeAc(olay.submitter || kok.querySelector('#dogum-formu [type="submit"]'), 'proAnaliz');
+      return;
+    }
     hesapla();
   }
 
@@ -345,6 +369,7 @@
       if (birey) {
         const analiz = S.bireyselAnaliz(natal[0].harita, durum.kisiler[0].cinsiyet);
         durum.sonuc = { birey: true, natal, analiz, yorum: S.bireyselYorum(analiz) };
+        analiziKaydet(durum.kisiler[0]);
         durum.hata = '';
         setTimeout(() => goster('birey'), Math.max(0, 1800 - (Date.now() - baslangic)));
         return;
@@ -946,6 +971,10 @@
     pro: {
       baslik: 'Pro üyelik çok yakında',
       metin: 'Ücretsiz soru hakkınızı kullandınız. Pro üyelikle ilişkiniz hakkında dilediğiniz kadar soru sorabileceksiniz. Ödeme sistemi eklendiğinde üyeliği buradan başlatabileceksiniz.',
+    },
+    proAnaliz: {
+      baslik: 'Pro plan ile sınırsız analiz',
+      metin: 'Üyeliğinizle bir ilişki analizi ücretsizdir ve bu hakkı kullandınız. Kendi analizinizi aynı doğum bilgileriyle istediğiniz zaman yeniden açabilirsiniz. Farklı kişiler için analiz yapmak Pro plan ile mümkün olacak. Ödeme sistemi eklendiğinde Pro planı buradan başlatabileceksiniz.',
     },
     dil: {
       baslik: 'Dil',
