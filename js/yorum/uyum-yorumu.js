@@ -12,11 +12,12 @@
     baglanma: ['ay', 'gunes', 'venus'],
     iletisim: ['merkur'],
     romantizm: ['venus', 'gunes'],
+    cinsellik: ['mars', 'venus'],
     guven: ['gunes', 'ay'],
     huzur: ['mars', 'ay'],
     karmik: [],
   };
-  const GOSTERGE_SAYISI = 4;
+  const GOSTERGE_SAYISI = 5;
 
   const kac = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
@@ -36,14 +37,12 @@
     return ['altmislik', 'ucgen'].includes(etken.aci.id) ? 'u' : 'g';
   }
 
-  // "Can aşkta zarafet … bekliyor; Elif ise arzusunu … gösteriyor."
+  // "Can aşkta zarafet bekleyebilir. Elif ise arzusunu … gösterebilir."
   function kisilikCumlesi(parcalar) {
-    if (!parcalar.length) return '';
-    const cumleler = parcalar.map(({ nokta, ad }, i) => {
+    return parcalar.map(({ nokta, ad }, i) => {
       const tanim = M.burcIfadeleri[nokta.anahtar];
-      return doldur(tanim.kalip.replace('{ise}', i ? ' ise' : '').replace('{ifade}', tanim.ifadeler[nokta.indeks]), { N: ad });
-    });
-    return `${cumleler.join('; ')}.`;
+      return `${doldur(tanim.kalip.replace('{ise}', i ? ' ise' : '').replace('{ifade}', tanim.ifadeler[nokta.indeks]), { N: ad })}.`;
+    }).join(' ');
   }
 
   // Teknik gösterge satırı (yalnızca Harita bilgileri sekmesi için)
@@ -54,6 +53,9 @@
     }
     if (etken.tur === 'ev') {
       return { isaret: String(etken.ev), ev: true, metin: `${ilgi(etken.kim)} ${etken.a.iyelik}, ${ilgi(etken.evSahibi)} ${etken.ev}. evinde`, alt: 'Ev yerleşimi', ton: etken.ton };
+    }
+    if (etken.tur === 'kismet') {
+      return { isaret: etken.a.glif, metin: `${ilgi(etken.kim)} ${etken.a.iyelik} – ${ilgi(etken.kismetSahibi)} Eros Kısmeti`, alt: 'Kavuşum', orb: S.dereceYaz(etken.orb), ton: etken.ton };
     }
     return { isaret: etken.a.burc.glif, metin: `${ilgi(etken.kimP)} ${etken.a.iyelik} ${etken.a.burc.ad}, ${ilgi(etken.kimQ)} ${etken.b.iyelik} ${etken.b.burc.ad}`, alt: 'Element ve nitelik uyumu (açı yok)', ton: etken.ton };
   }
@@ -69,7 +71,7 @@
       const kisilik = [];
       for (const [nokta, kim] of [[etken.a, etken.kimP], [etken.b, etken.kimQ]]) {
         const anahtar = `${kim}-${nokta.anahtar}`;
-        if (!KISILIK[baslikId].includes(nokta.anahtar) || anlatilanlar.has(anahtar)) continue;
+        if (!(KISILIK[baslikId] || []).includes(nokta.anahtar) || anlatilanlar.has(anahtar)) continue;
         anlatilanlar.add(anahtar);
         kisilik.push({ nokta, ad: adlar[kim] });
       }
@@ -79,6 +81,9 @@
     } else if (etken.tur === 'ev') {
       sablon = M.evler[`${etken.p}-${etken.ev}`];
       govde = doldur(sablon, { X: adlar[etken.kim], Y: adlar[etken.evSahibi] });
+    } else if (etken.tur === 'kismet') {
+      sablon = M.kismetler[`${etken.p}-eros`];
+      govde = doldur(sablon, { X: adlar[etken.kim], Y: adlar[etken.kismetSahibi] });
     } else {
       sablon = M.burcCiftleri[`${etken.p}-${etken.q}`];
       govde = `${doldur(sablon, { X: adlar[etken.kimP], Y: adlar[etken.kimQ] })} ${M.burcIliskileri[etken.iliski.mesafe]}`;
@@ -116,7 +121,7 @@
     const sirali = [...basliklar].sort((a, b) => b.yuzde - a.yuzde);
     const enIyi = sirali[0];
     const enZor = sirali[sirali.length - 1];
-    const ozet = `İlişkinizin en güçlü yanı ${enIyi.ad.toLocaleLowerCase('tr')}; en çok özen isteyen alanı ise ${enZor.ad.toLocaleLowerCase('tr')}.`;
+    const ozet = `İlişkinizin en güçlü yanı ${enIyi.ad.toLocaleLowerCase('tr')} olabilir. En çok özen isteyebilecek alanınız ise ${enZor.ad.toLocaleLowerCase('tr')} olabilir.`;
     return { genel: sonuc.genel, ozet, basliklar };
   }
 

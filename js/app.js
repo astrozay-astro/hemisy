@@ -162,9 +162,9 @@
         </section>
 
         <ol class="icerik-listesi yuzey">
-          <li><span class="amblem" aria-hidden="true">${glif('♀')}</span><div><h3>Uyum</h3><p>Çekim, bağlanma, iletişim, romantizm ve güven; her biri yüzdesi ve yorumuyla.</p></div></li>
-          <li><span class="amblem" aria-hidden="true">${glif('☽')}</span><div><h3>İlişki yapısı</h3><p>İlişkiniz nasıl başlar, nereden beslenir, hangi konularda sınanır.</p></div></li>
-          <li><span class="amblem" aria-hidden="true">${glif('♃')}</span><div><h3>Gelecek öngörüsü</h3><p>Önümüzdeki 12 ayın güçlü dönemleri: ilişki ne zaman başlar, ne zaman derinleşir.</p></div></li>
+          <li><span class="amblem" aria-hidden="true">${glif('♀')}</span><div><div class="baslik-satiri"><h3>Uyum</h3><span class="rozet">Ücretsiz</span></div><p>Çekim, cinsellik, bağlanma, iletişim, romantizm ve güven. Her biri yüzdesi ve yorumuyla.</p></div></li>
+          <li><span class="amblem" aria-hidden="true">${glif('☽')}</span><div><div class="baslik-satiri"><h3>İlişki yapısı</h3><span class="rozet rozet-pro">Pro plan</span></div><p>İlişkiniz nasıl başlayabilir, nereden beslenebilir, hangi konularda sınanabilir?</p></div></li>
+          <li><span class="amblem" aria-hidden="true">${glif('♃')}</span><div><div class="baslik-satiri"><h3>Gelecek öngörüsü</h3><span class="rozet rozet-pro">Pro plan</span></div><p>Önümüzdeki 12 ayın güçlü dönemleri: ilişki ne zaman başlayabilir, ne zaman derinleşebilir?</p></div></li>
         </ol>
         ${altBilgi()}
       </section>`;
@@ -508,7 +508,7 @@
         <header class="harita-bas">
           <p class="etiket">Sinastri</p>
           <h3>Aranızdaki açılar</h3>
-          <p class="meta"><span>Burç ve derece birlikte geçerli olan açılar; orb en fazla 10°. En tam açı en üstte.</span></p>
+          <p class="meta"><span>Burç ve derece birlikte geçerli olan açılar. Orb en fazla 10°. En tam açı en üstte.</span></p>
         </header>
         <ul class="aci-listesi">${acilar}</ul>
       </article>`;
@@ -518,7 +518,7 @@
     const basliklar = durum.sonuc.yorum.basliklar.map((b) => `
       <section class="neden-grubu">
         <h4>${b.ad} <span>%${b.yuzde}</span></h4>
-        ${b.cekirdekVar ? '' : '<p class="meta"><span>Bu başlığın temel teması aranızda yok ya da çok geniş (8°\'den fazla); yüzde bu yüzden sınırlı tutuldu.</span></p>'}
+        ${b.cekirdekVar ? '' : '<p class="meta"><span>Bu başlığın temel teması aranızda yok ya da çok geniş (8°\'den fazla). Yüzde bu yüzden sınırlı tutuldu.</span></p>'}
         ${b.nedenler.length ? `<ul class="nedenler">${b.nedenler.map(nedenSatiri).join('')}</ul>` : '<p class="meta"><span>Belirgin bir gösterge yok.</span></p>'}
       </section>`).join('');
     return `

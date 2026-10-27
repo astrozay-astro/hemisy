@@ -193,6 +193,12 @@ button { font-family: inherit; }
   background: radial-gradient(circle at 35% 30%, #fff, var(--fildisi-2));
 }
 .icerik-listesi h3 { font-size: 1.3rem; font-weight: 400; }
+.baslik-satiri { display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem; }
+.rozet {
+  flex: none; padding: 0.2rem 0.6rem; border-radius: 999px; border: 1px solid var(--cizgi);
+  font-size: 0.625rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--soluk);
+}
+.rozet-pro { background: var(--murekkep); border-color: var(--murekkep); color: var(--gece-metin); }
 .icerik-listesi p { color: var(--soluk); font-size: var(--boy-s); }
 
 .alinti { text-align: center; font-weight: 300; font-size: 1.15rem; letter-spacing: 0.02em; color: var(--murekkep-2); padding-block: 0.5rem; }
