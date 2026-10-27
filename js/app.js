@@ -336,6 +336,9 @@
         yorum: S.uyumYorumu(uyum, durum.kisiler),
       };
       durum.sonuc.iliski = S.iliskiYorumu(durum.sonuc.kompozit, durum.sonuc.davison);
+      durum.sonuc.karmik = S.karmikAnaliz(h1, h2, durum.sonuc.davison);
+      durum.sonuc.vedik = S.vedikAnaliz(h1, h2, durum.kisiler.map((k) => k.cinsiyet));
+      durum.sonuc.karma = S.karmaYorumu(durum.sonuc.karmik, durum.sonuc.vedik, durum.kisiler);
       durum.hata = '';
       durum.sekme = 0;
       durum.altSekme = 0;
@@ -417,6 +420,35 @@
 
   function iliskiPaneli() {
     return durum.sonuc.iliski.map(iliskiKarti).join('');
+  }
+
+  // ---------- Sonuç: Karmik bağ ----------
+
+  function karmaOzeti() {
+    const k = durum.sonuc.karma;
+    const gunaYuzde = Math.round((k.guna / 36) * 100);
+    return `
+      <article class="bolum-kart yuzey karma-ozet">
+        <p class="etiket">Karmik bağ</p>
+        <h3>Ruhunuzun haritası</h3>
+        <p class="aciklama">Doğum haritalarınızın ardındaki ruhsal katman: geçmişten gelen izler, kader noktaları ve vedik gelenekte Ay yıldızlarınız.</p>
+        <div class="karma-sayilar">
+          <div>
+            <p class="yuzde" aria-label="yüzde ${k.tanisiklik}"><small>%</small>${k.tanisiklik}</p>
+            <p class="karma-sayi-ad">Ruhsal tanışıklık</p>
+            <div class="cubuk" aria-hidden="true"><span style="width:${k.tanisiklik}%"></span></div>
+          </div>
+          <div>
+            <p class="yuzde" aria-label="36 üzerinden ${k.guna}">${String(k.guna).replace('.', ',')}<small class="karma-bolu">/36</small></p>
+            <p class="karma-sayi-ad">Vedik evlilik uyumu</p>
+            <div class="cubuk" aria-hidden="true"><span style="width:${gunaYuzde}%"></span></div>
+          </div>
+        </div>
+      </article>`;
+  }
+
+  function karmaPaneli() {
+    return karmaOzeti() + durum.sonuc.karma.basliklar.map(iliskiKarti).join('');
   }
 
   function gelecekPaneli() {
@@ -558,9 +590,189 @@
       </article>`;
   }
 
+  // ---------- Harita bilgileri: karmik katman ----------
+
+  function drakonikKartlari() {
+    const k = durum.sonuc.karmik;
+    const kisi = (i) => `
+      <article class="harita-kart yuzey">
+        <header class="harita-bas">
+          <p class="etiket">Drakonik</p>
+          <h3>${ilgi(i)} drakonik haritası</h3>
+          <div class="meta"><span>Kuzey Ay Düğümü 0° Koç'a alınır: tüm noktalar ${S.dereceYaz(k.drakonik[i].kayma)} geri kaydırılır</span><span>Ev sistemi: ${k.drakonik[i].evSistemi}</span></div>
+        </header>
+        ${noktaTablosu(k.drakonik[i])}
+      </article>`;
+    const dav = k.drakonikDavison;
+    return `
+      ${kisi(0)}
+      ${kisi(1)}
+      <article class="harita-kart yuzey">
+        <header class="harita-bas">
+          <p class="etiket">Drakonik Davison</p>
+          <h3>İlişkinin ruhsal haritası</h3>
+          <div class="meta"><span>Davison haritası, Davison Kuzey Ay Düğümü 0° Koç olacak biçimde ${S.dereceYaz(dav.kayma)} geri kaydırıldı</span></div>
+        </header>
+        ${noktaTablosu(dav)}
+      </article>`;
+  }
+
+  const RUH_SIRASI = ['kuzeyDugum', 'guneyDugum', 'vertex', 'karaAy', 'talih', 'ruh', 'evlilik'];
+
+  function ruhNoktaTablosu(i) {
+    const h = durum.sonuc.natal[i].harita;
+    const ruh = { kuzeyDugum: h.gezegenler.kuzeyDugum, ...durum.sonuc.karmik.ruh[i] };
+    const satir = (n) => {
+      const kisa = n.glif.length > 1;
+      return `
+        <tr>
+          <td class="t-glif ${kisa ? 'kisa' : ''}" aria-hidden="true">${kisa ? n.glif : glif(n.glif)}</td>
+          <td class="t-ad">${n.ad}</td>
+          <td class="t-konum">${S.dereceYaz(n.derece)} ${n.burc.ad}<small>${n.burc.element} · ${n.burc.nitelik}</small></td>
+          <td class="t-ev">${n.ev}. ev</td>
+        </tr>`;
+    };
+    return `
+      <article class="harita-kart yuzey">
+        <header class="harita-bas">
+          <p class="etiket">Ruh noktaları</p>
+          <h3>${ilgi(i)} karmik noktaları</h3>
+          <div class="meta"><span>Vertex: ilk dikey ile ekliptiğin batı kesişimi · Kara Ay: ortalama Lilith</span><span>Kısmetler: ${S.derinAnaliz(h).sekt.gunduz ? 'gündüz' : 'gece'} haritası formülüyle</span></div>
+        </header>
+        <div class="tablo-sar">
+          <table class="nokta-tablosu">
+            <thead><tr><th></th><th>Nokta</th><th>Burç ve derece</th><th style="text-align:right">Ev</th></tr></thead>
+            <tbody>${RUH_SIRASI.map((a) => satir(ruh[a])).join('')}</tbody>
+          </table>
+        </div>
+      </article>`;
+  }
+
+  const KARMIK_GRUPLAR = [
+    ['drakonik', 'Drakonik sinastri', 'Bir kişinin drakonik noktası × diğerinin doğum haritası (kavuşum ≤ 3°, karşıt ≤ 2°)'],
+    ['drakonikCift', 'Drakonik × drakonik', 'İki drakonik haritanın kavuşumları (≤ 3°)'],
+    ['guneyDugum', 'Güney Ay Düğümü', 'Kavuşum ≤ 5°'],
+    ['kuzeyDugum', 'Kuzey Ay Düğümü', 'Kavuşum ≤ 5°'],
+    ['vertex', 'Vertex', 'Kavuşum ≤ 3°'],
+    ['saturn', 'Satürn', 'Kişisel noktalara açılar (≤ 6°)'],
+    ['pluton', 'Plüton', 'Kişisel noktalara açılar (≤ 5°)'],
+    ['karaAy', 'Kara Ay', 'Kavuşum ≤ 3°'],
+    ['kismet', 'Kısmetler', 'Talih, Ruh ve Evlilik Kısmeti ile kavuşum (≤ 3°)'],
+  ];
+
+  // nedenSatiri metni kendisi kaçışladığı için adlar burada ham kullanılır
+  function karmikNeden(t) {
+    const kim = window.Turkce.ek(durum.kisiler[t.kim].ad, 'in');
+    const digeri = window.Turkce.ek(durum.kisiler[t.digeri].ad, 'in');
+    const ton = ['saturn', 'pluton', 'karaAy'].includes(t.tur) ? 'yogun' : 'arti';
+    const orb = S.dereceYaz(t.orb);
+    if (t.tur === 'drakonik') return { isaret: t.karsit ? '☍' : '☌', metin: `${kim} drakonik ${t.a.ad} – ${digeri} ${t.b.iyelik}`, alt: t.karsit ? 'Karşıt' : 'Kavuşum', orb, ton };
+    if (t.tur === 'drakonikCift') return { isaret: '☌', metin: `${kim} drakonik ${t.a.ad} – ${digeri} drakonik ${t.b.ad}`, alt: 'Kavuşum', orb, ton };
+    if (t.tur === 'saturn' || t.tur === 'pluton') return { isaret: t.aci.glif, metin: `${kim} ${t.a.iyelik} – ${digeri} ${t.b.iyelik}`, alt: t.aci.ad, orb, ton };
+    const hedef = t.tur === 'kismet' ? S.NOKTALAR[t.kismet].ad : t.tur === 'kuzeyDugum' ? 'Kuzey Ay Düğümü' : S.NOKTALAR[t.tur].iyelik;
+    return { isaret: '☌', metin: `${kim} ${t.a.iyelik} – ${digeri} ${hedef}`, alt: 'Kavuşum', orb, ton };
+  }
+
+  function karmikNoktaKartlari() {
+    const temaslar = durum.sonuc.karmik.temaslar;
+    const gruplar = KARMIK_GRUPLAR.map(([tur, ad, aciklama]) => {
+      const liste = temaslar.filter((t) => t.tur === tur).sort((x, y) => x.orb - y.orb);
+      return `
+        <section class="neden-grubu">
+          <h4>${ad} <span>${liste.length}</span></h4>
+          <p class="meta"><span>${aciklama}</span></p>
+          ${liste.length ? `<ul class="nedenler">${liste.map((t) => nedenSatiri(karmikNeden(t))).join('')}</ul>` : '<p class="meta"><span>Temas yok.</span></p>'}
+        </section>`;
+    }).join('');
+    return `
+      ${ruhNoktaTablosu(0)}
+      ${ruhNoktaTablosu(1)}
+      <article class="harita-kart yuzey">
+        <header class="harita-bas">
+          <p class="etiket">Karmik temaslar</p>
+          <h3>Aranızdaki karmik izler</h3>
+          <div class="meta"><span>Ruhsal tanışıklık %${durum.sonuc.karma.tanisiklik}: düğüm, Vertex, drakonik ve kısmet temaslarının ağırlıklı toplamından</span></div>
+        </header>
+        ${gruplar}
+      </article>`;
+  }
+
+  const VEDIK_SIRA = ['yukselen', 'gunes', 'ay', 'merkur', 'venus', 'mars', 'jupiter', 'saturn', 'rahu', 'ketu'];
+  const VEDIK_ADLAR = { yukselen: ['Lagna', 'AC'], rahu: ['Rahu (Kuzey Düğüm)', '☊'], ketu: ['Ketu (Güney Düğüm)', '☋'] };
+  const KARAKA = (anahtar) => S.NOKTALAR[anahtar].ad;
+
+  function vedikHaritaKarti(i) {
+    const v = durum.sonuc.vedik.haritalar[i];
+    const satir = (anahtar) => {
+      const n = v.noktalar[anahtar];
+      const [ad, isaret] = VEDIK_ADLAR[anahtar] || [S.NOKTALAR[anahtar].ad, S.NOKTALAR[anahtar].glif];
+      const kisa = isaret.length > 1;
+      const rozet = anahtar === v.atmakaraka ? ' <span class="karaka-isareti" title="Atmakaraka">AK</span>' : anahtar === v.darakaraka ? ' <span class="karaka-isareti" title="Darakaraka">DK</span>' : '';
+      return `
+        <tr>
+          <td class="t-glif ${kisa ? 'kisa' : ''}" aria-hidden="true">${kisa ? isaret : glif(isaret)}</td>
+          <td class="t-ad">${ad}${rozet}</td>
+          <td class="t-konum">${S.dereceYaz(n.derece)} ${S.BURCLAR[n.burc].ad}<small>${S.NAKSATRALAR[n.nakshatra].ad} · ${n.pada}. pada</small></td>
+          <td class="t-ev">${n.ev}. ev</td>
+        </tr>`;
+    };
+    const m = v.mangal;
+    return `
+      <article class="harita-kart yuzey">
+        <header class="harita-bas">
+          <p class="etiket">Vedik</p>
+          <h3>${ilgi(i)} yıldızsal haritası</h3>
+          <div class="meta">
+            <span>Yıldızsal zodyak · Lahiri ayanamsası ${S.dereceYaz(v.ayanamsa)} · Lagna'dan tüm burç evleri</span>
+            <span>Atmakaraka (AK): ${KARAKA(v.atmakaraka)} · Darakaraka (DK): ${KARAKA(v.darakaraka)}</span>
+            <span>Mars Lagna'dan ${m.marsLagna}., Ay'dan ${m.marsAy}. evde · Mangal Doşa: ${m.lagnadan && m.aydan ? 'var' : 'yok'}</span>
+          </div>
+        </header>
+        <div class="tablo-sar">
+          <table class="nokta-tablosu">
+            <thead><tr><th></th><th>Nokta</th><th>Burç ve nakşatra</th><th style="text-align:right">Ev</th></tr></thead>
+            <tbody>${VEDIK_SIRA.map(satir).join('')}</tbody>
+          </table>
+        </div>
+      </article>`;
+  }
+
+  function vedikKartlari() {
+    const kuta = durum.sonuc.vedik.kuta;
+    const a = kuta.ayrinti;
+    const ikili = (x) => `${kac(durum.kisiler[0].ad)}: ${x[0]} · ${kac(durum.kisiler[1].ad)}: ${x[1]}`;
+    const AYRINTI = {
+      varna: ikili(a.varnalar),
+      vasya: ikili(a.vasyalar),
+      tara: ikili(a.nakshatralar.map((n) => n.ad)),
+      yoni: ikili(a.yoniler),
+      maitri: ikili([0, 1].map((i) => KARAKA(S.BURCLAR[durum.sonuc.vedik.haritalar[i].noktalar.ay.burc].yonetici))),
+      gana: ikili(a.ganalar),
+      bhakut: `Ay burçları arası ${a.bhakutSayi}/${((14 - a.bhakutSayi) % 12) || 12} ilişkisi`,
+      nadi: ikili(a.nadiler),
+    };
+    const satir = (k) => `
+      <li class="neden ton-${k.puan >= k.en * 0.75 ? 'arti' : k.puan <= k.en * 0.25 ? 'eksi' : 'yogun'}">
+        <span class="neden-isaret" aria-hidden="true"><span class="ev-no">${k.en}</span></span>
+        <span class="neden-metin">${k.ad}: ${k.konu}<small>${AYRINTI[k.id]}</small></span>
+        <span class="neden-orb">${String(k.puan).replace('.', ',')}/${k.en}</span>
+      </li>`;
+    return `
+      ${vedikHaritaKarti(0)}
+      ${vedikHaritaKarti(1)}
+      <article class="harita-kart yuzey">
+        <header class="harita-bas">
+          <p class="etiket">Aştakuta (Guna Milan)</p>
+          <h3>Vedik evlilik uyumu: ${String(kuta.toplam).replace('.', ',')}/36</h3>
+          <div class="meta"><span>Ay nakşatralarından sekiz başlık. Karşı cins çiftlerde Varna ve Vaşya geleneksel yönle, diğer çiftlerde iki yönün yükseğiyle sayılır.</span></div>
+        </header>
+        <ul class="nedenler">${kuta.kutalar.map(satir).join('')}</ul>
+      </article>`;
+  }
+
   function bilgiPaneli() {
-    const alt = [`${ilgi(0)} haritası`, `${ilgi(1)} haritası`, 'Aranızdaki açılar', 'Yüzdelerin nedenleri', 'Kompozit', 'Davison'];
-    const icerik = [natalKarti(0), natalKarti(1), sinastriKarti(), nedenlerKarti(), iliskiHaritasiKarti('kompozit'), iliskiHaritasiKarti('davison')];
+    const alt = [`${ilgi(0)} haritası`, `${ilgi(1)} haritası`, 'Aranızdaki açılar', 'Yüzdelerin nedenleri', 'Kompozit', 'Davison', 'Drakonik', 'Karmik noktalar', 'Vedik'];
+    const icerik = [natalKarti(0), natalKarti(1), sinastriKarti(), nedenlerKarti(), iliskiHaritasiKarti('kompozit'), iliskiHaritasiKarti('davison'), drakonikKartlari(), karmikNoktaKartlari(), vedikKartlari()];
     return `
       <div class="alt-sekmeler" role="group" aria-label="Harita bilgileri">
         ${alt.map((s, n) => `<button type="button" data-alt-sekme="${n}" aria-pressed="${durum.altSekme === n}">${s}</button>`).join('')}
@@ -620,6 +832,7 @@
   const SEKMELER = [
     { ad: 'Uyum', panel: uyumPaneli },
     { ad: 'İlişki yapısı', panel: iliskiPaneli },
+    { ad: 'Karmik bağ', panel: karmaPaneli },
     { ad: 'Gelecek', panel: gelecekPaneli },
     { ad: 'Harita bilgileri', panel: bilgiPaneli },
   ];

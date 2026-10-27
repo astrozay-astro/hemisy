@@ -293,7 +293,7 @@ button { font-family: inherit; }
 .mini-skorlar span { min-width: 0; }
 .mini-skorlar b { font-weight: 300; font-size: 1.15rem; color: var(--vurgu); white-space: nowrap; }
 
-.sekme-cubugu { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.2rem; padding: 0.3rem; border-radius: 999px; }
+.sekme-cubugu { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.2rem; padding: 0.3rem; border-radius: 999px; }
 .sekme-cubugu button {
   appearance: none; border: 0; min-height: 42px; padding: 0.45rem 0.35rem; border-radius: 999px;
   background: transparent; color: var(--soluk); font: 400 0.8125rem/1.15 var(--f); letter-spacing: 0.02em;
@@ -340,6 +340,12 @@ button { font-family: inherit; }
 .soru-listesi { margin: 0; padding-left: 1.3rem; display: grid; gap: 0.45rem; font-weight: 300; font-size: 1.1rem; }
 .soru-listesi li::marker { color: var(--vurgu); font-size: var(--boy-xs); }
 
+/* Karmik bağ özeti */
+.karma-sayilar { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+.karma-sayilar > div { display: grid; gap: 0.45rem; min-width: 0; }
+.karma-sayi-ad { font-size: var(--boy-s); color: var(--soluk); }
+.yuzde .karma-bolu { vertical-align: baseline; font-size: 0.4em; margin-left: 0.15em; color: var(--soluk); font-weight: 300; }
+
 /* Soru sor */
 .soru-kutusu { padding: 1.35rem 1.2rem; display: grid; gap: 0.9rem; }
 .soru-kutusu h3 { font-size: var(--boy-xl); }
@@ -383,6 +389,7 @@ button { font-family: inherit; }
 .nokta-tablosu .t-konum small { display: block; color: var(--silik); font-size: var(--boy-xs); }
 .nokta-tablosu .t-ev { text-align: right; color: var(--soluk); white-space: nowrap; }
 .geri-isareti { font-size: 0.625rem; font-weight: 500; color: var(--gergin); margin-left: 0.3rem; vertical-align: 0.15em; }
+.karaka-isareti { font-size: 0.625rem; font-weight: 500; color: var(--vurgu); margin-left: 0.3rem; vertical-align: 0.15em; letter-spacing: 0.06em; }
 
 details.acilir { border-top: 1px solid var(--cizgi); padding-top: 0.75rem; }
 details.acilir summary { cursor: pointer; font-size: var(--boy-s); list-style: none; display: flex; justify-content: space-between; align-items: center; min-height: 36px; }

@@ -8,7 +8,8 @@ const genel = globalThis;
 genel.window = genel;
 
 ['js/kutuphane/astronomy.browser.min.js', 'js/kutuphane/luxon.min.js', 'js/motor/burclar.js',
-  'js/motor/zaman.js', 'js/motor/harita.js', 'js/motor/acilar.js'].forEach((d) => (0, eval)(oku(d)));
+  'js/motor/zaman.js', 'js/motor/harita.js', 'js/motor/acilar.js', 'js/motor/derin.js', 'js/motor/karma.js',
+  'js/motor/vedik.js'].forEach((d) => (0, eval)(oku(d)));
 
 const S = genel.Astroship;
 const satirlar = [];
@@ -33,6 +34,13 @@ kontrol('Einstein Jüpiter', ein.gezegenler.jupiter.boylam, b(10, 27, 29), 2);
 kontrol('Einstein Satürn', ein.gezegenler.saturn.boylam, b(0, 4, 11), 2);
 kontrol('Einstein Yükselen', ein.gezegenler.yukselen.boylam, b(3, 11, 38), 3);
 kontrol('Einstein MC', ein.gezegenler.mc.boylam, b(11, 12, 50), 3);
+
+// Karmik noktalar ve vedik ayanamsa (Swiss Ephemeris 2.10, Lahiri, ortalama apoje)
+const einRuh = S.ruhNoktalari(ein);
+kontrol('Einstein Vertex', einRuh.vertex.boylam, 237.905, 3);
+kontrol('Einstein Kara Ay', einRuh.karaAy.boylam, 27.977, 6);
+kontrol('Lahiri ayanamsa 1879', S.ayanamsa(ein.utc), 22.1701, 1);
+kontrol('Einstein drakonik düğüm', S.drakonik(ein).gezegenler.kuzeyDugum.boylam, 0, 0.1);
 
 // 2) 2026 Mart ekinoksu: 20 Mart 2026 14:46 UTC → Güneş 0° Koç
 kontrol('Ekinoks 2026 Güneş', S.haritaHesapla(new Date(Date.UTC(2026, 2, 20, 14, 46)), 41, 29).gezegenler.gunes.boylam, 0, 1.5);

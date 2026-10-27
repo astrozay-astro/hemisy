@@ -17,6 +17,9 @@ Türkçe astroloji uyum testi: iki kişinin doğum haritasını karşılaştır�
   - `burclar.js`: burçlar, element, nitelik, yöneticiler
   - `zaman.js`: yerel saatten dünya saatine (UTC) çevirme
   - `konum.js`: doğum yerini koordinata ve saat dilimine çevirme
+  - `karma.js`: drakonik haritalar, ruh noktaları (Güney Düğüm, Vertex, Kara Ay, kısmetler) ve karmik temaslar
+  - `vedik.js`: yıldızsal zodyak (Lahiri), nakşatralar, Aştakuta (36 puan), Mangal Doşa, Atmakaraka / Darakaraka
+- `js/yorum/`: yorum metinleri ve onları haritaya göre birleştiren kod (uyum, ilişki yapısı, karmik bağ)
 - `js/veri/sehirler.js`: 81 il ve yurt dışındaki şehirler
 - `js/kutuphane/`: Astronomy Engine (gezegen hesabı) ve Luxon (saat dilimleri)
 
