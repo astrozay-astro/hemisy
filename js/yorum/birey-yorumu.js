@@ -2,7 +2,7 @@
 //  Ücretsiz: 1) Eş potansiyeli (kadında Güneş, erkekte Ay, belirtilmemişse Venüs): burç, ev ve açılar
 //            2) İlişki potansiyeli (kadında Mars, erkekte Venüs, belirtilmemişse Mars): burç, ev, geri hareket,
 //               yanıklık, açılar ve ilişkiden uzaklaşma (Güneş burcu)
-//  Pro plan: 3) Eşle nerede tanışılır (7. ev yöneticisinin evi ve burcunun niteliği)
+//  Pro plan: 3) Eşle nerede tanışılır: 7. ev yöneticisinin evi, ev × burç sahnesi ve burcunun niteliği
 //            4) Evlilik potansiyeli yüzdesi   5) En güçlü üç evlilik dönemi
 // Tanıtım: ücretsiz kartlarda ilk paragrafın ilk iki cümlesi, Pro kartlarda yalnızca giriş cümlesi açıktır.
 (() => {
@@ -12,12 +12,17 @@
   const M = window.ASTROSHIP_BIREY_METINLERI;
   const T = window.ASTROSHIP_TEMEL;
   const TANITIM_CUMLE = 2;
-  const ES_METNI = { kadin: 'esBurc', erkek: 'erkekAy', belirtilmedi: 'esBurc' };
+  const ES_PARCA = { kadin: 'esParca', erkek: 'erkekAyParca', belirtilmedi: 'esParca' };
   const CEKIM_METNI = { kadin: 'kadinMars', erkek: 'erkekVenus', belirtilmedi: 'notrMars' };
   const UYUMLU = ['altmislik', 'ucgen'];
   const AYLAR = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
 
   const birlestir = (...parcalar) => parcalar.filter(Boolean).join(' ');
+  const buyukBasla = (s) => s.charAt(0).toLocaleUpperCase('tr') + s.slice(1);
+  // Kişiye göre değişen ama her açılışta aynı kalan seçim: noktanın derecesinden türetilir
+  const tohum = (n) => Math.floor(n.boylam * 10);
+  const sec = (liste, t) => liste[t % liste.length];
+  const listele = (x) => (x.length === 1 ? x[0] : `${x.slice(0, -1).join(', ')} ya da ${x[x.length - 1]}`);
   const kucukBasla = (s) => s.charAt(0).toLocaleLowerCase('tr') + s.slice(1);
   const cumleler = (p) => p.match(/[^.!?]+[.!?]+["”]?/g) || [p];
   const baglaclarla = (paragraflar) => paragraflar.filter(Boolean).map((p, i) => (i ? `${M.baglaclar[(i - 1) % M.baglaclar.length]} ${kucukBasla(p)}` : p));
@@ -49,10 +54,24 @@
     });
   }
 
+  // Burç parçaları ile evin çalışma biçimi birleşir: aynı burç farklı evlerde farklı bir eş anlatır
+  function esPotansiyeli(a) {
+    const n = a.es;
+    const p = M[ES_PARCA[a.cinsiyet]][n.indeks];
+    const t = tohum(n);
+    const meslek = listele([0, 1, 2].map((i) => p.meslek[(t + i) % p.meslek.length]));
+    const K = M.esKalip;
+    return birlestir(
+      sec(K.acilis, t).replace('{nitelik}', p.nitelik),
+      sec(K.meslek, t >> 1).replace('{meslek}', meslek).replace('{Meslek}', buyukBasla(meslek)).replace('{tarz}', M.evTarz[n.ev - 1]),
+      sec(K.denge, t >> 2).replace('{guclu}', p.guclu).replace('{Guclu}', buyukBasla(p.guclu)).replace('{zayif}', p.zayif),
+    );
+  }
+
   function esKarti(a, glif) {
     const d = a.detay.es;
     return kart('es', glif, [
-      M[ES_METNI[a.cinsiyet]][a.es.indeks],
+      esPotansiyeli(a),
       M.evEs[a.es.ev - 1],
       ...aciYorumlari(d, M.roller.es),
     ]);
@@ -74,8 +93,12 @@
   function tanismaKarti(a) {
     const y = a.yonetici;
     return proKart('tanisma', M.glifler.tanisma, M.tanismaGiris, [
-      M.tanisma[y.ev - 1],
-      birlestir(M.tanismaNitelik[y.indeks % 3], y.geri && M.tanismaGeri),
+      M.tanismaEv[y.ev - 1],
+      birlestir(
+        `${sec(M.tanismaSahneBaglac, tohum(y))} ${M.tanismaSahne[y.ev - 1][y.indeks]}`,
+        M.tanismaNitelik[y.indeks % 3],
+        y.geri && M.tanismaGeri,
+      ),
     ]);
   }
 
