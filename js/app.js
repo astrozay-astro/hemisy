@@ -879,7 +879,7 @@
         ${durum.sonuc.yorum.filter((y) => !y.pro).map(iliskiKarti).join('')}
         <div class="bolum-ayraci">
           <p class="etiket">Derin analiz · Pro plan</p>
-          <p class="aciklama">Geri hareket eden gezegenler, ilişki gezegenlerinizin evleri ve ev türetme tekniğiyle partnerinizin görünümü, mesleği, ailesi ve maddi durumu.</p>
+          <p class="aciklama">Ev türetme tekniğiyle partnerinizin görünümü, mesleği, ailesi ve maddi durumu.</p>
         </div>
         ${durum.sonuc.yorum.filter((y) => y.pro).map(iliskiKarti).join('')}
         <details class="acilir birey-harita">

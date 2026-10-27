@@ -176,23 +176,19 @@ window.ASTROSHIP_BIREY_METINLERI = {
 
   // ===== Derin analiz (Pro plan) =====
   derinBasliklar: {
-    geri: { soru: 'Geri hareket eden gezegenler ve aşk', glif: '℞' },
-    evler: { soru: 'İlişki gezegenleriniz hangi alanlarda?', glif: '☌' },
     gorunum: { soru: 'Partnerinizin görünümü', glif: '♀' },
     meslek: { soru: 'Partnerinizin mesleği', glif: '♄' },
     aile: { soru: 'Partnerinizin ailesi', glif: '☽' },
     maddi: { soru: 'Partnerinizin maddi durumu', glif: '♃' },
   },
   derinGirisler: {
-    geri: 'Doğum anında Dünya\'dan bakıldığında geriye gidiyormuş gibi görünen gezegenler, enerjilerini dışa değil içe doğru yaşatır. Aşk ve ilişkiyle ilgili gezegenlerin geri hareketi, sevginin ve arzunun nasıl yaşandığını derinden etkiler.',
-    evler: 'Bir gezegenin bulunduğu ev, o gezegenin enerjisinin hayatın hangi alanında yaşandığını gösterir. Yönettiği evler ise o alanların konularını gezegenin hikâyesine bağlar.',
     gorunum: 'Ev türetme tekniğinde partner yedinci evle temsil edilir. Yedinci evin girişindeki burç (Alçalan) ve bu evdeki gezegenler, partnerin dış görünüşünü ve ilk izlenimini anlatır.',
     meslek: 'Ev türetme tekniğinde partnerin evleri yedinci evden itibaren sayılır. Partnerinizin onuncu evi, yani mesleği ve toplumdaki yeri, sizin haritanızda dördüncü eve denk gelir.',
     aile: 'Ev türetme tekniğinde partnerin evleri yedinci evden itibaren sayılır. Partnerinizin dördüncü evi, yani ailesi ve kökleri, sizin haritanızda onuncu eve denk gelir.',
     maddi: 'Ev türetme tekniğinde partnerin evleri yedinci evden itibaren sayılır. Partnerinizin ikinci evi, yani parası ve kaynakları, sizin haritanızda sekizinci eve denk gelir.',
   },
 
-  // ----- Geri hareket -----
+  // ----- Geri hareket (göstergenin yorumuna eklenir) -----
   geri: {
     merkur: 'Merkür doğduğunuzda geri hareket ediyordu. İlişkilerde duygularınızı söze dökmeden önce uzun uzun düşünüyor gibi görünüyorsunuz. Yanlış anlaşılmalar, yarım kalmış konuşmalar ya da eski bir partnerin geri dönmesi hayatınızda tekrar edebilir.',
     venus: 'Venüs doğduğunuzda geri hareket ediyordu. Sevginizi içe dönük ve seçici yaşıyor gibi görünüyorsunuz. Geçmiş aşklar sizin için kolay kapanmayabilir ve gerçek bağlılığı çoğu zaman olgun bir yaşta bulabilirsiniz.',
@@ -200,17 +196,13 @@ window.ASTROSHIP_BIREY_METINLERI = {
     jupiter: 'Jüpiter doğduğunuzda geri hareket ediyordu. İlişkilerden beklediğiniz anlamı ve büyümeyi önce kendi içinizde arıyor gibi görünüyorsunuz. İlişkilerdeki şans geç ama derin gelebilir.',
     saturn: 'Satürn doğduğunuzda geri hareket ediyordu. Bağlılık konusunda eski korkular ya da geçmişten kalan sorumluluklar taşıyor gibi görünüyorsunuz. Güveni zamanla ve kendi kurallarınızla inşa edebilirsiniz.',
   },
-  geriRolu: { es: 'eş göstergeniz', cekim: 'çekim göstergeniz', yonetici: 'yedinci evinizin yöneticisi' },
-  geriRolKalip: 'Bu gezegen haritanızda {roller} olduğu için etkisi ilişkilerinizde özellikle belirgindir.',
-  geriYok: 'Aşk ve ilişkiyle ilgili gezegenlerinizden hiçbiri doğduğunuzda geri hareket etmiyordu. Bu, sevginizi ve arzunuzu dolaysız, dışa dönük biçimde yaşadığınıza işaret ediyor.',
-
   // ----- Evler -----
   evAlani: [
-    'kişiliğiniz ve görünüşünüz', 'para ve değerleriniz', 'iletişim ve yakın çevreniz', 'ev ve aileniz',
-    'aşk, flört ve yaratıcılık', 'iş ve gündelik düzeniniz', 'evlilik ve ortaklık', 'mahremiyet ve ortak kaynaklar',
-    'yolculuk, eğitim ve inanç', 'kariyer ve toplumdaki yeriniz', 'arkadaşlarınız ve sosyal çevreniz', 'iç dünyanız ve gizli yönleriniz',
+    'kişilik ve görünüş', 'para ve değerler', 'iletişim ve yakın çevre', 'ev ve aile',
+    'aşk, flört ve yaratıcılık', 'iş ve gündelik düzen', 'evlilik ve ortaklık', 'mahremiyet ve ortak kaynaklar',
+    'yolculuk, eğitim ve inanç', 'kariyer ve toplumdaki yer', 'arkadaşlar ve sosyal çevre', 'iç dünya ve gizli konular',
   ],
-  evKalip: '{Gezegen} {ev}. evinizde bulunuyor, yani {alan} alanında yaşanıyor.',
+  evKalip: 'Bu yerleşim, {alan} alanının ilişkilerinizde belirleyici olduğunu gösteriyor.',
   evYorum: [
     'Partnerinizi seçerken kendi kimliğinizle uyumunu ön planda tutuyor gibi görünüyorsunuz.',
     'İlişkide maddi güven ve ortak değerler sizin için belirleyici görünüyor.',
@@ -226,6 +218,98 @@ window.ASTROSHIP_BIREY_METINLERI = {
     'Aşkı içe dönük, sessiz ve fedakâr yaşıyor gibi görünüyorsunuz. Gizli ya da ulaşılmaz aşklar hayatınızda yer bulabilir.',
   ],
   yonetimKalip: '{Gezegen} haritanızda {evler} yönetiyor. Bu yüzden {konular} konuları ilişkilerinize karışıyor gibi görünüyor.',
+
+  // ----- Açılar (göstergenin yorumuna eklenir) -----
+  // {Rol}: göstergenin ilişkideki anlamı, cümle başında
+  roller: {
+    kadin: { es: 'Eşinizde aradığınız erkek imgesi', cekim: 'Çekim duyduğunuz erkek tipi' },
+    erkek: { es: 'Eşinizde aradığınız kadın imgesi', cekim: 'Çekim duyduğunuz kadın tipi' },
+    belirtilmedi: { es: 'Sevme biçiminiz', cekim: 'Arzunuz' },
+    yonetici: 'Evlilik ve ortaklık alanınız',
+  },
+  aciKalip: '{Gezegen} ile {Diger} arasında {aci} açısı bulunuyor.',
+  kavusumKalip: '{Gezegen} ile {Diger} kavuşum hâlinde.',
+  aciAdlari: { altmislik: 'altmışlık', kare: 'kare', ucgen: 'üçgen', quincunx: 'quincunx', karsit: 'karşıtlık' },
+  // Açının anlamı diğer noktaya göre: u = uyumlu, g = gergin, k = kavuşum
+  aciAnlam: {
+    gunes: {
+      u: '{Rol} özgüvenle ve canlılıkla destekleniyor gibi görünüyor. Kendinizi ifade edebildiğiniz ilişkilerde daha mutlu olabilirsiniz.',
+      g: '{Rol} ile kimliğiniz arasında bir çekişme var gibi görünüyor. İlişkide kendinizi kaybetmeden sevmek bir ders olabilir.',
+      k: '{Rol} kimliğinizle iç içe geçmiş gibi görünüyor. Partnerinizi kendi yansımanız gibi görebilirsiniz.',
+    },
+    ay: {
+      u: '{Rol} duygusal güvenle besleniyor gibi görünüyor. Şefkat ve yakınlık sizin için ilişkinin temeli olabilir.',
+      g: '{Rol} ile duygusal ihtiyaçlarınız zaman zaman çatışıyor gibi görünüyor. İstediğiniz şey ile ihtiyaç duyduğunuz şey farklı olabilir.',
+      k: '{Rol} duygularınızla tamamen iç içe görünüyor. Sevdiğinizde bütün kalbinizle sevebilirsiniz.',
+    },
+    merkur: {
+      u: '{Rol} iletişimle destekleniyor gibi görünüyor. Konuşabildiğiniz biriyle bağınız kolay derinleşebilir.',
+      g: '{Rol} yanlış anlaşılmalarla sınanıyor gibi görünüyor. Düşündüğünüzü açıkça söylemek ilişkilerinizi koruyabilir.',
+      k: '{Rol} zihinsel bir uyum arıyor gibi görünüyor. Sizin için çekim çoğu zaman sohbetle başlayabilir.',
+    },
+    venus: {
+      u: '{Rol} uyum ve zarafetle destekleniyor gibi görünüyor. Aşkta şansınız ve çekiciliğiniz güçlü olabilir.',
+      g: '{Rol} ile sevme biçiminiz arasında bir gerilim var gibi görünüyor. Beğendiğiniz kişi ile bağlandığınız kişi farklı olabilir.',
+      k: '{Rol} sevginin sıcaklığıyla birleşmiş gibi görünüyor. Çekici, romantik ve sevgi dolu bir enerji taşıyabilirsiniz.',
+    },
+    mars: {
+      u: '{Rol} tutku ve cesaretle destekleniyor gibi görünüyor. İlk adımı atmakta zorlanmayabilirsiniz.',
+      g: '{Rol} tartışmalar ve sabırsızlıkla sınanıyor gibi görünüyor. Öfkeyi yönetmek ilişkilerinizin anahtarı olabilir.',
+      k: '{Rol} yoğun bir arzu ve enerjiyle birleşmiş gibi görünüyor. Aşkta hızlı ve tutkulu olabilirsiniz.',
+    },
+    jupiter: {
+      u: '{Rol} şans ve bereketle destekleniyor gibi görünüyor. İlişkiler size büyüme ve fırsat getirebilir.',
+      g: '{Rol} abartılı beklentilerle sınanıyor gibi görünüyor. Hayalinizdeki partner ile gerçek arasındaki farka dikkat etmek önemli olabilir.',
+      k: '{Rol} iyimserlik ve cömertlikle büyüyor gibi görünüyor. Geniş yürekli ve koruyucu biri sizin için doğru eş olabilir.',
+    },
+    saturn: {
+      u: '{Rol} istikrar ve sadakatle destekleniyor gibi görünüyor. Olgun ve güvenilir biri sizin için doğru eş olabilir.',
+      g: '{Rol} gecikme ve korkularla sınanıyor gibi görünüyor. Bağlılık geç gelebilir, ama gelen bağ kalıcı olabilir.',
+      k: '{Rol} ciddiyet ve sorumlulukla iç içe görünüyor. Sizden yaşça büyük ya da olgun biri hayatınızda önemli bir yer tutabilir.',
+    },
+    uranus: {
+      u: '{Rol} özgürlük ve yenilikle destekleniyor gibi görünüyor. Sıra dışı ve özgür bir ilişki size iyi gelebilir.',
+      g: '{Rol} ani değişimler ve kopuşlarla sınanıyor gibi görünüyor. Yakınlık ile özgürlük arasında denge kurmanız gerekebilir.',
+      k: '{Rol} beklenmedik ve elektrikli bir enerjiyle birleşmiş gibi görünüyor. İlişkileriniz ani başlayıp sizi şaşırtabilir.',
+    },
+    neptun: {
+      u: '{Rol} romantizm ve sezgiyle destekleniyor gibi görünüyor. Ruhsal bir bağ sizin için çok değerli olabilir.',
+      g: '{Rol} hayal kırıklığı ve idealleştirmeyle sınanıyor gibi görünüyor. Sevdiğiniz kişiyi olduğu gibi görmek önemli olabilir.',
+      k: '{Rol} rüya gibi, masalsı bir enerjiyle birleşmiş gibi görünüyor. Kusursuz aşkı arayabilirsiniz.',
+    },
+    pluton: {
+      u: '{Rol} derinlik ve dönüşümle destekleniyor gibi görünüyor. İlişkiler sizi güçlendirip yeniden doğurabilir.',
+      g: '{Rol} güç mücadelesi ve kıskançlıkla sınanıyor gibi görünüyor. Kontrol yerine güveni seçmek ilişkilerinizi iyileştirebilir.',
+      k: '{Rol} yoğun ve derin bir tutkuyla birleşmiş gibi görünüyor. Yarım bir sevgi size yetmeyebilir.',
+    },
+    kuzeyDugum: {
+      u: '{Rol} kaderinizle uyumlu gibi görünüyor. Doğru ilişki sizi hayat yolunuzda ileri taşıyabilir.',
+      g: '{Rol} eski alışkanlıklarla yeni yolunuz arasında sıkışmış gibi görünüyor. Eski ilişki kalıplarını bırakmak sizi büyütebilir.',
+      k: '{Rol} kader yolunuzla buluşmuş gibi görünüyor. Bir ilişki hayatınızda dönüm noktası olabilir.',
+    },
+    yukselen: {
+      u: '{Rol} kişiliğinizle uyumlu görünüyor. İlişkilerde kendiniz olabilirsiniz.',
+      g: '{Rol} ile dışarıya yansıttığınız kimlik çatışıyor gibi görünüyor. İlişkide gerçek ihtiyaçlarınızı göstermek emek isteyebilir.',
+      k: '{Rol} doğrudan tavrınıza ve görünüşünüze yansıyor gibi görünüyor. İlk izleniminiz güçlü olabilir.',
+    },
+    mc: {
+      u: '{Rol} hedeflerinizle uyumlu görünüyor. Kariyerinizi destekleyen bir partner sizin için önemli olabilir.',
+      g: '{Rol} ile kariyer hedefleriniz zaman zaman çatışıyor gibi görünüyor. İş ve ilişki dengesi sizin için önemli bir konu olabilir.',
+      k: '{Rol} hayat hedeflerinizle iç içe görünüyor. Partneriniz toplum içindeki yerinizi etkileyebilir.',
+    },
+  },
+  // 7. ev yöneticisi aynı zamanda eş ya da çekim göstergesiyse
+  yoneticiAyni: 'Bu gezegen aynı zamanda {rol} gösterdiği için evlilik konusu doğrudan bu gezegenin hikâyesiyle örülüyor.',
+  yoneticiAyniRol: { es: 'eşte aradığınızı', cekim: 'çekim duyduğunuz kişiyi' },
+
+  // ----- Türetilmiş evlerin yöneticileri -----
+  turetilmisYoneticiKalip: '{ev}. evinizin yöneticisi {Gezegen}, {yev}. evinizde bulunuyor.',
+  turetilmisBaglanti: {
+    meslek: 'Bu, partnerinizin işinin hayatınızdaki {alan} alanıyla bağlantılı olabileceğini gösteriyor.',
+    aile: 'Bu, partnerinizin ailesinin hayatınızdaki {alan} alanıyla bağlantılı olabileceğini gösteriyor.',
+    maddi: 'Bu, partnerinizin kaynaklarının hayatınızdaki {alan} alanıyla bağlantılı olabileceğini gösteriyor.',
+  },
+  turetilmisGeri: 'Bu yöneticinin doğumda geri hareket etmesi, bu konunun geç ya da dolaylı yollardan açılabileceğine işaret ediyor.',
 
   // ----- Partnerin görünümü (Alçalan burcu) -----
   gorunum: [
