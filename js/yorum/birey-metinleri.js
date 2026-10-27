@@ -174,6 +174,154 @@ window.ASTROSHIP_BIREY_METINLERI = {
     dusus: 'Yönetici düşüşte olduğu burçta bulunuyor. Bu, ilişkilerde beklentilerin karşılanması için zaman ve olgunluk gerektiğine işaret ediyor.',
   },
 
+  // ===== Derin analiz (Pro plan) =====
+  derinBasliklar: {
+    geri: { soru: 'Geri hareket eden gezegenler ve aşk', glif: '℞' },
+    evler: { soru: 'İlişki gezegenleriniz hangi alanlarda?', glif: '☌' },
+    gorunum: { soru: 'Partnerinizin görünümü', glif: '♀' },
+    meslek: { soru: 'Partnerinizin mesleği', glif: '♄' },
+    aile: { soru: 'Partnerinizin ailesi', glif: '☽' },
+    maddi: { soru: 'Partnerinizin maddi durumu', glif: '♃' },
+  },
+  derinGirisler: {
+    geri: 'Doğum anında Dünya\'dan bakıldığında geriye gidiyormuş gibi görünen gezegenler, enerjilerini dışa değil içe doğru yaşatır. Aşk ve ilişkiyle ilgili gezegenlerin geri hareketi, sevginin ve arzunun nasıl yaşandığını derinden etkiler.',
+    evler: 'Bir gezegenin bulunduğu ev, o gezegenin enerjisinin hayatın hangi alanında yaşandığını gösterir. Yönettiği evler ise o alanların konularını gezegenin hikâyesine bağlar.',
+    gorunum: 'Ev türetme tekniğinde partner yedinci evle temsil edilir. Yedinci evin girişindeki burç (Alçalan) ve bu evdeki gezegenler, partnerin dış görünüşünü ve ilk izlenimini anlatır.',
+    meslek: 'Ev türetme tekniğinde partnerin evleri yedinci evden itibaren sayılır. Partnerinizin onuncu evi, yani mesleği ve toplumdaki yeri, sizin haritanızda dördüncü eve denk gelir.',
+    aile: 'Ev türetme tekniğinde partnerin evleri yedinci evden itibaren sayılır. Partnerinizin dördüncü evi, yani ailesi ve kökleri, sizin haritanızda onuncu eve denk gelir.',
+    maddi: 'Ev türetme tekniğinde partnerin evleri yedinci evden itibaren sayılır. Partnerinizin ikinci evi, yani parası ve kaynakları, sizin haritanızda sekizinci eve denk gelir.',
+  },
+
+  // ----- Geri hareket -----
+  geri: {
+    merkur: 'Merkür doğduğunuzda geri hareket ediyordu. İlişkilerde duygularınızı söze dökmeden önce uzun uzun düşünüyor gibi görünüyorsunuz. Yanlış anlaşılmalar, yarım kalmış konuşmalar ya da eski bir partnerin geri dönmesi hayatınızda tekrar edebilir.',
+    venus: 'Venüs doğduğunuzda geri hareket ediyordu. Sevginizi içe dönük ve seçici yaşıyor gibi görünüyorsunuz. Geçmiş aşklar sizin için kolay kapanmayabilir ve gerçek bağlılığı çoğu zaman olgun bir yaşta bulabilirsiniz.',
+    mars: 'Mars doğduğunuzda geri hareket ediyordu. Arzunuzu ve öfkenizi doğrudan değil içeride, dolaylı yollardan yaşıyor gibi görünüyorsunuz. İlk adımı atmakta zorlanabilir, karşı tarafın hamlesini bekleyebilirsiniz.',
+    jupiter: 'Jüpiter doğduğunuzda geri hareket ediyordu. İlişkilerden beklediğiniz anlamı ve büyümeyi önce kendi içinizde arıyor gibi görünüyorsunuz. İlişkilerdeki şans geç ama derin gelebilir.',
+    saturn: 'Satürn doğduğunuzda geri hareket ediyordu. Bağlılık konusunda eski korkular ya da geçmişten kalan sorumluluklar taşıyor gibi görünüyorsunuz. Güveni zamanla ve kendi kurallarınızla inşa edebilirsiniz.',
+  },
+  geriRolu: { es: 'eş göstergeniz', cekim: 'çekim göstergeniz', yonetici: 'yedinci evinizin yöneticisi' },
+  geriRolKalip: 'Bu gezegen haritanızda {roller} olduğu için etkisi ilişkilerinizde özellikle belirgindir.',
+  geriYok: 'Aşk ve ilişkiyle ilgili gezegenlerinizden hiçbiri doğduğunuzda geri hareket etmiyordu. Bu, sevginizi ve arzunuzu dolaysız, dışa dönük biçimde yaşadığınıza işaret ediyor.',
+
+  // ----- Evler -----
+  evAlani: [
+    'kişiliğiniz ve görünüşünüz', 'para ve değerleriniz', 'iletişim ve yakın çevreniz', 'ev ve aileniz',
+    'aşk, flört ve yaratıcılık', 'iş ve gündelik düzeniniz', 'evlilik ve ortaklık', 'mahremiyet ve ortak kaynaklar',
+    'yolculuk, eğitim ve inanç', 'kariyer ve toplumdaki yeriniz', 'arkadaşlarınız ve sosyal çevreniz', 'iç dünyanız ve gizli yönleriniz',
+  ],
+  evKalip: '{Gezegen} {ev}. evinizde bulunuyor, yani {alan} alanında yaşanıyor.',
+  evYorum: [
+    'Partnerinizi seçerken kendi kimliğinizle uyumunu ön planda tutuyor gibi görünüyorsunuz.',
+    'İlişkide maddi güven ve ortak değerler sizin için belirleyici görünüyor.',
+    'Konuşabildiğiniz, zihninize dokunan biri sizin için vazgeçilmez görünüyor.',
+    'Yuva kurmak ve aile duygusu ilişkilerinizin temel motivasyonu gibi görünüyor.',
+    'Aşkı oyun, flört ve keyifle yaşamak sizin için önemli görünüyor.',
+    'Sevgiyi gündelik ilgilerde ve karşılıklı destekte arıyor gibi görünüyorsunuz.',
+    'İlişki ve evlilik hayatınızın merkezinde duruyor gibi görünüyor.',
+    'İlişkide derinlik, tutku ve tam bir güven arıyor gibi görünüyorsunuz.',
+    'Ufkunuzu genişleten, size yeni dünyalar açan biri sizi etkiliyor gibi görünüyor.',
+    'Saygın, hedefleri olan ve toplumda yeri olan biri size çekici geliyor gibi görünüyor.',
+    'Bağlarınız önce arkadaşlık, sonra aşk olarak kuruluyor gibi görünüyor.',
+    'Aşkı içe dönük, sessiz ve fedakâr yaşıyor gibi görünüyorsunuz. Gizli ya da ulaşılmaz aşklar hayatınızda yer bulabilir.',
+  ],
+  yonetimKalip: '{Gezegen} haritanızda {evler} yönetiyor. Bu yüzden {konular} konuları ilişkilerinize karışıyor gibi görünüyor.',
+
+  // ----- Partnerin görünümü (Alçalan burcu) -----
+  gorunum: [
+    'Partneriniz atletik, enerjik ve canlı bir görünüme sahip olabilir. Keskin yüz hatları, hızlı hareketler ve dikkat çeken bir duruş öne çıkabilir.',
+    'Partneriniz sağlam yapılı, hoş sesli ve sakin bir zarafete sahip olabilir. Güzel bir boyun, dolgun hatlar ve doğal bir çekicilik öne çıkabilir.',
+    'Partneriniz ince yapılı, hareketli ve genç görünümlü olabilir. Canlı gözler, ifadeli eller ve esprili bir yüz ifadesi öne çıkabilir.',
+    'Partneriniz yumuşak hatlı, yuvarlak yüzlü ve şefkatli bakışlı olabilir. Sıcak ve tanıdık bir hava öne çıkabilir.',
+    'Partneriniz dik duruşlu, gür saçlı ve gösterişli olabilir. Güçlü bir varlık ve kendinden emin bir gülüş öne çıkabilir.',
+    'Partneriniz bakımlı, sade ve şık olabilir. İnce bir yapı, temiz ve düzenli bir görünüm öne çıkabilir.',
+    'Partneriniz simetrik yüz hatlarına sahip, zarif ve güler yüzlü olabilir. Estetik bir giyim tarzı öne çıkabilir.',
+    'Partneriniz derin ve etkileyici bakışlara sahip olabilir. Güçlü bir karizma ve gizemli bir hava öne çıkabilir.',
+    'Partneriniz uzun boylu ya da sportif, açık yüzlü ve neşeli olabilir. Rahat ve doğal bir tarz öne çıkabilir.',
+    'Partneriniz belirgin kemik yapılı, ağırbaşlı ve yaşından olgun görünümlü olabilir. Klasik ve özenli bir tarz öne çıkabilir.',
+    'Partneriniz özgün ve farklı bir tarza sahip olabilir. Sıra dışı bir detay ya da alışılmışın dışında bir görünüm öne çıkabilir.',
+    'Partneriniz yumuşak ve dalgın bakışlı, duygulu gözlere sahip olabilir. Akışkan ve romantik bir tarz öne çıkabilir.',
+  ],
+  gorunumKalip: 'Yedinci evinizin girişinde {Burc} burcu bulunuyor.',
+  gorunumGezegen: {
+    gunes: 'parlak ve kendinden emin bir duruş', ay: 'yumuşak ve değişken bir ifade', merkur: 'genç ve hareketli bir görünüm',
+    venus: 'çekici ve bakımlı bir görünüm', mars: 'sportif ya da güçlü bir beden', jupiter: 'iri yapı ya da cömert bir gülüş',
+    saturn: 'zayıf ya da ağırbaşlı, yaşından olgun bir görünüm', uranus: 'sıra dışı bir tarz', neptun: 'büyüleyici, rüya gibi bir hava',
+    pluton: 'yoğun ve manyetik bir varlık', kuzeyDugum: 'size ilk anda tanıdık gelen bir yüz',
+  },
+  gorunumGezegenKalip: 'Yedinci evinizdeki {Gezegen}, partnerinizin görünümüne {ifade} katıyor olabilir.',
+
+  // ----- Partnerin mesleği (4. ev) -----
+  meslek: [
+    'Partnerinizin mesleği hareket, rekabet ya da liderlik isteyen bir alanda görünüyor: spor, askerlik, mühendislik, cerrahi ya da girişimcilik gibi.',
+    'Partnerinizin mesleği değer yaratan ve somut bir alanda görünüyor: finans, bankacılık, gıda, tarım, güzellik, mimarlık ya da müzik gibi.',
+    'Partnerinizin mesleği iletişim ve hareket isteyen bir alanda görünüyor: medya, yazarlık, eğitim, satış, ticaret ya da ulaşım gibi.',
+    'Partnerinizin mesleği bakım ve güvenle ilgili bir alanda görünüyor: gıda, otelcilik, emlak, sağlık bakımı ya da bir aile işi gibi.',
+    'Partnerinizin mesleği görünür ve yaratıcı bir alanda görünüyor: yöneticilik, sahne, sanat, eğlence, organizasyon ya da kendi işi gibi.',
+    'Partnerinizin mesleği dikkat ve uzmanlık isteyen bir alanda görünüyor: sağlık, analiz, muhasebe, editörlük ya da teknik işler gibi.',
+    'Partnerinizin mesleği ilişki ve estetikle ilgili bir alanda görünüyor: hukuk, diplomasi, tasarım, moda, danışmanlık ya da insan kaynakları gibi.',
+    'Partnerinizin mesleği derinlik isteyen bir alanda görünüyor: psikoloji, araştırma, finans yönetimi, tıp, güvenlik ya da kriz yönetimi gibi.',
+    'Partnerinizin mesleği bilgi ve ufukla ilgili bir alanda görünüyor: akademi, hukuk, yayıncılık, turizm, dış ticaret ya da felsefe gibi.',
+    'Partnerinizin mesleği yapı ve otorite isteyen bir alanda görünüyor: yönetim, kamu, mühendislik, inşaat ya da köklü bir kurumda kariyer gibi.',
+    'Partnerinizin mesleği yenilikçi bir alanda görünüyor: teknoloji, yazılım, bilim, havacılık ya da sosyal girişimler gibi.',
+    'Partnerinizin mesleği hayal gücü ya da şifayla ilgili bir alanda görünüyor: sanat, müzik, sinema, sağlık, psikoloji ya da denizcilik gibi.',
+  ],
+  meslekKalip: 'Dördüncü evinizin girişinde {Burc} burcu bulunuyor.',
+  meslekGezegen: {
+    gunes: 'görünür ve yönetici bir konum', ay: 'halkla ya da bakımla ilgili bir iş', merkur: 'iletişim ya da ticaret',
+    venus: 'sanat, güzellik ya da diplomasi', mars: 'teknik, fiziksel ya da rekabetçi bir iş', jupiter: 'eğitim, hukuk ya da yurt dışı bağlantısı',
+    saturn: 'sorumluluk isteyen ve yavaş yükselen bir kariyer', uranus: 'teknoloji ya da bağımsız çalışma', neptun: 'sanat, şifa ya da hayal gücü',
+    pluton: 'güç, finans ya da derin araştırma', kuzeyDugum: 'gelişmekte olan yeni bir alan',
+  },
+  meslekGezegenKalip: 'Dördüncü evinizdeki {Gezegen}, partnerinizin işine {ifade} rengini katıyor olabilir.',
+
+  // ----- Partnerin ailesi (10. ev) -----
+  aile: [
+    'Partnerinizin ailesi hareketli, bağımsız ve güçlü karakterli bireylerden oluşuyor gibi görünüyor. Evde dolaysız konuşulan, zaman zaman tartışmalı ama canlı bir ortam olabilir.',
+    'Partnerinizin ailesi köklü, istikrarlı ve geleneklerine bağlı görünüyor. Maddi güvenceye önem veren, sofrası bereketli bir aile olabilir.',
+    'Partnerinizin ailesi konuşkan ve hareketli görünüyor. Kardeş ilişkilerinin öne çıktığı, okumuş ya da ticaretle uğraşan bir aile olabilir.',
+    'Partnerinizin ailesi birbirine sıkı sıkıya bağlı görünüyor. Anne figürünün güçlü olduğu, duygusal ve koruyucu bir aile olabilir.',
+    'Partnerinizin ailesi gururlu ve sözü geçen görünüyor. Baba figürünün güçlü olduğu, saygınlığa önem veren bir aile olabilir.',
+    'Partnerinizin ailesi çalışkan, düzenli ve mütevazı görünüyor. Sağlığa ve iş ahlakına önem veren bir aile olabilir.',
+    'Partnerinizin ailesi nazik ve uyumlu görünüyor. Görgü kurallarına önem veren, sanata yakın bir aile olabilir.',
+    'Partnerinizin ailesi kapalı ve güçlü bağları olan bir yapıda görünüyor. Sırlarını dışarı vermeyen, geçmişte zorluklar yaşamış bir aile olabilir.',
+    'Partnerinizin ailesi geniş ve misafirperver görünüyor. İnançlı ya da kültürlü, farklı şehir ya da ülkelerle bağlantısı olan bir aile olabilir.',
+    'Partnerinizin ailesi geleneksel ve otoriter görünüyor. Statüye önem veren, sorumlulukların erken yaşta üstlenildiği bir aile olabilir.',
+    'Partnerinizin ailesi modern ve özgürlükçü görünüyor. Bağları gevşek ya da arkadaşça olan, sıra dışı bir aile olabilir.',
+    'Partnerinizin ailesi duygusal ve fedakâr görünüyor. Sanatçı ya da manevi yönü güçlü, sınırları belirsiz bir aile olabilir.',
+  ],
+  aileKalip: 'Onuncu evinizin girişinde {Burc} burcu bulunuyor.',
+  aileGezegen: {
+    gunes: 'saygın ve görünür', ay: 'kalabalık ve duygusal', merkur: 'konuşkan ve hareketli', venus: 'sıcak ve uyumlu',
+    mars: 'tartışmalı ama canlı', jupiter: 'geniş, bereketli ve koruyucu', saturn: 'katı kuralları olan ya da zorluklarla sınanmış',
+    uranus: 'beklenmedik değişimler yaşamış', neptun: 'hassas ya da belirsizliklerle dolu', pluton: 'güçlü ve kontrolcü',
+    kuzeyDugum: 'hayatınızda önemli bir rol oynayacak',
+  },
+  aileGezegenKalip: 'Onuncu evinizdeki {Gezegen}, partnerinizin ailesinin {ifade} bir yapıda olabileceğine işaret ediyor.',
+
+  // ----- Partnerin maddi durumu (8. ev) -----
+  maddi: [
+    'Partneriniz parayı hızlı kazanıp hızlı harcıyor gibi görünüyor. Girişimci ama ani kararlar verebilen biri olabilir.',
+    'Partneriniz birikimi seven, güvenli yatırımlar yapan biri gibi görünüyor. Maddi istikrarı güçlü olabilir.',
+    'Partnerinizin birden fazla gelir kaynağı varmış gibi görünüyor. Ticaret ve iletişimle kazanan, geliri değişken biri olabilir.',
+    'Partnerinizin aileden gelen kaynakları ya da mülkü varmış gibi görünüyor. Parasını temkinli biriktiren biri olabilir.',
+    'Partneriniz cömert harcayan, kendi işinden kazanan biri gibi görünüyor. Gösterişe ve keyfe para ayırabilir.',
+    'Partneriniz hesaplı, bütçe yapan ve emeğiyle kazanan biri gibi görünüyor.',
+    'Partneriniz ortaklıklarla kazanan, güzel şeylere harcayan biri gibi görünüyor. Maddi konularda dengeli olabilir.',
+    'Partnerinizin güçlü kaynakları varmış gibi görünüyor. Miras ya da yatırımla bağlantılı, parasını gizli tutan biri olabilir.',
+    'Partneriniz maddi konularda şanslı görünüyor. Yurt dışı ya da eğitimle bağlantılı gelirleri olabilir, bazen savurgan davranabilir.',
+    'Partneriniz disiplinli ve uzun vadeli birikim yapan biri gibi görünüyor. Maddi gücü zamanla artabilir.',
+    'Partnerinizin beklenmedik gelirleri olabilecek gibi görünüyor. Teknoloji ya da yenilikçi alanlardan kazanan, geliri düzensiz biri olabilir.',
+    'Partnerinizin parayla ilişkisi biraz belirsiz görünüyor. Cömert, sanat ya da yardım alanlarından kazanan biri olabilir. Ortak para konularında açık olmak size iyi gelebilir.',
+  ],
+  maddiKalip: 'Sekizinci evinizin girişinde {Burc} burcu bulunuyor.',
+  maddiGezegen: {
+    gunes: 'görünür ve gururla taşınan', ay: 'dalgalı ama aileyle bağlantılı', merkur: 'ticaret ve sözleşmelerle kazanılan',
+    venus: 'bereketli ve rahat', mars: 'riskli ama girişken', jupiter: 'bol ve koruyucu', saturn: 'geç gelen ama kalıcı',
+    uranus: 'ani iniş çıkışlı', neptun: 'belirsiz ve dikkat isteyen', pluton: 'güçlü ve dönüştürücü', kuzeyDugum: 'gelişmekte olan',
+  },
+  maddiGezegenKalip: 'Sekizinci evinizdeki {Gezegen}, partnerinizin kaynaklarının {ifade} bir yapıda olabileceğine işaret ediyor.',
+
   // Paragraflar arası bağlaçlar
   baglaclar: ['Bunun yanında', 'Ayrıca', 'Buna ek olarak'],
 };

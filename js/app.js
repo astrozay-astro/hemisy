@@ -429,9 +429,10 @@
     const ucretli = b.ucretli.length ? `<div class="yorum">${paragraflar(b.ucretli)}</div>` : '';
     return `
       <article class="uyum-kart yuzey" id="i-${b.id}">
-        <header class="kart-bas kart-bas-yuzdesiz">
+        <header class="kart-bas ${b.pro ? '' : 'kart-bas-yuzdesiz'}">
           <span class="amblem" aria-hidden="true">${glif(b.glif)}</span>
           <h3>${b.soru}</h3>
+          ${b.pro ? '<span class="rozet rozet-pro">Pro plan</span>' : ''}
         </header>
         <div class="yorum">${paragraflar(b.ucretsiz)}</div>
         ${kilitli(ucretli)}
@@ -875,7 +876,12 @@
           </ul>
         </header>
         ${k.yaklasik ? '<p class="uyari">Doğum saati yaklaşık girildi: 7. ev ve yöneticisi kayabilir.</p>' : ''}
-        ${durum.sonuc.yorum.map(iliskiKarti).join('')}
+        ${durum.sonuc.yorum.filter((y) => !y.pro).map(iliskiKarti).join('')}
+        <div class="bolum-ayraci">
+          <p class="etiket">Derin analiz · Pro plan</p>
+          <p class="aciklama">Geri hareket eden gezegenler, ilişki gezegenlerinizin evleri ve ev türetme tekniğiyle partnerinizin görünümü, mesleği, ailesi ve maddi durumu.</p>
+        </div>
+        ${durum.sonuc.yorum.filter((y) => y.pro).map(iliskiKarti).join('')}
         <details class="acilir birey-harita">
           <summary>Harita bilgileri</summary>
           ${natalKarti(0)}
