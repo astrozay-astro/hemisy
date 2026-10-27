@@ -147,6 +147,12 @@
           <h1 tabindex="-1">Kişiye özel ilişki analizi</h1>
           <button type="button" class="dugme-ana dugme-acik" data-git="form">Uyumu hesapla <span class="ok">→</span></button>
         </section>
+
+        <ol class="icerik-listesi yuzey">
+          <li><span class="amblem" aria-hidden="true">${glif('♀')}</span><div><h3>Uyum</h3><p>Çekim, bağlanma, iletişim, romantizm ve güven; her biri yüzdesi ve yorumuyla.</p></div></li>
+          <li><span class="amblem" aria-hidden="true">${glif('☽')}</span><div><h3>İlişki yapısı</h3><p>İlişkiniz nasıl başlar, nereden beslenir, hangi konularda sınanır.</p></div></li>
+          <li><span class="amblem" aria-hidden="true">${glif('♃')}</span><div><h3>Gelecek öngörüsü</h3><p>Önümüzdeki 12 ayın güçlü dönemleri: ilişki ne zaman başlar, ne zaman derinleşir.</p></div></li>
+        </ol>
       </section>`;
   }
 
@@ -595,13 +601,24 @@
     },
     dil: {
       baslik: 'Dil',
-      metin: 'Şu an Türkçe görüntülüyorsunuz. İngilizce çok yakında eklenecek.',
+      metin: 'Diğer diller, yorum metinlerinin çevirisi tamamlandığında açılacak.',
+      liste: true,
     },
     profil: {
       baslik: 'Hesabınız',
       metin: 'Üyelik çok yakında: üye olarak haritalarınızı saklayabilecek ve raporlarınıza dilediğiniz zaman ulaşabileceksiniz.',
     },
   };
+
+  const DILLER = [
+    { kod: 'tr', ad: 'Türkçe', yon: 'ltr' },
+    { kod: 'en', ad: 'English', yon: 'ltr' },
+    { kod: 'de', ad: 'Deutsch', yon: 'ltr' },
+    { kod: 'fr', ad: 'Français', yon: 'ltr' },
+    { kod: 'es', ad: 'Español', yon: 'ltr' },
+    { kod: 'ru', ad: 'Русский', yon: 'ltr' },
+    { kod: 'ar', ad: 'العربية', yon: 'rtl' },
+  ];
 
   const perde = document.createElement('div');
   perde.className = 'perde';
@@ -610,6 +627,9 @@
     <div class="perde-arka" data-kapat></div>
     <div class="perde-kutu" role="dialog" aria-modal="true" aria-labelledby="perde-baslik">
       <h2 id="perde-baslik" tabindex="-1"></h2>
+      <ul class="dil-listesi" hidden>
+        ${DILLER.map((d) => `<li lang="${d.kod}" dir="${d.yon}"><span>${d.ad}</span><small lang="tr" dir="ltr">${d.kod === 'tr' ? 'Seçili' : 'Hazırlanıyor'}</small></li>`).join('')}
+      </ul>
       <p class="perde-metin"></p>
       <button type="button" class="dugme-ana" data-kapat>Tamam <span class="ok">✓</span></button>
     </div>`;
@@ -620,6 +640,7 @@
     perdeyiAcan = dugme;
     perde.querySelector('h2').textContent = PERDELER[tur].baslik;
     perde.querySelector('.perde-metin').textContent = PERDELER[tur].metin;
+    perde.querySelector('.dil-listesi').hidden = !PERDELER[tur].liste;
     perde.hidden = false;
     perde.querySelector('h2').focus();
   }

@@ -386,6 +386,11 @@ details.acilir > *:not(summary) { margin-top: 0.6rem; }
   animation: yuksel 0.35s ease-out;
 }
 .perde-kutu h2 { font-size: var(--boy-xl); }
+.dil-listesi { list-style: none; margin: 0; padding: 0; display: grid; }
+.dil-listesi li { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 46px; border-bottom: 1px solid var(--cizgi); font-size: 1.0625rem; }
+.dil-listesi li:first-child { font-weight: 500; }
+.dil-listesi small { font-size: var(--boy-xs); letter-spacing: 0.08em; color: var(--soluk); }
+.dil-listesi li:first-child small { color: var(--murekkep); }
 .perde-kutu p { color: var(--soluk); font-weight: 300; }
 @keyframes yuksel { from { transform: translateY(24px); opacity: 0; } }
 
