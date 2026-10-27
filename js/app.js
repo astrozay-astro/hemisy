@@ -15,7 +15,12 @@
     hata: '',
     // Test anahtarı: adresin sonuna #test eklenince ücretli bölümler açık görünür
     kilitAcik: location.hash === '#test',
+    sorulanSoru: '',
   };
+
+  // Ücretsiz soru hakkı: kullanılan soru bu cihazda saklanır, ikinci soru Pro üyelik ister
+  const SORU_ANAHTARI = 'hemisy-ucretsiz-soru';
+  try { durum.sorulanSoru = localStorage.getItem(SORU_ANAHTARI) ?? ''; } catch { /* depolama kapalı */ }
 
   document.documentElement.lang = 'tr';
 
@@ -563,6 +568,53 @@
       ${icerik.map((c, n) => `<div class="alt-panel" data-alt-panel="${n}" ${durum.altSekme === n ? '' : 'hidden'}>${c}</div>`).join('')}`;
   }
 
+  // ---------- Soru sor ----------
+
+  function soruKutusu() {
+    const sorulan = durum.sorulanSoru;
+    const govde = sorulan
+      ? `
+        <blockquote class="sorulan-soru">${kac(sorulan)}</blockquote>
+        <p class="aciklama">Sorunuz kaydedildi. Cevaplama çok yakında açılıyor; cevabınız ikinizin haritasına göre hazırlanıp burada görünecek.</p>
+        <button type="button" class="dugme-ana" data-pro>Daha fazla soru için Pro ${KILIT_SIMGESI}</button>`
+      : `
+        <p class="aciklama">İlişkinizle ilgili merak ettiğiniz bir şeyi yazın; cevap ikinizin haritasına göre hazırlanır.</p>
+        <form id="soru-formu" class="soru-formu" novalidate>
+          <label class="gizli" for="soru-metni">Sorunuz</label>
+          <textarea id="soru-metni" rows="3" maxlength="300" placeholder="Örneğin: Bu ilişkide en çok neye dikkat etmeliyiz?"></textarea>
+          <p class="form-hata" role="alert" hidden></p>
+          <button type="submit" class="dugme-ana">Soruyu gönder <span class="ok">→</span></button>
+        </form>`;
+    return `
+      <section class="soru-kutusu yuzey" aria-labelledby="soru-baslik">
+        <div class="baslik-satiri">
+          <h3 id="soru-baslik">Bir soru sorun</h3>
+          <span class="rozet ${sorulan ? 'rozet-pro' : ''}">${sorulan ? 'Pro' : '1 ücretsiz'}</span>
+        </div>
+        ${govde}
+        <p class="soru-notu">İlk soru ücretsizdir. Daha fazla soru için Pro üyelik gerekir.</p>
+      </section>`;
+  }
+
+  function soruGonder(olay) {
+    olay.preventDefault();
+    const metin = document.getElementById('soru-metni');
+    const soru = metin.value.trim();
+    if (soru.length < 5) {
+      const kutu = kok.querySelector('.soru-formu .form-hata');
+      kutu.textContent = 'Lütfen sorunuzu yazın.';
+      kutu.hidden = false;
+      metin.setAttribute('aria-invalid', 'true');
+      metin.focus();
+      return;
+    }
+    durum.sorulanSoru = soru;
+    try { localStorage.setItem(SORU_ANAHTARI, soru); } catch { /* depolama kapalı */ }
+    const eski = kok.querySelector('.soru-kutusu');
+    eski.outerHTML = soruKutusu();
+    kok.querySelector('.soru-kutusu [data-pro]')?.focus();
+  }
+
   // ---------- Sonuç ekranı ----------
 
   const SEKMELER = [
@@ -600,6 +652,7 @@
           ${SEKMELER.map((s, n) => `<button type="button" role="tab" id="sekme-${n}" aria-controls="panel-${n}" aria-selected="${durum.sekme === n}" data-sekme="${n}">${s.ad}</button>`).join('')}
         </div>
         ${SEKMELER.map((s, n) => `<div class="panel" role="tabpanel" id="panel-${n}" aria-labelledby="sekme-${n}" ${durum.sekme === n ? '' : 'hidden'}>${s.panel()}</div>`).join('')}
+        ${soruKutusu()}
         ${altBilgi()}
       </section>`;
   }
@@ -610,6 +663,10 @@
     rapor: {
       baslik: 'Tam rapor çok yakında',
       metin: 'Ödeme sistemi eklendiğinde tam raporu buradan açabileceksiniz. Tam rapor, ilişki yapısının yedi başlığının tamamını ve önümüzdeki 12 ayın gelecek öngörüsünü içerir.',
+    },
+    pro: {
+      baslik: 'Pro üyelik çok yakında',
+      metin: 'Ücretsiz soru hakkınızı kullandınız. Pro üyelikle ilişkiniz hakkında dilediğiniz kadar soru sorabileceksiniz. Ödeme sistemi eklendiğinde üyeliği buradan başlatabileceksiniz.',
     },
     dil: {
       baslik: 'Dil',
@@ -687,7 +744,7 @@
   }
 
   document.addEventListener('click', (olay) => {
-    const hedef = olay.target.closest('[data-git], [data-sekme], [data-alt-sekme], [data-kilit], [data-dil], [data-profil], [data-kapat], [data-kaydir]');
+    const hedef = olay.target.closest('[data-git], [data-sekme], [data-alt-sekme], [data-kilit], [data-pro], [data-dil], [data-profil], [data-kapat], [data-kaydir]');
     if (!hedef) return;
     if (hedef.dataset.git) {
       olay.preventDefault();
@@ -696,6 +753,7 @@
     } else if (hedef.dataset.sekme) sekmeSec(Number(hedef.dataset.sekme));
     else if (hedef.dataset.altSekme) altSekmeSec(Number(hedef.dataset.altSekme));
     else if (hedef.hasAttribute('data-kilit')) perdeAc(hedef, 'rapor');
+    else if (hedef.hasAttribute('data-pro')) perdeAc(hedef, 'pro');
     else if (hedef.hasAttribute('data-dil')) perdeAc(hedef, 'dil');
     else if (hedef.hasAttribute('data-profil')) perdeAc(hedef, 'profil');
     else if (hedef.hasAttribute('data-kapat')) perdeKapat();
@@ -770,6 +828,10 @@
     if (id.startsWith('tarih-')) olay.target.value = tarihMaskesi(olay.target.value);
     else if (id.startsWith('saat-')) olay.target.value = saatMaskesi(olay.target.value);
     else if (id.startsWith('yer-')) onerileriGoster(olay.target);
+    else if (id === 'soru-metni') {
+      olay.target.removeAttribute('aria-invalid');
+      kok.querySelector('.soru-formu .form-hata').hidden = true;
+    }
   });
 
   document.addEventListener('change', (olay) => {
@@ -781,6 +843,7 @@
 
   document.addEventListener('submit', (olay) => {
     if (olay.target.id === 'dogum-formu') formuGonder(olay);
+    else if (olay.target.id === 'soru-formu') soruGonder(olay);
   });
 
   document.addEventListener('keydown', (olay) => {
