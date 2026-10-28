@@ -267,7 +267,7 @@
         <p class="uyari" id="uyari-${i}" ${k.yaklasik ? '' : 'hidden'}>Saat yaklaşık olduğunda bazı yorumlar daha az kesin olur.</p>
         <div class="alan sehir-alani">
           <label for="yer-${i}">Doğum yeri</label>
-          <input id="yer-${i}" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="oneriler-${i}" autocomplete="off" value="${kac(k.yer)}" placeholder="İl ya da şehir yazın">
+          <input id="yer-${i}" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="oneriler-${i}" autocomplete="off" value="${kac(k.yer)}" placeholder="Şehir yazın">
           <ul class="oneriler" id="oneriler-${i}" role="listbox" hidden></ul>
         </div>
       </fieldset>`;
@@ -288,7 +288,7 @@
           ${birey ? kisiAlanlari(0, 'Sizin bilgileriniz') : `${kisiAlanlari(0)}${kisiAlanlari(1)}`}
           <p class="form-hata" role="alert" ${durum.hata ? '' : 'hidden'}>${kac(durum.hata)}</p>
           <button type="submit" class="dugme-ana">${birey ? 'Analizimi göster' : 'Uyumumuzu göster'} <span class="ok">→</span></button>
-          <p class="yer-notu">Doğum yeri için il ya da şehir adını yazıp listeden seçin.</p>
+          <p class="yer-notu">Doğum yeri için şehir adını yazıp listeden seçin.</p>
           ${birey ? `<p class="yer-notu analiz-hakki">${ucretsizAnaliz()
             ? `Ücretsiz analiz hakkınızı ${kac(ucretsizAnaliz().ad)} için kullandınız. Farklı bir kişi için Pro plan gerekir.`
             : 'Üyeliğinizle bir eş potansiyeli analizi ücretsizdir. Daha fazla analiz için Pro plan gerekir.'}</p>` : ''}
@@ -500,7 +500,7 @@
       for (let i = 0; i < (birey ? 1 : 2); i++) {
         const k = durum.kisiler[i];
         const yer = await S.yerBul(k.yer);
-        if (!yer) throw new Error(`${birey ? 'Doğum yeriniz' : `${i + 1}. kişinin doğum yeri`} bulunamadı: "${k.yer}". Lütfen il ya da şehir adını yazıp listeden seçin.`);
+        if (!yer) throw new Error(`${birey ? 'Doğum yeriniz' : `${i + 1}. kişinin doğum yeri`} bulunamadı: "${k.yer}". Lütfen şehir adını yazıp listeden seçin.`);
         const zaman = S.yereldenUtc(k.tarih, k.saat, yer.bolge);
         natal.push({ yer, zaman, harita: S.haritaHesapla(zaman.utc, yer.enlem, yer.boylam) });
       }
