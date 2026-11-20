@@ -1,0 +1,38 @@
+# Burç yorumu sayfalarını her gece yeniler: Türkiye saatiyle 00:05 (21:05 UTC).
+# araclar/burc-uret.js günlük, haftalık ve aylık sayfaları, sitemap.xml ve robots.txt dosyalarını üretir ve depoya işler.
+# Actions sekmesinden "Run workflow" ile elle de çalıştırılabilir.
+name: Burç yorumları
+
+on:
+  schedule:
+    - cron: '5 21 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: burc-yorumlari
+  cancel-in-progress: false
+
+jobs:
+  uret:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Sayfaları üret
+        run: node araclar/burc-uret.js
+      - name: Değişiklikleri işle
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add burc sitemap.xml robots.txt
+          if git diff --cached --quiet; then
+            echo "Değişiklik yok"
+          else
+            git commit -m "Burç yorumları: $(TZ=Europe/Istanbul date +%Y-%m-%d)"
+            git push
+          fi

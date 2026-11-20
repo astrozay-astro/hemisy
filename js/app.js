@@ -197,6 +197,12 @@
           </div>
         </section>
 
+        <section class="gokyuzu" aria-label="Bugün gökyüzü">
+          ${bugunAyKarti()}
+          <div class="ay-takvimi-yeri">${ayTakvimiKarti()}</div>
+        </section>
+        ${burcIzgarasi()}
+
         <ol class="icerik-listesi">
           <li><span class="amblem" aria-hidden="true">${glif('☉')}</span><div><div class="baslik-satiri"><h3>Eş potansiyeli</h3><span class="rozet">Tek kişi</span></div><p>Hayatınıza nasıl bir eş girebilir, sizi kim çeker, eşinizle nerede tanışabilirsiniz, evlilik potansiyeliniz ve en güçlü evlilik dönemleriniz.</p></div></li>
           <li><span class="amblem" aria-hidden="true">${glif('♀')}</span><div><div class="baslik-satiri"><h3>Çift analizi: uyum</h3><span class="rozet">Ücretsiz</span></div><p>Çekim, bağlanma, iletişim, romantizm, güven ve huzur. Her biri yüzdesi ve yorumuyla.</p></div></li>
@@ -204,6 +210,97 @@
           <li><span class="amblem" aria-hidden="true">${glif('♃')}</span><div><div class="baslik-satiri"><h3>Gelecek öngörüsü</h3><span class="rozet rozet-pro">Pro plan</span></div><p>Önümüzdeki 12 ayın güçlü dönemleri: ilişki ne zaman başlayabilir, ne zaman derinleşebilir?</p></div></li>
         </ol>
         ${altBilgi()}
+      </section>`;
+  }
+
+  // ---------- Ana sayfa: Bugün Ay, Ay takvimi, burç yorumları ----------
+
+  const G = S.gokyuzu;
+  const BM = window.ASTROSHIP_BURC_METINLERI;
+  const KISA_GUNLER = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+  const EVRE_OLAYLARI = ['Yeniay', 'İlk dördün', 'Dolunay', 'Son dördün'];
+
+  // Bir anın bugüne göre adı: "Bugün", "Yarın" ya da "22 Kasım"
+  function gunAdi(tarih) {
+    const p = G.trParcalar(tarih);
+    const b = G.trParcalar(new Date());
+    const fark = Math.round((G.gunBasi(p.yil, p.ay, p.gun) - G.gunBasi(b.yil, b.ay, b.gun)) / G.GUN);
+    return fark === 0 ? 'Bugün' : fark === 1 ? 'Yarın' : `${p.gun} ${S.BURC_AYLAR[p.ay]}`;
+  }
+
+  function bugunAyKarti() {
+    const d = G.ayDurumu(new Date());
+    const B = S.BURCLAR;
+    const gecis = d.sonrakiGecis;
+    return `
+      <article class="bugun-ay yuzey">
+        <div class="bugun-ay-ust">
+          ${G.ayIkonu(d.faz, 64, 'ay-ikonu buyuk')}
+          <div>
+            <p class="etiket">Bugün gökyüzü</p>
+            <h2>Ay ${B[d.burc].de}</h2>
+            <p class="bugun-ay-evre">${d.evreAdi} · %${d.aydinlik} aydınlık</p>
+          </div>
+        </div>
+        ${gecis ? `<p class="bugun-ay-gecis">${gunAdi(gecis.tarih)} saat ${G.saatYaz(gecis.tarih)} itibarıyla ${B[gecis.burc].de}</p>` : ''}
+        <p class="bugun-ay-not">Ay ${B[d.burc].de}: ${BM.ayBurcNotu[d.burc]}</p>
+      </article>`;
+  }
+
+  function ayTakvimiKarti() {
+    const bugun = G.trParcalar(new Date());
+    const { yil, ay } = durum.takvim || (durum.takvim = { yil: bugun.yil, ay: bugun.ay, gun: bugun.gun });
+    const t = G.ayTakvimi(yil, ay);
+    const B = S.BURCLAR;
+    const secili = durum.takvim.gun && t.gunler[durum.takvim.gun - 1];
+    const bugunMu = (g) => bugun.yil === yil && bugun.ay === ay && bugun.gun === g;
+    const bos = Array.from({ length: t.ilkHaftaGunu }, () => '<span class="takvim-bos"></span>').join('');
+    const gunler = t.gunler.map((g) => `
+      <button type="button" class="takvim-gun${bugunMu(g.gun) ? ' bugun' : ''}${secili === g ? ' secili' : ''}${g.olay && g.olay.tur % 2 === 0 ? ' evre-olayi' : ''}" data-takvim-gun="${g.gun}" aria-label="${g.gun} ${S.BURC_AYLAR[ay]}, Ay ${B[g.burc].de}">
+        <span class="takvim-no">${g.gun}</span>
+        ${G.ayIkonu(g.faz, 18)}
+        <span class="takvim-burc g">${B[g.gecis ? g.gecis.burc : g.burc].glif}︎</span>
+      </button>`).join('');
+    let detay = '';
+    if (secili) {
+      const parcalar = [`Ay ${B[secili.burc].de}`];
+      if (secili.gecis) parcalar.push(`saat ${G.saatYaz(secili.gecis.tarih)} itibarıyla ${B[secili.gecis.burc].de}`);
+      const olay = secili.olay ? ` · ${EVRE_OLAYLARI[secili.olay.tur]}, ${G.saatYaz(secili.olay.tarih)}` : '';
+      detay = `<p class="takvim-detay"><b>${secili.gun} ${S.BURC_AYLAR[ay]}</b> ${parcalar.join(', ')}${olay}</p>`;
+    }
+    return `
+      <article class="ay-takvimi yuzey">
+        <header class="takvim-bas">
+          <button type="button" class="takvim-ok" data-takvim="-1" aria-label="Önceki ay">‹</button>
+          <h3>Ay takvimi · ${S.BURC_AYLAR[ay]} ${yil}</h3>
+          <button type="button" class="takvim-ok" data-takvim="1" aria-label="Sonraki ay">›</button>
+        </header>
+        <div class="takvim-izgara">
+          ${KISA_GUNLER.map((g) => `<span class="takvim-gun-adi">${g}</span>`).join('')}
+          ${bos}${gunler}
+        </div>
+        ${detay || '<p class="takvim-detay">Ay\'ın o günkü burcunu ve evresini görmek için bir güne dokunun.</p>'}
+      </article>`;
+  }
+
+  function takvimiYenile() {
+    const yer = kok.querySelector('.ay-takvimi-yeri');
+    if (yer) yer.innerHTML = ayTakvimiKarti();
+  }
+
+  function burcIzgarasi() {
+    return `
+      <section class="burc-bolumu" aria-labelledby="burc-baslik">
+        <p class="etiket">Burç yorumları</p>
+        <h2 id="burc-baslik">Günlük, haftalık ve aylık burç yorumları</h2>
+        <div class="burc-izgara">
+          ${S.BURCLAR.map((b, i) => `
+            <a class="burc-karo" href="burc/${S.BURC_SLUG[i]}/gunluk/index.html">
+              <span class="g">${b.glif}︎</span>
+              <b>${b.ad}</b>
+              <small>${BM.burcTarihleri[i]}</small>
+            </a>`).join('')}
+        </div>
       </section>`;
   }
 
@@ -1275,9 +1372,17 @@
   }
 
   document.addEventListener('click', (olay) => {
-    const hedef = olay.target.closest('[data-git], [data-sekme], [data-alt-sekme], [data-kilit], [data-pro], [data-dil], [data-profil], [data-kapat], [data-kaydir]');
+    const hedef = olay.target.closest('[data-git], [data-sekme], [data-alt-sekme], [data-kilit], [data-pro], [data-dil], [data-profil], [data-kapat], [data-kaydir], [data-takvim], [data-takvim-gun]');
     if (!hedef) return;
-    if (hedef.dataset.git) {
+    if (hedef.dataset.takvim) {
+      const y = new Date(Date.UTC(durum.takvim.yil, durum.takvim.ay + Number(hedef.dataset.takvim), 1));
+      const b = G.trParcalar(new Date());
+      durum.takvim = { yil: y.getUTCFullYear(), ay: y.getUTCMonth(), gun: y.getUTCFullYear() === b.yil && y.getUTCMonth() === b.ay ? b.gun : null };
+      takvimiYenile();
+    } else if (hedef.dataset.takvimGun) {
+      durum.takvim.gun = Number(hedef.dataset.takvimGun);
+      takvimiYenile();
+    } else if (hedef.dataset.git) {
       olay.preventDefault();
       if (hedef.dataset.mod) durum.mod = hedef.dataset.mod;
       if (hedef.dataset.git !== 'form' || !kok.querySelector('#dogum-formu')) durum.hata = '';
@@ -1382,5 +1487,7 @@
     if (olay.key === 'Escape' && !perde.hidden) perdeKapat();
   });
 
-  goster(location.hash === '#form' ? 'form' : 'giris');
+  // #birey ve #cift: burç sayfalarındaki bağlantılardan doğrudan ilgili forma
+  if (location.hash === '#birey' || location.hash === '#cift') durum.mod = location.hash.slice(1);
+  goster(['#form', '#birey', '#cift'].includes(location.hash) ? 'form' : 'giris');
 })();

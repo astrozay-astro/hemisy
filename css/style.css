@@ -167,6 +167,7 @@ a { color: inherit; }
 .ust-profil { padding: 0; width: 40px; }
 .ust-profil svg { width: 19px; height: 19px; }
 .geri {
+  text-decoration: none; display: inline-flex; align-items: center;
   appearance: none; background: none; border: 0; padding: 0.4rem 0; min-height: 44px; align-self: flex-start;
   color: var(--soluk); font: 400 var(--boy-s)/1 var(--f); letter-spacing: 0.04em; cursor: pointer;
 }
@@ -629,3 +630,109 @@ details.acilir > *:not(summary) { margin-top: 0.6rem; }
 /* Test modu: kartın gösterge kaynağı */
 .kaynak { margin-top: 0.4rem; padding: 0.7rem 0.9rem; border-radius: 14px; border: 1px dashed var(--cizgi-guclu); background: var(--vurgu-acik); font: 400 0.75rem/1.55 var(--f); color: var(--soluk); letter-spacing: 0.01em; }
 .kaynak b { font-weight: 500; color: var(--vurgu); letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.65rem; margin-right: 0.4rem; }
+
+/* ---------- Ana sayfa: Bugün gökyüzü, Ay takvimi, burç yorumları ---------- */
+.ay-ikonu { display: block; flex: none; }
+.ay-ikonu .ay-golge { fill: rgba(80, 66, 170, 0.14); }
+.ay-ikonu .ay-isik { fill: #fff8e8; stroke: rgba(80, 66, 170, 0.25); stroke-width: 0.6; }
+.ay-ikonu.buyuk { filter: drop-shadow(0 0 14px rgba(255, 236, 190, 0.9)); }
+.ay-ikonu.buyuk .ay-golge { fill: #2a2560; }
+
+.gokyuzu { display: grid; gap: 1rem; }
+.bugun-ay { padding: 1.4rem 1.3rem; display: grid; gap: 0.75rem; }
+.bugun-ay-ust { display: flex; align-items: center; gap: 1.1rem; }
+.bugun-ay h2 { font-size: 2.1rem; font-weight: 400; margin-top: 0.2rem; }
+.bugun-ay-evre { color: var(--soluk); font-size: var(--boy-s); letter-spacing: 0.02em; }
+.bugun-ay-gecis { font-size: var(--boy-s); color: var(--murekkep); padding-top: 0.7rem; border-top: 1px solid var(--cizgi); }
+.bugun-ay-not { font-family: var(--f-baslik); font-style: italic; font-size: 1.15rem; line-height: 1.45; color: var(--murekkep); }
+
+.ay-takvimi { padding: 1.2rem 1rem 1.1rem; display: grid; gap: 0.8rem; }
+.takvim-bas { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; text-align: center; }
+.takvim-bas h3 { font-size: 1.35rem; font-weight: 400; }
+.takvim-ok { appearance: none; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--cizgi); background: var(--fildisi-2); color: var(--murekkep); font-size: 1.4rem; line-height: 1; cursor: pointer; }
+.takvim-ok:hover { border-color: var(--cizgi-guclu); background: #fff; }
+.takvim-izgara { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.25rem; }
+.takvim-gun-adi { text-align: center; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--silik); padding-bottom: 0.2rem; }
+.takvim-gun {
+  appearance: none; border: 1px solid transparent; background: transparent; border-radius: 12px; cursor: pointer;
+  display: grid; justify-items: center; gap: 0.15rem; padding: 0.35rem 0 0.3rem; min-width: 0; color: var(--murekkep); font: inherit;
+}
+.takvim-gun:hover { background: var(--vurgu-acik); }
+.takvim-no { font-size: 0.78rem; font-variant-numeric: lining-nums tabular-nums; line-height: 1; }
+.takvim-burc { font-size: 0.8rem; line-height: 1; color: var(--vurgu); }
+.takvim-gun.bugun { border-color: rgba(108, 85, 214, 0.45); }
+.takvim-gun.bugun .takvim-no { font-weight: 500; color: var(--vurgu); }
+.takvim-gun.secili { background: linear-gradient(160deg, #2c2766, #5a45c0); color: #fff; }
+.takvim-gun.secili .takvim-burc { color: #ddd5ff; }
+.takvim-gun.evre-olayi .takvim-no::after { content: ""; display: inline-block; width: 4px; height: 4px; margin-left: 2px; border-radius: 50%; background: var(--vurgu-2); vertical-align: 0.35em; }
+.takvim-detay { font-size: var(--boy-s); color: var(--soluk); text-align: center; line-height: 1.5; min-height: 2.6em; }
+.takvim-detay b { color: var(--murekkep); font-weight: 500; margin-right: 0.3rem; }
+
+.burc-bolumu { display: grid; gap: 0.6rem; padding-top: 0.5rem; }
+.burc-bolumu h2 { font-size: var(--boy-xl); font-weight: 400; }
+.burc-izgara { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.55rem; margin-top: 0.5rem; }
+.burc-karo {
+  display: grid; justify-items: center; gap: 0.15rem; padding: 0.9rem 0.4rem 0.8rem; border-radius: 18px; text-decoration: none;
+  background: rgba(255, 255, 255, 0.82); border: 1px solid rgba(255, 255, 255, 0.9); box-shadow: 0 0 0 1px var(--cizgi), 0 14px 30px -24px var(--golge);
+  color: var(--murekkep); transition: transform 0.2s, box-shadow 0.2s;
+}
+.burc-karo:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px var(--cizgi-guclu), 0 18px 36px -22px var(--golge); }
+.burc-karo .g { font-size: 1.6rem; line-height: 1.2; color: var(--vurgu); }
+.burc-karo b { font-family: var(--f-baslik); font-weight: 500; font-size: 1.2rem; }
+.burc-karo small { font-size: 0.62rem; color: var(--silik); letter-spacing: 0.02em; text-align: center; }
+@media (min-width: 900px) {
+  .gokyuzu { grid-template-columns: 1fr 1.25fr; align-items: start; }
+  .burc-izgara { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+
+/* ---------- Burç yorumu sayfaları (araclar/burc-uret.js ile üretilen statik sayfalar) ---------- */
+.burc-sayfasi { padding-bottom: 1rem; }
+.burc-bas { padding: 1.7rem 1.4rem 1.5rem; display: grid; gap: 0.6rem; }
+.burc-bas h1 { font-size: clamp(2rem, 8.5vw, 2.8rem); font-weight: 300; color: #fff; max-width: 16ch; }
+.burc-bas-glif { position: absolute; right: 1.2rem; top: 0.6rem; font-size: 5.5rem; line-height: 1; color: rgba(221, 213, 255, 0.22); pointer-events: none; }
+.alt-sekmeler a {
+  flex: 0 0 auto; display: inline-flex; align-items: center; min-height: 40px; padding: 0.5rem 1.1rem; border-radius: 999px;
+  border: 1px solid var(--cizgi); background: var(--fildisi-2); color: var(--soluk); text-decoration: none; font: 400 var(--boy-s)/1 var(--f);
+}
+.alt-sekmeler a:hover { color: var(--murekkep); border-color: var(--cizgi-guclu); }
+.alt-sekmeler a[aria-current="page"] { background: linear-gradient(100deg, #2c2766, #5a45c0); border-color: transparent; color: #fff; }
+.burc-donemleri { justify-content: center; }
+.burc-yorum { padding: 1.5rem 1.3rem; }
+.burc-yorum h2 { font-size: 1.45rem; font-weight: 400; margin: 0.6rem 0 -0.4rem; color: var(--vurgu); }
+.burc-yorum h2:first-child { margin-top: 0; }
+.onemli-gunler { padding: 1.4rem 1.3rem; display: grid; gap: 0.8rem; }
+.onemli-gunler h2 { font-size: 1.45rem; font-weight: 400; }
+.onemli-gunler ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
+.onemli-gunler li { display: grid; gap: 0.15rem; padding-top: 0.75rem; border-top: 1px solid var(--cizgi); font-size: var(--boy-s); line-height: 1.55; color: var(--murekkep); }
+.onemli-gunler li:first-child { border-top: 0; padding-top: 0; }
+.onemli-gunler time { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--vurgu); font-variant-numeric: lining-nums; }
+.burc-secimi { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.35rem; }
+.burc-secimi a {
+  display: grid; justify-items: center; gap: 0.1rem; padding: 0.55rem 0.1rem; border-radius: 14px; text-decoration: none;
+  border: 1px solid var(--cizgi); background: var(--fildisi-2); color: var(--murekkep); font-size: 0.62rem; min-width: 0;
+}
+.burc-secimi a .g { font-size: 1.2rem; color: var(--vurgu); }
+.burc-secimi a span:last-child { overflow: hidden; text-overflow: ellipsis; max-width: 100%; white-space: nowrap; }
+.burc-secimi a[aria-current="page"] { background: linear-gradient(160deg, #2c2766, #5a45c0); color: #fff; border-color: transparent; }
+.burc-secimi a[aria-current="page"] .g { color: #ddd5ff; }
+.burc-yonlendirme { display: grid; gap: 0.7rem; }
+.burc-yonlendirme-kart {
+  display: grid; grid-template-columns: 2.75rem 1fr; gap: 0.9rem; align-items: center; padding: 1.1rem; border-radius: 22px; text-decoration: none; color: var(--murekkep);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.9), rgba(250, 248, 255, 0.7)); border: 1px solid rgba(255, 255, 255, 0.9); box-shadow: 0 0 0 1px var(--cizgi), 0 20px 40px -30px var(--golge);
+}
+.burc-yonlendirme-kart b { display: block; font-family: var(--f-baslik); font-weight: 500; font-size: 1.3rem; }
+.burc-yonlendirme-kart small { display: block; color: var(--soluk); font-size: var(--boy-s); line-height: 1.45; }
+.burc-ozetler { display: grid; gap: 0.8rem; }
+.burc-ozet { padding: 1.2rem 1.2rem 1rem; display: grid; gap: 0.6rem; }
+.burc-ozet-bas { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; color: var(--murekkep); }
+.burc-ozet-bas .g { font-size: 2rem; color: var(--vurgu); }
+.burc-ozet-bas b { display: block; font-family: var(--f-baslik); font-size: 1.5rem; font-weight: 500; }
+.burc-ozet-bas small { color: var(--silik); font-size: var(--boy-xs); }
+.burc-ozet p { color: var(--soluk); font-size: var(--boy-s); line-height: 1.6; }
+.burc-ozet-donem { display: flex; gap: 0.4rem; }
+.burc-ozet-donem a { font-size: var(--boy-xs); letter-spacing: 0.08em; color: var(--vurgu); text-decoration: none; padding: 0.35rem 0.7rem; border-radius: 999px; border: 1px solid var(--cizgi); }
+@media (min-width: 900px) {
+  .burc-ozetler { grid-template-columns: 1fr 1fr 1fr; }
+  .burc-yonlendirme { grid-template-columns: 1fr 1fr; }
+  .burc-secimi { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+}

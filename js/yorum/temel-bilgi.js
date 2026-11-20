@@ -51,7 +51,7 @@ window.ASTROSHIP_TEMEL = {
   // Açı analizinde ortak kelime: iki gezegenin birlikte anlattığı tema ("Bu açının ortak teması …")
   ortakTema: {
     'gunes-ay': 'kimlik ile duygusal ihtiyaçların dengesi',
-    'gunes-merkur': 'kendini ifade etmek ve söz',
+    'gunes-merkur': 'kendini ifade etmek ve iletişim',
     'gunes-venus': 'sevgi, değer görmek ve yaratıcılık',
     'gunes-mars': 'irade, cesaret ve ateş',
     'gunes-jupiter': 'inanç, liderlik ve yayılmak',
