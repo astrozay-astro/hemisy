@@ -24,6 +24,8 @@ Türkçe astroloji uyum testi: iki kişinin doğum haritasını karşılaştır�
 - `js/yorum/`: yorum metinleri ve onları haritaya göre birleştiren kod (uyum, ilişki yapısı, karmik bağ)
 - `js/veri/sehirler.js`: 81 il ve yurt dışındaki şehirler
 - `js/veri/burc-notlari.js`: Tuğçenur Özay'ın aylık burç notları (aylık yorumun sonunda görünür)
+- `manifest/`: Gözde Manifest — her gün 8 saatte bir açılan üç manifest (üç görsel + olumlama). Kendi fotoğrafını
+  kullanmak için `manifest/index.html` içindeki `foto` alanına dosya yolunu yaz.
 - `burc/`: günlük, haftalık ve aylık burç yorumu sayfaları (üretilen dosyalar, elle düzenlenmez)
 - `araclar/burc-uret.js`: burç sayfalarını, sitemap.xml ve robots.txt dosyalarını üretir. GitHub Actions her gece
   Türkiye saatiyle 00:05'te çalıştırır (`.github/workflows/burc-yorumlari.yml`). Elle: `node araclar/burc-uret.js`
