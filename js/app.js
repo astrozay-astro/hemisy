@@ -13,7 +13,8 @@
     sekme: 0,
     altSekme: 0,
     hata: '',
-    // Geçici: yorumlar gözden geçirilirken ücretli bölümler herkese açık. Ödeme gelince yalnızca #test açsın:
+    // Geçici: yorumlar gözden geçirilirken ücretli bölümler herkese açık ve ücretsiz kullanım sınırları (bir kişilik
+    // eş potansiyeli, bir soru) uygulanmaz. Ödeme gelince yalnızca #test açsın:
     // kilitAcik: location.hash === '#test',
     kilitAcik: true,
     sorulanSoru: '',
@@ -23,7 +24,9 @@
 
   // Ücretsiz soru hakkı: kullanılan soru bu cihazda saklanır, ikinci soru Pro üyelik ister
   const SORU_ANAHTARI = 'hemisy-ucretsiz-soru';
-  try { durum.sorulanSoru = localStorage.getItem(SORU_ANAHTARI) ?? ''; } catch { /* depolama kapalı */ }
+  if (!durum.kilitAcik) {
+    try { durum.sorulanSoru = localStorage.getItem(SORU_ANAHTARI) ?? ''; } catch { /* depolama kapalı */ }
+  }
 
   // Ücretsiz ilişki analizi hakkı: ilk analiz edilen doğum bilgileri bu cihazda saklanır. Aynı bilgilerle rapor
   // yeniden açılabilir, farklı bir kişi için Pro plan gerekir. Adresin sonunda #test varken sınır uygulanmaz.
@@ -33,12 +36,12 @@
     try { return JSON.parse(localStorage.getItem(ANALIZ_ANAHTARI)) ?? null; } catch { return null; }
   }
   function analizHakkiVarMi(k) {
-    if (location.hash === '#test') return true;
+    if (durum.kilitAcik || location.hash === '#test') return true;
     const kayit = ucretsizAnaliz();
     return !kayit || kayit.kimlik === analizKimligi(k);
   }
   function analiziKaydet(k) {
-    if (ucretsizAnaliz()) return;
+    if (durum.kilitAcik || ucretsizAnaliz()) return;
     try { localStorage.setItem(ANALIZ_ANAHTARI, JSON.stringify({ kimlik: analizKimligi(k), ad: k.ad })); } catch { /* depolama kapalı */ }
   }
 
@@ -386,7 +389,7 @@
           <p class="form-hata" role="alert" ${durum.hata ? '' : 'hidden'}>${kac(durum.hata)}</p>
           <button type="submit" class="dugme-ana">${birey ? 'Analizimi göster' : 'Uyumumuzu göster'} <span class="ok">→</span></button>
           <p class="yer-notu">Doğum yeri için şehir adını yazıp listeden seçin.</p>
-          ${birey ? `<p class="yer-notu analiz-hakki">${ucretsizAnaliz()
+          ${birey && !durum.kilitAcik ? `<p class="yer-notu analiz-hakki">${ucretsizAnaliz()
             ? `Ücretsiz analiz hakkınızı ${kac(ucretsizAnaliz().ad)} için kullandınız. Farklı bir kişi için Pro plan gerekir.`
             : 'Üyeliğinizle bir eş potansiyeli analizi ücretsizdir. Daha fazla analiz için Pro plan gerekir.'}</p>` : ''}
         </form>
@@ -1090,7 +1093,9 @@
       ? `
         <blockquote class="sorulan-soru">${kac(sorulan)}</blockquote>
         <p class="aciklama">Sorunuz Tuğçenur Özay'a iletildi. Cevabınız 24 saat içinde e-posta adresinize gönderilecek.</p>
-        <button type="button" class="dugme-ana" data-pro>Daha fazla soru için Pro ${KILIT_SIMGESI}</button>`
+        ${durum.kilitAcik
+          ? '<button type="button" class="dugme-ana dugme-cizgi" data-yeni-soru>Bir soru daha gönderin <span class="ok">→</span></button>'
+          : `<button type="button" class="dugme-ana" data-pro>Daha fazla soru için Pro ${KILIT_SIMGESI}</button>`}`
       : `
         <p class="aciklama">${birey ? 'Eş potansiyeliniz, evlilik dönemleriniz ya da ilişkileriniz' : 'İlişkiniz'} hakkında merak ettiğiniz bir şeyi yazın. Sorunuzu Tuğçenur Özay ${birey ? 'haritanıza' : 'ikinizin haritasına'} bakarak 24 saat içinde cevaplar.</p>
         <form id="soru-formu" class="soru-formu" novalidate>
@@ -1107,10 +1112,10 @@
       <section class="soru-kutusu yuzey" aria-labelledby="soru-baslik">
         <div class="baslik-satiri">
           <h3 id="soru-baslik">Tuğçenur Özay'a soru gönderin</h3>
-          <span class="rozet ${sorulan ? 'rozet-pro' : ''}">${sorulan ? 'Pro' : '1 ücretsiz'}</span>
+          ${durum.kilitAcik ? '' : `<span class="rozet ${sorulan ? 'rozet-pro' : ''}">${sorulan ? 'Pro' : '1 ücretsiz'}</span>`}
         </div>
         ${govde}
-        <p class="soru-notu">İlk soru ücretsizdir. Daha fazla soru için Pro üyelik gerekir. Sorularınız 24 saat içinde cevaplanır.</p>
+        <p class="soru-notu">${durum.kilitAcik ? '' : 'İlk soru ücretsizdir. Daha fazla soru için Pro üyelik gerekir. '}Sorularınız 24 saat içinde cevaplanır.</p>
       </section>`;
   }
 
@@ -1162,7 +1167,9 @@
       return hata('Sorunuz şu anda gönderilemedi. Lütfen biraz sonra yeniden deneyin ya da info@hemisy.com adresine yazın.');
     }
     durum.sorulanSoru = soru;
-    try { localStorage.setItem(SORU_ANAHTARI, soru); } catch { /* depolama kapalı */ }
+    if (!durum.kilitAcik) {
+      try { localStorage.setItem(SORU_ANAHTARI, soru); } catch { /* depolama kapalı */ }
+    }
     kok.querySelector('.soru-kutusu').outerHTML = soruKutusu();
     kok.querySelector('.soru-kutusu [data-pro]')?.focus();
   }
@@ -1372,8 +1379,14 @@
   }
 
   document.addEventListener('click', (olay) => {
-    const hedef = olay.target.closest('[data-git], [data-sekme], [data-alt-sekme], [data-kilit], [data-pro], [data-dil], [data-profil], [data-kapat], [data-kaydir], [data-takvim], [data-takvim-gun]');
+    const hedef = olay.target.closest('[data-git], [data-sekme], [data-alt-sekme], [data-kilit], [data-pro], [data-dil], [data-profil], [data-kapat], [data-kaydir], [data-takvim], [data-takvim-gun], [data-yeni-soru]');
     if (!hedef) return;
+    if (hedef.hasAttribute('data-yeni-soru')) {
+      durum.sorulanSoru = '';
+      kok.querySelector('.soru-kutusu').outerHTML = soruKutusu();
+      document.getElementById('soru-metni')?.focus();
+      return;
+    }
     if (hedef.dataset.takvim) {
       const y = new Date(Date.UTC(durum.takvim.yil, durum.takvim.ay + Number(hedef.dataset.takvim), 1));
       const b = G.trParcalar(new Date());
